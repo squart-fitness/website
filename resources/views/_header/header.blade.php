@@ -1,18 +1,18 @@
 <header id="header" class="header">
             <div class="top-left">
                 <div class="navbar-header">
+                    <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
                     <a class="navbar-brand" href="{{ route('dashboard') }}">
                         @isset (auth()->user()->userGym->gym_logo)
                             <img src="{{asset('assets/gym_logo') .'/'. auth()->user()->userGym->gym_logo}}" alt="Logo" class="rounded-circle">
                         @endisset
                         <span class="title_name align-middle ml-2">{{ ucfirst(auth()->user()->userGym->gym_name) }}</span>
                     </a>
-                    <a class="navbar-brand hidden" href="{{ route('dashboard') }}">
+                    {{-- <a class="navbar-brand hidden" href="{{ route('dashboard') }}">
                         @isset (auth()->user()->userGym->gym_logo)
                             <img src="{{asset('assets/gym_logo') .'/'. auth()->user()->userGym->gym_logo}}" alt="Logo" class="rounded-circle">
                         @endisset
-                    </a>
-                    <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
+                    </a> --}}
                 </div>
             </div>
             <div class="top-right">

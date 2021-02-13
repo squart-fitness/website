@@ -67,7 +67,6 @@
 					</div>
 				</div> --}}
 				<div class="card-body">	
-					{{ $profile }}
 					<form action="{{ route('update_customer') }}" method="post" accept-charset="utf-8" enctype="multipart/form-data">
 						@csrf
 						<input type="hidden" name="d" value="{{ $profile->id }}">

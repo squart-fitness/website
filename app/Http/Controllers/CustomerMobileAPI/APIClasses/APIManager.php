@@ -4,6 +4,8 @@ namespace App\Http\Controllers\CustomerMobileAPI\APIClasses;
 use App\Http\Controllers\GymClasses\GymManager;
 use App\Http\Controllers\AttendanceClasses\AttendanceManager;
 use App\Http\Controllers\PaymentClasses\PaymentManager;
+use App\Http\Controllers\CustomerClasses\CustomerManager;
+use App\Http\Controllers\DietPlanClasses\DietPlanManager;
 use App\Models\Customer;
 
 class APIManager{
@@ -79,6 +81,34 @@ class APIManager{
 						->update(['status' => $temp_stat]);
 		
 		return $res;
+	}
+
+	//update customer information 
+	public function updateCustomer($data){
+		$cm = new CustomerManager;
+		$result = $cm->apiUpdateCustomerInfo($data);
+		return $result;
+	}
+
+	//give diets of a customer
+	public function customerDiet($gym_id, $customer_id){
+		$dpm = new DietPlanManager;
+		$result = $dpm->memberAllDiet($gym_id, $customer_id);
+		return $result;
+	}
+
+	//save social to database
+	public function saveSocial($data, $gym_id, $customer_id){
+		$cm = new CustomerManager;
+		$result = $cm->saveSocialLinks($data, $gym_id, $customer_id);
+		return $result;
+	}
+
+	//update customer image
+	public function imageUpdate($data, $gym_id, $customer_id){
+		$cm = new CustomerManager;
+		$result = $cm->updateCustomerImage($data, $gym_id, $customer_id);
+		return $result;
 	}
 }
 

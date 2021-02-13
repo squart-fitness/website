@@ -89,14 +89,12 @@
 
             $('#expiring_search').on('click',function(){
             	var e = $('#expiring_days').val();
-            	console.log(e);
             	var list = '';
             	$.ajax({
             		method: 'GET',
             		url: '{{ route('filter_payment_by_expiring_days') }}',
             		data: {expiring_days: e},
             		success:function(data){
-            			console.log(data);
             			var i = 0;
             			for(object of data){
             				list += '<tr>'+

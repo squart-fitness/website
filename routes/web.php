@@ -131,10 +131,10 @@ Route::prefix('create')->group(function(){
 	Route::post('/diet-plan', 'DietPlanController@saveDiet');
 	Route::post('/diet/delete', 'DietPlanController@delete')->name('delete_diet');
 
-
-	Route::get('/workout-plan', function(){
-		return view('create.workout_plan');
-	})->name('create_workout_plan');
+	//workout plan creation routes
+	Route::get('/workout-plan', 'WorkoutController@showWorkoutForm')->name('create_workout_plan');
+	Route::post('/workout-plan', 'WorkoutController@saveWorkout');
+	Route::post('/workout/delete', 'WorkoutController@delete')->name('delete_workout');
 
 	Route::get('/package', 'PackageController@showPackageAddingForm')->name('create_package');
 	Route::post('/package', 'PackageController@addPackage');
@@ -145,6 +145,18 @@ Route::prefix('create')->group(function(){
 	Route::post('/batch', 'BatchController@save');
 	Route::get('/batch/change/status', 'BatchController@setStatus')->name('change_batch_status');
 	Route::post('/batch/delete', 'BatchController@delete')->name('delete_batch');
+});
+
+Route::prefix('assign')->group(function(){
+	Route::get('/diet', 'DietPlanController@showAssignDietForm')->name('assign_diet');
+	Route::post('/diet', 'DietPlanController@assignDiet');
+	Route::get('/diet/show', 'DietPlanController@showAssignedDiet')->name('show_assigned_diet');
+	Route::get('/diet/member', 'DietPlanController@getMemberDiet')->name('get_member_diet');
+
+	//workout plan assignment routes
+	Route::get('/workout', 'WorkoutController@showAssignWorkoutForm')->name("assign_workout");
+	Route::get('/workout/show', 'WorkoutController@showAssignedWorkout')->name('show_assigned_workout');
+
 });
 
 Route::prefix('post')->group(function(){

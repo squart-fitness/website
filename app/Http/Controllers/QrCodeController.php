@@ -12,6 +12,8 @@ class QrCodeController extends Controller
     public function show(){
     	$code =  QrCode::size(250)
     					->errorCorrection('H')
+    					->style('dot', 0.7)
+    					->eye('circle')
     					->format('png')
     					->merge('/../public_html/assets/img/logo_on_qr.png')
     					->generate('Content of qr code');
@@ -28,7 +30,7 @@ class QrCodeController extends Controller
         $code =  QrCode::size(250)
                         ->errorCorrection('H')
                         ->format('png')
-                        ->merge('/../public_html/assets/img/logo_on_qr.png')
+                        // ->merge('/../public_html/assets/img/logo_on_qr.png')
                         ->generate($request->qr_code);
 
         $codeNum = QrCodeModel::select('code_number', 'qr_unique_number')->get();

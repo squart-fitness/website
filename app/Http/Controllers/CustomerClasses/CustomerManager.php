@@ -92,6 +92,16 @@ class CustomerManager{
         return $eloquentObj;
     }
 
+    //get all customers of a gym
+    public function getCustomerNamePhone(){
+        $cust = new Customer();
+        $eloquentObj = $cust->select('id', 'name', 'phone')
+                            ->where(['is_deleted' => 1, 'gym_id' => auth()->user()->id, 'status' => 1])
+                            ->orderByDesc('created_at')
+                            ->get();
+        return $eloquentObj;
+    }
+
     //get all customers data according to column name provided
     public function getAllCustomerData(string $columnName){
         $cust = new Customer;
@@ -233,7 +243,9 @@ class CustomerManager{
         $cust->dob = $data['dob'];
         $cust->remark = $data['remark'];
         $cust->gender = $data['gender'];
-        $cust->customer_image = $this->imageModification($data['customer_image']); 
+
+        if(!empty($data['customer_image']))
+            $cust->customer_image = $this->imageModification($data['customer_image']); 
 
         $res = $cust->save();
 
@@ -250,9 +262,41 @@ class CustomerManager{
 
     //update customer information from api or mobile application
     public function apiUpdateCustomerInfo($data){
-        
+        $cust = Customer::where(['id' => $data['customer_id'], 'gym_id' => $data['gym_id'], 'is_deleted' => 1])->first();
+        $cust->phone = $data['phone'];
+        $cust->email = $data['email'];
+        $cust->goal = $data['goal'];
+        $cust->address = $data['address'];
+        $cust->dob = $data['dob'];
+        $cust->gender = $data['gender'];
+        $cust->height = $data['height'];
+        $cust->weight = $data['weight'];
+
+        $res = $cust->save();
+
+        return $res;
     }
 
+
+    //save social links to database
+    public function saveSocialLinks($data, $gym_id, $customer_id){
+        $cust = Customer::where(['id' => $customer_id, 'gym_id' => $gym_id, 'status' => 1, 'is_deleted' => 1])->first();
+        $cust->facebook = $data['facebook'];
+        $cust->instagram = $data['instagram'];
+        $cust->twitter = $data['twitter'];
+
+        $res = $cust->update();
+        return $res;
+    }
+
+    //update customer image from mobile app
+    public function updateCustomerImage($data, $gym_id, $customer_id){
+    	$cust = Customer::where(['id' => $customer_id, 'gym_id' => $gym_id, 'status' => 1, 'is_deleted' => 1])->first();
+    	$cust->customer_image = $this->imageModification($data['customer_image']); 
+    	$res = $cust->update();
+
+    	return $res;
+    }
     /*
 
     ===============================

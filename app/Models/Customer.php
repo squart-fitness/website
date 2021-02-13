@@ -24,4 +24,11 @@ class Customer extends Model
     						  ->join('customers', 'attendance.customer_id', '=', 'customers.id')
     						  ->select('customers.name', 'customers.phone', 'attendance.present', 'attendance.attendance_date');
     }
+
+
+    //check member status in gym for mobile application
+    public static function checkStatus($gym_id, $customer_id){
+        $user = Customer::select('status', 'is_deleted')->where(['gym_id' => $gym_id, 'id' => $customer_id])->first();
+        return $user;
+    }
 }

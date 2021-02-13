@@ -38,6 +38,22 @@
                         </ul>
                     </li>
                     <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="menu-icon fa fa-question-circle-o" aria-hidden="true"></i>Diets</a>
+                        <ul class="sub-menu children dropdown-menu" style="background-color: transparent;">
+                            <li><i class="fa fa-puzzle-piece"></i><a href="{{ route('assign_diet') }}">Assign Diet</a></li>
+                            <li><i class="fa fa-puzzle-piece"></i><a href="{{ route('show_assigned_diet') }}">Show Assigned Diet</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="menu-icon fa fa-question-circle-o" aria-hidden="true"></i>Workout</a>
+                        <ul class="sub-menu children dropdown-menu" style="background-color: transparent;">
+                            <li><i class="fa fa-puzzle-piece"></i><a href="{{ route('assign_workout') }}">Assign Workout</a></li>
+                            <li><i class="fa fa-puzzle-piece"></i><a href="{{ route('show_assigned_workout') }}">Show Assigned Workout</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Employee</a>
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="fa fa-table"></i><a href="{{ route('add_employee') }}">Add Employee</a></li>
@@ -51,7 +67,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Create</a>
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="menu-icon fa fa-th"></i><a href="{{ route('create_diet_plan') }}">Diet Plan</a></li>
-                            {{-- <li><i class="menu-icon fa fa-th"></i><a href="{{ route('create_workout_plan') }}">Create Workout Plan</a></li> --}}
+                            <li><i class="menu-icon fa fa-th"></i><a href="{{ route('create_workout_plan') }}">Create Workout Plan</a></li>
                             <li><i class="menu-icon fa fa-th"></i><a href="{{ route('create_package') }}">Packages</a></li>
                             <li><i class="menu-icon fa fa-th"></i><a href="{{ route('batch') }}">Batch</a></li>
                         </ul>

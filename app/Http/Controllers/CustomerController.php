@@ -65,7 +65,7 @@ class CustomerController extends Controller
                                     'height' => ['nullable', 'regex:/^[\w\s\.]+$/'],
                                     'weight' => ['nullable', 'regex:/^[\w\s\.]+$/'],
                                     'eid' => ['nullable', 'regex:/^[\d\-]+$/'],
-                                    'customer_image' => ['nullable', 'file', 'max:2048', 'image'],
+                                    'customer_image' => ['nullable', 'file', 'max:1024', 'image'],
     							]);
 
         // checking for phone number duplicacy in single gym
@@ -189,12 +189,6 @@ class CustomerController extends Controller
                                     'customer_image' => ['nullable', 'file', 'max:2048', 'image'],
                                 ]);
 
-        // checking for phone number duplicacy in single gym
-        $ph_check = $this->checkInGymPhoneValidation($data['phone']);
-        if($ph_check == 1 || $ph_check == -1){
-            Session::flash('msg', '<b>Exist!</b> The phone number already exist.');
-            return redirect()->back();
-        }
 
         $customer = new CustomerManager;
         $res = $customer->update($data);

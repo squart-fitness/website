@@ -6,7 +6,6 @@
     <section id="hero" class="d-flex align-items-center" style="margin-top: 40px;">
       <div
         class="container d-flex flex-column align-items-center justify-content-center"
-        data-aos="fade-up"
       >
         <h1>Gym and Fitness Management Software</h1>
         <h2>
@@ -18,8 +17,6 @@
           src="assets/img/fitness.jpg"
           class="img-fluid hero-img"
           alt="fitness-illustration"
-          data-aos="zoom-in"
-          data-aos-delay="150"
         />
       </div>
     </section>
@@ -32,7 +29,6 @@
           <div class="row no-gutters">
             <div
               class="content col-xl-5 d-flex align-items-stretch"
-              data-aos="fade-right"
             >
               <div class="content">
                 <h3>What we provide?</h3>
@@ -43,14 +39,11 @@
             </div>
             <div
               class="col-xl-7 d-flex align-items-stretch"
-              data-aos="fade-left"
             >
               <div class="icon-boxes d-flex flex-column justify-content-center">
                 <div class="row">
                   <div
                     class="col-md-6 icon-box"
-                    data-aos="fade-up"
-                    data-aos-delay="100"
                   >
                     <i class="bx bx-group"></i>
                     <h4>Membership Management</h4>
@@ -60,8 +53,6 @@
                   </div>
                   <div
                     class="col-md-6 icon-box"
-                    data-aos="fade-up"
-                    data-aos-delay="200"
                   >
                     <i class="bx bx-line-chart"></i>
                     <h4>Reports</h4>
@@ -71,8 +62,6 @@
                   </div>
                   <div
                     class="col-md-6 icon-box"
-                    data-aos="fade-up"
-                    data-aos-delay="300"
                   >
                     <i class="bx bx-message-alt-detail"></i>
                     <h4>Automated Reminders</h4>
@@ -82,8 +71,6 @@
                   </div>
                   <div
                     class="col-md-6 icon-box"
-                    data-aos="fade-up"
-                    data-aos-delay="400"
                   >
                     <i class="bx bx-shield"></i>
                     <h4>Access Control</h4>
@@ -101,7 +88,7 @@
       <!-- End About Section -->
 
       <!-- ======= Features Section ======= -->
-      <section id="features" class="features" data-aos="fade-up">
+      <section id="features" class="features">
         <div class="container">
           <div class="section-title">
             <h2>Features</h2>
@@ -114,13 +101,11 @@
           </div>
 
           <div class="row content">
-            <div class="col-md-5" data-aos="fade-right" data-aos-delay="100">
+            <div class="col-md-5">
               <img src="assets/img/features-1.png" class="img-fluid" alt="" />
             </div>
             <div
               class="col-md-7 pt-4"
-              data-aos="fade-left"
-              data-aos-delay="100"
             >
               <h3>Dedicated Mobile App</h3>
               <p class="font-italic">
@@ -131,10 +116,10 @@
           </div>
 
           <div class="row content">
-            <div class="col-md-5 order-1 order-md-2" data-aos="fade-left">
+            <div class="col-md-5 order-1 order-md-2">
               <img src="assets/img/features-2.png" class="img-fluid" alt="" />
             </div>
-            <div class="col-md-7 pt-5 order-2 order-md-1" data-aos="fade-right">
+            <div class="col-md-7 pt-5 order-2 order-md-1">
               <h3>SMS & Email Notifications</h3>
               <p class="font-italic">
                 Automated and customizable Email & SMS alerts to notify members.
@@ -143,10 +128,10 @@
           </div>
 
           <div class="row content">
-            <div class="col-md-5" data-aos="fade-right">
+            <div class="col-md-5">
               <img src="assets/img/features-3.png" class="img-fluid" alt="" />
             </div>
-            <div class="col-md-7 pt-5" data-aos="fade-left">
+            <div class="col-md-7 pt-5">
               <h3>Biometric and Scanner Integration</h3>
               <p>
                 Install Biometric and Scanner feature to enhance security and
@@ -156,10 +141,10 @@
           </div>
 
           <div class="row content">
-            <div class="col-md-5 order-1 order-md-2" data-aos="fade-left">
+            <div class="col-md-5 order-1 order-md-2">
               <img src="assets/img/features-4.png" class="img-fluid" alt="" />
             </div>
-            <div class="col-md-7 pt-5 order-2 order-md-1" data-aos="fade-right">
+            <div class="col-md-7 pt-5 order-2 order-md-1">
               <h3>An ultimate solution for your Business Growth</h3>
               <p>
                 Thousands of the world's best fitness clubs and recreation
@@ -260,7 +245,7 @@
 
       <!-- ======= Services Section ======= -->
       <section id="services" class="services">
-        <div class="container" data-aos="fade-up">
+        <div class="container">
           <div class="section-title">
             <h2>Stable, Secure and Reliable</h2>
             <p>
@@ -274,8 +259,6 @@
           <div class="row">
             <div
               class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0"
-              data-aos="fade-up"
-              data-aos-delay="100"
             >
               <div class="icon-box">
                 <div class="icon"><i class="bx bx-lock"></i></div>
@@ -289,8 +272,6 @@
 
             <div
               class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0"
-              data-aos="fade-up"
-              data-aos-delay="200"
             >
               <div class="icon-box">
                 <div class="icon"><i class="bx bx-network-chart"></i></div>
@@ -303,8 +284,6 @@
 
             <div
               class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0"
-              data-aos="fade-up"
-              data-aos-delay="300"
             >
               <div class="icon-box">
                 <div class="icon"><i class="bx bx-tachometer"></i></div>
@@ -317,8 +296,6 @@
 
             <div
               class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0"
-              data-aos="fade-up"
-              data-aos-delay="400"
             >
               <div class="icon-box">
                 <div class="icon"><i class="bx bx-coin-stack"></i></div>
@@ -335,7 +312,7 @@
 
       <!-- ======= Pricing Section ======= -->
       <section id="pricing" class="pricing section-bg">
-        <div class="container" data-aos="fade-up">
+        <div class="container">
           <div class="section-title">
             <h2>Pricing</h2>
             <p>
@@ -346,8 +323,6 @@
           <div class="row justify-content-center">
             <div
               class="col-lg-4 col-md-6 mt-4 mt-md-0"
-              data-aos="zoom-in"
-              data-aos-delay="100"
             >
               <div class="box featured">
                 <h3>Starter</h3>
@@ -374,8 +349,6 @@
 
             <div
               class="col-lg-4 col-md-6 mt-4 mt-lg-0"
-              data-aos="zoom-in"
-              data-aos-delay="200"
             >
               <div class="box">
                 <h3>Premium</h3>
@@ -405,7 +378,7 @@
 
       <!-- ======= Contact Section ======= -->
       <section id="contact" class="contact section-bg">
-        <div class="container" data-aos="fade-up">
+        <div class="container">
           <div class="section-title">
             <h2>Contact</h2>
             <p>

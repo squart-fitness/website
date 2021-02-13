@@ -16,6 +16,7 @@ class APIController extends Controller{
 
 	public function __construct(){
 		$this->middleware('api');
+		$this->middleware('checkmemberlogin')->except('login');
 		// $this->middleware('auth.basic');
 	}
 
@@ -50,7 +51,8 @@ class APIController extends Controller{
 	}
 
 	//get member's gym in which they joined
-	public function memberJoinedGym($id){
+	public function memberJoinedGym(Request $request){
+		$id = $request->route('gym_id');
 		$validator = Validator::make(['id' => $id], ['id' => ['required', 'numeric']]);
 
 		if($validator->fails()){
@@ -70,7 +72,8 @@ class APIController extends Controller{
 	}
 
 	//get attendance of a member
-	public function getAttendance($customer_id){
+	public function getAttendance(Request $request){
+		$customer_id = $request->route('customer_id');
 		$validator = Validator::make(['id' => $customer_id], ['id' => ['required', 'numeric']]);
 
 		if($validator->fails()){
@@ -91,7 +94,8 @@ class APIController extends Controller{
 
 
 	//get payment detail of a member
-	public function getPayment($customer_id){
+	public function getPayment(Request $request){
+		$customer_id = $request->route('customer_id');
 		$validator = Validator::make(['id' => $customer_id], ['id' => ['required', 'numeric']]);
 
 		if($validator->fails()){
@@ -187,18 +191,74 @@ class APIController extends Controller{
 
 
 	//update member information in a gym
-	public function updateInformation(Request $request){
+	public function updateInformation(Request $request, $gym_id, $customer_id){
 		$validator = Validator::make(
 										[
-											'gym_id' => $request->gym_id,
-											'customer_id' => $request->id,
+											'gym_id' => $gym_id,
+											'customer_id' => $customer_id,
 											'phone' => $request->phone,
-											'email' => $request->dob,
-											'gender' => $reqeust->gender,
+											'email' => $request->email,
+											'dob' => $request->dob,
+											'gender' => $request->gender,
 											'height' => $request->height,
 											'weight' => $request->weight,
-											'goal' => $reqeust->goal,
+											'goal' => $request->goal,
 											'address' => $request->address,
+										],
+
+										[
+											'gym_id' => ['required', 'numeric'],
+											'customer_id' => ['required', 'numeric'],
+		    								'phone' => ['required', 'numeric', 'digits:10'],
+		    								'email' => ['nullable', 'email', 'string', 'max:255'],
+		    								'goal' => ['required', 'string', 'regex:/^[a-zA-Z0-9\s]+$/', 'max:255'],
+					    					'address' => ['required', 'regex:/^[\w\s\,\-\.\:\/]+$/', 'max:255'],
+		                                    'gender' => ['required', 'alpha', 'max:100'],
+		                                    'dob' => ['nullable', 'regex:/^\d{4}\-\d{2}\-\d{2}$/'],
+		                                    'height' => ['nullable', 'regex:/^[\w\s\.]+$/'],
+		                                    'weight' => ['nullable', 'regex:/^[\w\s\.]+$/'],
+										]
+									);
+
+		if($validator->fails()){
+			$error = array('title' => 'Invalid input', 'message' => 'Any edited field is invalid', 'response_code' => 422);
+			return json_encode($error, 422);
+		}
+
+		$data = array(
+						'gym_id' => $gym_id,
+						'customer_id' => $customer_id,
+						'phone' => $request->phone,
+						'email' => $request->email,
+						'dob' => $request->dob,
+						'gender' => $request->gender,
+						'height' => $request->height,
+						'weight' => $request->weight,
+						'goal' => $request->goal,
+						'address' => $request->address,
+
+					);
+
+		$apiMan = new APIManager;
+		$res = $apiMan->updateCustomer($data);	
+
+		if($res !== 0){
+			$msg = array('title' => 'Success', 'message' => 'Your information has been updated', 'response_code' => 200);
+			return json_encode($msg, 200);
+		}
+		else{
+			$error = array('title' => 'Failed', 'message' => 'Something went wrong! Information has not been updated', 'response_code' => 401);
+			return json_encode($error, 401);
+		}	
+
+	}
+
+	//get customer diet
+	public function showCustomerDiet($gym_id, $customer_id){
+		$validator = Validator::make(
+										[
+											'gym_id' => $gym_id,
+											'id' => $customer_id,
 										],
 
 										[
@@ -206,6 +266,110 @@ class APIController extends Controller{
 											'id' => ['required', 'numeric'],
 										]
 									);
+
+		if($validator->fails()){
+			$error = array('title' => 'Invalid input', 'message' => 'Data is not valid', 'response_code' => 422);
+			return json_encode($error, 422);
+		}
+
+		$apiMan = new APIManager;
+		$res = $apiMan->customerDiet($gym_id, $customer_id);
+		
+		if(count($res) > 0){
+			return json_encode($res, 200);
+		}
+		else{
+			$error = array('title' => 'Not found', 'message' => 'No diet plan is available for this member', 'response_code' => 401);
+			return json_encode($error, 401);
+		}
+	}
+
+	//save social links 
+	public function saveSocialLink(Request $request){
+		$gymID = $request->route('gym_id');
+		$customerID = $request->route('customer_id');
+
+		$validator = Validator::make(
+										[
+											'gym_id' => $gymID,
+											'id' => $customerID,
+											'facebook' => $request->facebook,
+											'instagram' => $request->instagram,
+											'twitter' => $request->twitter,
+										],
+
+										[
+											'gym_id' => ['required', 'numeric'],
+											'id' => ['required', 'numeric'],
+											'facebook' => ['nullable', 'string', 'max:200'],
+											'instagram' => ['nullable', 'string', 'max:200'],
+											'twitter' => ['nullable', 'string', 'max:200'],
+										]
+									);
+
+		if($validator->fails()){
+			$error = array('title' => 'Invalid input', 'message' => 'Data is not valid', 'response_code' => 422);
+			return json_encode($error, 422);
+		}
+
+		$data = array(
+						'facebook' => $request->facebook,
+						'instagram' => $request->instagram,
+						'twitter' => $request->twitter,
+					);
+
+		$apiMan = new APIManager;
+		$res = $apiMan->saveSocial($data, $gymID, $customerID);
+		
+		if($res !== 0){
+			$msg = array('title' => 'Success', 'message' => 'Your information has been saved', 'response_code' => 200);
+			return json_encode($msg, 200);
+		}
+		else{
+			$error = array('title' => 'Failed', 'message' => 'Something went wrong! Information has not been saved', 'response_code' => 401);
+			return json_encode($error, 401);
+		}	
+	}
+
+	//customer image update
+	public function customerImageUpdate(Request $request){
+		$gymID = $request->route('gym_id');
+		$customerID = $request->route('customer_id');
+
+		$validator = Validator::make(
+										[
+											'gym_id' => $gymID,
+											'id' => $customerID,
+											'customer_image' => $request->customer_image,
+										],
+
+										[
+											'gym_id' => ['required', 'numeric'],
+											'id' => ['required', 'numeric'],
+											'customer_image' => ['required', 'file', 'max:1024', 'image'],
+										]
+									);
+
+		if($validator->fails()){
+			$error = array('title' => 'Invalid input', 'message' => 'Data is not valid', 'response_code' => 422);
+			return json_encode($error, 422);
+		}
+
+		$data = array(
+						'customer_image' => $request->customer_image,
+					);
+
+		$apiMan = new APIManager;
+		$res = $apiMan->imageUpdate($data, $gymID, $customerID);
+		
+		if($res !== 0){
+			$msg = array('title' => 'Success', 'message' => 'Your image has been saved', 'response_code' => 200);
+			return json_encode($msg, 200);
+		}
+		else{
+			$error = array('title' => 'Failed', 'message' => 'Something went wrong! Image has not been saved', 'response_code' => 401);
+			return json_encode($error, 401);
+		}	
 	}
 }
 
