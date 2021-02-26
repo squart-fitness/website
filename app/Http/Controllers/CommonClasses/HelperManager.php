@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\CommonClasses;
 use Hash;
+use App\Http\Controllers\ProfileInformation;
 
 trait HelperManager{
 

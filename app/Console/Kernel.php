@@ -28,10 +28,11 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         // $schedule->command('minute:update')->everyMinute();
         $schedule->call(function(){
-            $exp = new Expiry();
-            $exp->paymentExpiring();
-            $exp->paymentExpired();
-        })->everyMinute();
+            \Log::info('set specific time');
+            // $exp = new Expiry();
+            // $exp->paymentExpiring();
+            // $exp->paymentExpired();
+        });
     }
 
     /**

@@ -8,22 +8,23 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PackageClasses\PackageManager;
 use App\Http\Controllers\CommonClasses\HelperManager;
 use Session;
+use App\Http\Controllers\ProfileInformation;
 
 class PackageController extends Controller
 {
     use HelperManager;
 
-	private $packageManager;
+	protected $packageManager;
 	public function __construct(){
 
 		$this->middleware('auth');
         $this->middleware('gymstatus');
-    	$this->packageManager = new PackageManager();
 	}
 
 
     //show package adding form
     public function showPackageAddingForm(){
+        $this->packageManager = new PackageManager();
     	$packageList = $this->packageManager->getAllPackageList();
 
     	return view('create.package')->with(['packages' => $packageList]);
@@ -36,16 +37,18 @@ class PackageController extends Controller
                         'pattern' => ['required', 'regex:/^[\w\-]+$/', 'max:255'],
                         'description' => ['nullable', 'regex:/^$|^[\w\s\-\.\,]+$/', 'max:255'],
     					'price' => ['required', 'numeric'],
+                        'no_of_days' => ['required', 'numeric'],
     				]);
 
 
     	$pack = new Package();
-    	$pack->gym_id = auth()->user()->id;
+    	$pack->gym_id = ProfileInformation::getUser()->id;
     	$pack->package_name = $data['package_name'];
     	$pack->fee = $data['price'];
         $pack->description = $data['description'];
         $pack->pattern = $data['pattern'];
-    	$result = $pack->save();
+        $pack->no_of_days = $data['no_of_days'];
+     	$result = $pack->save();
 
         if($result == 1){
             Session::flash('msg', '<b>Success!</b> The package data has been created.');
@@ -54,7 +57,7 @@ class PackageController extends Controller
             Session::flash('msg', '<b>Failed!</b> The package data has not been created.');
         }
 
-
+        $this->packageManager = new PackageManager();
     	$packageList = $this->packageManager->getAllPackageList();
     	return redirect()->back()->with(['packages' => $packageList]);
     }

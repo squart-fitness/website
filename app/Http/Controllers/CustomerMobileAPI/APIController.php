@@ -284,6 +284,37 @@ class APIController extends Controller{
 		}
 	}
 
+	//get customer workout
+	public function showCustomerWorkout($gym_id, $customer_id){
+		$validator = Validator::make(
+										[
+											'gym_id' => $gym_id,
+											'id' => $customer_id,
+										],
+
+										[
+											'gym_id' => ['required', 'numeric'],
+											'id' => ['required', 'numeric'],
+										]
+									);
+
+		if($validator->fails()){
+			$error = array('title' => 'Invalid input', 'message' => 'Data is not valid', 'response_code' => 422);
+			return json_encode($error, 422);
+		}
+
+		$apiMan = new APIManager;
+		$res = $apiMan->customerWorkout($gym_id, $customer_id);
+		
+		if(count($res) > 0){
+			return json_encode($res, 200);
+		}
+		else{
+			$error = array('title' => 'Not found', 'message' => 'No diet plan is available for this member', 'response_code' => 401);
+			return json_encode($error, 401);
+		}
+	}
+
 	//save social links 
 	public function saveSocialLink(Request $request){
 		$gymID = $request->route('gym_id');
@@ -368,6 +399,50 @@ class APIController extends Controller{
 		}
 		else{
 			$error = array('title' => 'Failed', 'message' => 'Something went wrong! Image has not been saved', 'response_code' => 401);
+			return json_encode($error, 401);
+		}	
+	}
+
+	//change customer password
+	public function changeCustomerPassword(Request $request){
+		$gymID = $request->route('gym_id');
+		$customerID = $request->route('customer_id');
+
+		$validator = Validator::make(
+										[
+											'gym_id' => $gymID,
+											'id' => $customerID,
+											'old_password' => $request->old_password,
+											'new_password' => $request->new_password,
+										],
+
+										[
+											'gym_id' => ['required', 'numeric'],
+											'id' => ['required', 'numeric'],
+											'old_password' => ['required', 'string', 'min:4', 'max:50'],
+											'new_password' => ['required', 'string', 'min:4', 'max:50'],
+										]
+									);
+
+		if($validator->fails()){
+			$error = array('title' => 'Invalid input', 'message' => 'Data is not valid', 'response_code' => 422);
+			return json_encode($error, 422);
+		}
+
+		$data = array(
+						'old_password' => $request->old_password,
+						'new_password' => $request->new_password,
+					);
+
+		$apiMan = new APIManager;
+		$res = $apiMan->changePassword($data, $gymID, $customerID);
+		
+		if($res !== 0){
+			$msg = array('title' => 'Success', 'message' => 'Password changed', 'response_code' => 200);
+			return json_encode($msg, 200);
+		}
+		else{
+			$error = array('title' => 'Failed', 'message' => 'Something went wrong! Password not changed', 'response_code' => 401);
 			return json_encode($error, 401);
 		}	
 	}

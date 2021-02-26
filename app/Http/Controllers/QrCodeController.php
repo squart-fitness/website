@@ -15,12 +15,13 @@ class QrCodeController extends Controller
     					->style('dot', 0.7)
     					->eye('circle')
     					->format('png')
-    					->merge('/../public_html/assets/img/logo_on_qr.png')
+    					// ->merge('/../public_html/assets/img/squart_logo_qr.png')
     					->generate('Content of qr code');
 			        // ->format('png')
 			        // ->generate('Content of qr code will go here', ('../public_html/assets/img/qr_temp.png'));
 
 		// return QrCode::generate('e');
+		// $res = response($code)->header('Content-Type', "image/png");
 
         $codeNum = QrCodeModel::select('code_number', 'qr_unique_number')->get();
 		return view('test.qr-code')->with(['qr_code'=> $code, 'code_number' => $codeNum]);
@@ -29,7 +30,9 @@ class QrCodeController extends Controller
     public function output(Request $request){
         $code =  QrCode::size(250)
                         ->errorCorrection('H')
-                        ->format('png')
+    					->style('dot', 0.7)
+    					->eye('circle')
+    					->format('png')
                         // ->merge('/../public_html/assets/img/logo_on_qr.png')
                         ->generate($request->qr_code);
 
@@ -39,6 +42,6 @@ class QrCodeController extends Controller
 
     public function createQrCode(){
     	$qrCode = new QrCodeManager;
-    	return $qrCode->generateQrCode(7);
+    	return $qrCode->generateQrCode(8);
     }
 }

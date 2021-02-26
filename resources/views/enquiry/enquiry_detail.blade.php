@@ -119,6 +119,7 @@
 	            				'<td class="fit">'+ dt.getDate()+'-'+ (dt.getMonth()+1) +'-'+dt.getFullYear() +'</td>'+
 								'<td class="fit">'+ object.customer_name +'</td>'+
 								'<td class="fit">'+ object.customer_phone +'</td>'+
+								'<td class="fit">'+ nullCheck(object.customer_email) +'</td>'+
             					'<td class="fit">'+ object.gender +'</td>'+
 								'<td class="fit">'+ nullCheck(object.goal) +'</td>'+
 								'<td class="fit">'+ nullCheck(object.plan_interested) +'</td>'+
@@ -181,6 +182,7 @@
 	            				'<td class="fit">'+ dt.getDate()+'-'+ (dt.getMonth()+1) +'-'+dt.getFullYear() +'</td>'+
 								'<td class="fit">'+ object.customer_name +'</td>'+
 								'<td class="fit">'+ object.customer_phone +'</td>'+
+								'<td class="fit">'+ nullCheck(object.customer_email) +'</td>'+
             					'<td class="fit">'+ object.gender +'</td>'+
 								'<td class="fit">'+ nullCheck(object.goal) +'</td>'+
 								'<td class="fit">'+ nullCheck(object.plan_interested) +'</td>'+
@@ -330,6 +332,7 @@
 										<th class="fit">Date</th>
 										<th class="fit">Name</th>
 										<th class="fit">Phone</th>
+										<th class="fit">Email</th>
 										<th class="fit">Gender</th>
 										<th class="fit">Goal</th>
 										<th class="fit">Plan</th>
@@ -365,6 +368,7 @@
 											<td class="fit">{{ date("d-m-Y", strtotime($element->created_at)) }}</td>
 											<td class="fit">{{ ucfirst($element->customer_name) }}</td>
 											<td class="fit">{{ $element->customer_phone }}</td>
+											<td class="fit">{{ $element->customer_email }}</td>
 											<td class="fit">{{ ucfirst($element->gender) }}</td>
 											<td class="fit">{{ ucfirst($element->goal) }}</td>
 											<td class="fit">{{ ucfirst($element->plan_interested) }}</td>

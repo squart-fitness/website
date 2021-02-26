@@ -128,11 +128,6 @@
 		
 		$(document).ready(function(){
 			 $('.selectpicker').selectpicker();
-
-			 // $('.select_item').click(function(){
-			 // 	$('#member_view').text($(this).text());
-			 // 	$('#member_id').val($(this).attr('data'));
-			 // });
 		});
 
 		$('.select_item').on('click', function(){
@@ -141,7 +136,7 @@
 		 	var d = $(this).attr('data');
 		 	$.ajax({
             		method: 'GET',
-            		url: '{{ route('get_member_diet') }}',
+            		url: '{{ route('get_member_workout') }}',
             		data: {id: d},
             		success:function(data){
             			var l = '';
@@ -190,7 +185,7 @@
 
 			<div class="d-flex justify-content-between font_modify">
 				<div class="float_item align-self-center attach_to_body">
-					<span>SHOW ASSIGNED DIET</span>
+					<span>SHOW ASSIGNED WORKOUT</span>
 				</div>
 				<div class="float_item">
 					<nav aria-label="breadcrumb">						
@@ -220,7 +215,7 @@
 							<div class="container-fluid">
 								<div id="member_view"></div>
 								<input type="hidden" id="member_id" name="member_id">
-								<h4 class="diet_title">Diet plan list</h4>
+								<h4 class="diet_title">Workout plan list</h4>
 								<div class="list-group" id="list_grp">
 									
 								</div>

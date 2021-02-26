@@ -98,6 +98,7 @@ class PaymentController extends Controller
     								'paid_amt' => ['required', 'regex:/^[0-9]+$/'],
     								'per_start' => ['required', 'regex:/^\d{4}\-\d{2}\-\d{2}$/'],
     								'per_end' => ['required', 'regex:/^\d{4}\-\d{2}\-\d{2}$/'],
+                                    'due_date' => ['nullable', 'regex:/^\d{4}\-\d{2}\-\d{2}$/'],
                                     'discount' => ['required', 'numeric'],
     							]);
 

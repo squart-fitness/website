@@ -3,10 +3,10 @@
                 <div class="navbar-header">
                     <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
                     <a class="navbar-brand" href="{{ route('dashboard') }}">
-                        @isset (auth()->user()->userGym->gym_logo)
-                            <img src="{{asset('assets/gym_logo') .'/'. auth()->user()->userGym->gym_logo}}" alt="Logo" class="rounded-circle">
+                        @isset (Session::get('user_info')->userGym->gym_logo)
+                            <img src="{{asset('assets/gym_logo') .'/'. Session::get('user_info')->userGym->gym_logo}}" alt="Logo" class="rounded-circle">
                         @endisset
-                        <span class="title_name align-middle ml-2">{{ ucfirst(auth()->user()->userGym->gym_name) }}</span>
+                        <span class="title_name align-middle ml-2">{{ ucfirst(Session::get('user_info')->userGym->gym_name) }}</span>
                     </a>
                     {{-- <a class="navbar-brand hidden" href="{{ route('dashboard') }}">
                         @isset (auth()->user()->userGym->gym_logo)
@@ -18,12 +18,51 @@
             <div class="top-right">
                 <div class="header-menu">
                 	<div class="header_middle">
-                        <span><a href="{{ route('add_enquiry') }}" class="btn btn-info btn-sm mr-2">Enquiry</a></span> 
-                        <span><a href="{{ route('add_customer') }}" class="btn btn-info btn-sm mr-2">Member</a></span>
-                        <span><a href="{{ route('customer_attendance') }}" class="btn btn-info btn-sm mr-2">Attendance</a></span>
-                        <span><a href="{{ route('customer_payment') }}" class="btn btn-info btn-sm mr-2">Payment</a></span>
-                        <span><a href="{{ route('create_package') }}" class="btn btn-info btn-sm mr-2">Packages</a></span>
-                	</div>
+                        {{-- checking employee auth and permission for routes --}}
+                        @if (auth('employee')->check())
+                            @if (Session::has('app_features') && in_array('enquiry_add', Session::get('app_features')))
+                                <span><a href="{{ route('add_enquiry') }}" class="btn btn-info btn-sm mr-2">Enquiry</a></span> 
+                            @endif
+                        @else
+                            <span><a href="{{ route('add_enquiry') }}" class="btn btn-info btn-sm mr-2">Enquiry</a></span> 
+                        @endif
+
+                        {{-- checking employee auth and permission for routes --}}
+                        @if (auth('employee')->check())
+                            @if (Session::has('app_features') && in_array('enquiry_add', Session::get('app_features')))
+                                <span><a href="{{ route('add_customer') }}" class="btn btn-info btn-sm mr-2">Member</a></span>
+                            @endif
+                        @else
+                            <span><a href="{{ route('add_customer') }}" class="btn btn-info btn-sm mr-2">Member</a></span>
+                        @endif
+
+                        {{-- checking employee auth and permission for routes --}}
+                        @if (auth('employee')->check())
+                            @if (Session::has('app_features') && in_array('enquiry_add', Session::get('app_features')))
+                                <span><a href="{{ route('customer_attendance') }}" class="btn btn-info btn-sm mr-2">Attendance</a></span> 
+                            @endif
+                        @else
+                            <span><a href="{{ route('customer_attendance') }}" class="btn btn-info btn-sm mr-2">Attendance</a></span>
+                        @endif
+
+                        {{-- checking employee auth and permission for routes --}}
+                        @if (auth('employee')->check())
+                            @if (Session::has('app_features') && in_array('enquiry_add', Session::get('app_features')))
+                                <span><a href="{{ route('customer_payment') }}" class="btn btn-info btn-sm mr-2">Payment</a></span> 
+                            @endif
+                        @else
+                            <span><a href="{{ route('customer_payment') }}" class="btn btn-info btn-sm mr-2">Payment</a></span>
+                        @endif
+
+                        {{-- checking employee auth and permission for routes --}}
+                        @if (auth('employee')->check())
+                            @if (Session::has('app_features') && in_array('enquiry_add', Session::get('app_features')))
+                                <span><a href="{{ route('create_package') }}" class="btn btn-info btn-sm mr-2">Packages</a></span> 
+                            @endif
+                        @else
+                            <span><a href="{{ route('create_package') }}" class="btn btn-info btn-sm mr-2">Packages</a></span>
+                	    @endif
+                    </div>
 
                     <div class="header-left">
                        {{--  <button class="search-trigger"><i class="fa fa-search"></i></button>
@@ -33,6 +72,32 @@
                                 <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
                             </form>
                         </div> --}}
+
+                        <div class="dropdown">
+                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-th" aria-hidden="true"></i>
+                            </button>
+                            <div class="dropdown-menu" id="menus_list">
+                                {{-- <a class="dropdown-item" href="#">Link 1</a>
+                                <a class="dropdown-item" href="#">Link 2</a>
+                                <a class="dropdown-item" href="#">Link 3</a> --}}
+                                <div class="d-flex justify-content-between bg-secondary mb-3">
+                                    <div class="p-2 bg-info">Flex</div>
+                                    <div class="p-2 bg-warning">Flex</div>
+                                    <div class="p-2 bg-primary">Flex</div>
+                                </div>
+                                <div class="d-flex justify-content-between bg-secondary mb-3">
+                                    <div class="p-2 bg-info">Flex</div>
+                                    <div class="p-2 bg-warning">Flex</div>
+                                    <div class="p-2 bg-primary">Flex</div>
+                                </div>
+                                <div class="d-flex justify-content-between bg-secondary mb-3">
+                                    <div class="p-2 bg-info">Flex</div>
+                                    <div class="p-2 bg-warning">Flex</div>
+                                    <div class="p-2 bg-primary">Flex</div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="dropdown for-notification">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -126,6 +191,7 @@
 
                         <div class="user-menu dropdown-menu">
                             <a class="nav-link" href="{{ route('add_gym') }}"><i class="fa fa- user"></i>My Profile</a>
+                            <a class="nav-link" href="{{ route('setting_page') }}"><i class="fa fa- user"></i>Settings</a>
 
                             {{-- <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">13</span></a> --}}
 

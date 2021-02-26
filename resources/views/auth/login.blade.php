@@ -12,12 +12,14 @@
 @endsection
 
 @section('content')
-    <h1 class="error">Squart Login</h1>
     <div class="w3layouts-two-grids">
         <div class="mid-class">
+        <div class="img-right-side">
+                <img src="{{asset('assets/images/training_girl.png')}}" class="img-fluid" alt="">
+            </div>
             <div class="txt-left-side">
-                <h2> Login Here </h2>
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget</p>
+                <h2> Welcome Back :) </h2>
+                <p>To access squart your dashboard account please login with email address and password.</p>
                 <form action="{{ route('login') }}" method="post">
                     @csrf
                     <div class="form-left-to-w3l">
@@ -47,17 +49,13 @@
                 </form>
                 <div class="w3layouts_more-buttn">
                     <h3 class="mt-2">Don't Have an account..? </h3>
-                        <a href="{{ route('register') }}" class="btn btn-warning btn-lg mt-1" style="color: #000;">Register Here
+                        <a href="{{ route('register') }}" class="btn btn-warning btn-lg mt-1" style="color: #000;">Create account
                         </a>
                    
                 </div>
 
             </div>
-            <div class="img-right-side">
-                <h3>Welcome To Squart</h3>
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget</p>
-                <img src="{{asset('assets/images/training_girl.png')}}" class="img-fluid" alt="">
-            </div>
+            
         </div>
     </div>
 @endsection

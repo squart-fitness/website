@@ -225,6 +225,14 @@
 									@enderror
 									<input type="text" name="paid_amt" class="form-control" id="paid_amt" value="{{ old('paid_amt') }}">
 								</div>
+								<div class="col-12 col-md-6">
+									<label for="due_date">Payment due date: <span class="text-danger text_size"><sup>*</sup></span></label>
+
+									@error('due_date') 
+									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
+									@enderror
+									<input type="date" name="due_date" class="form-control" id="due_date" value="{{ old('due_date') }}">
+								</div>
 							</div>
 						</div>
 						<div class="form-group mb-2">

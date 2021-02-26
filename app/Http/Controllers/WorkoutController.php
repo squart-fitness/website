@@ -36,6 +36,7 @@ class WorkoutController extends Controller
     	return redirect()->back();
     }
 
+
     //delete diet of a gym
     public function delete(Request $request){
         $data = $request->validate([
@@ -62,6 +63,26 @@ class WorkoutController extends Controller
         return redirect()->back();
     }
 
+    //assign workout to customers
+    public function assignWorkout(Request $request){
+        $data = $request->validate([
+                                    'workout.*' => ['required', 'numeric'],
+                                    'member_id' => ['required', 'numeric'],
+                                ]);
+
+        $dpm = new WorkoutPlanManager;
+        $result = $dpm->saveAssignWorkout($data);
+
+        if($result == 1){
+            Session::flash('msg', '<b>Success!</b> Workout plan has been assigned.');
+        }
+        else{
+            Session::flash('msg', '<b>Failed!</b> The workout plan has not been assigned.');
+        }
+
+        return redirect()->back();
+    }
+
     //show assign workout form
     public function showAssignWorkoutForm(){
         $wpm = new WorkoutPlanManager;
@@ -70,8 +91,24 @@ class WorkoutController extends Controller
         return view('tasks.assign_workout')->with(['customers' => $customers, 'titles' => $titles]);
     }
 
-    //show assigned workout details
+    //show assigned workout 
     public function showAssignedWorkout(){
-        return view('tasks.show_assigned_workout');
+        $dpm = new WorkoutPlanManager;
+        $customer = $dpm->getNamePhone();
+        return view('tasks.show_assigned_workout')->with(['customers' => $customer]);
+    }
+
+    //get members workout
+    public function getMemberWorkout(Request $request){
+        $data = $request->validate([
+                                    'id' => ['required', 'numeric'],
+                                ]);
+
+        $id = $data['id'];
+
+        $wpm = new WorkoutPlanManager;
+        $res = $wpm->memberWorkout((int)$id);
+
+        return $res;
     }
 }

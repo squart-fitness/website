@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PackageClasses\PackageManager;
 use App\Http\Controllers\CustomerClasses\CustomerManager;
+use App\Http\Controllers\MailHandlerClasses\MailManager;
 use App\Models\Customer;
 use App\Models\Batch;
 use Session;
+use App\Http\Controllers\ProfileInformation;
 
 class CustomerController extends Controller
 {
-	public function __construct(){
 
+	public function __construct(){
 		$this->middleware('auth');
         $this->middleware('gymstatus');
 	}
@@ -20,10 +22,11 @@ class CustomerController extends Controller
 
 	// shows customer adding form
     public function showAddForm(Request $request){
+        // print(ProfileInformation::getUser()->id);
     	$packageManager = new PackageManager();
     	$packageNames = $packageManager->getAllPackageNames();
 
-        $bat = Batch::select('batch_name as name')->where(['gym_id' => auth()->user()->id, 'status' => 1, 'is_deleted' => 1])->get();
+        $bat = Batch::select('batch_name as name')->where(['gym_id' => ProfileInformation::getUser()->id, 'status' => 1, 'is_deleted' => 1])->get();
 
 		return view('customer.add_customer')->with(['packageNames' => $packageNames, 'batches' => $bat]);
     }
@@ -51,13 +54,24 @@ class CustomerController extends Controller
     public function addCustomer(Request $request){
     	$data = $request->validate([
     								'fullname' => ['required', 'regex:/^[\w\s]+$/', 'max:255'],
+                                    'father_name' => ['nullable', 'regex:/^[\w\s]+$/', 'max:255'],
     								'phone' => ['required', 'numeric', 'digits:10'],
-    								'email' => ['nullable', 'email', 'string', 'max:255'],
+                                    'another_phone' => ['nullable', 'numeric', 'digits:10'],
+    								'email' => ['nullable', 'email', 'string', 'max:150'],
     								'goal' => ['required', 'string', 'regex:/^[a-zA-Z0-9\s]+$/', 'max:255'],
     								'package' => ['required', 'alpha_num', 'string', 'max:255'],
 			    					'fee' => ['required', 'numeric'],
 			    					'address' => ['required', 'regex:/^[\w\s\,\-\.\:\/]+$/', 'max:255'],
+                                    'state' => ['required', 'alpha', 'min:3', 'max:100'],
+                                    'city' => ['required', 'alpha', 'min:3', 'max:100'],
+                                    'pincode' => ['required', 'numeric', 'digits:6'],
 			    					'password' => ['required', 'string', 'min:4', 'max:50'],
+                                    'marital_status' => ['nullable', 'numeric'],
+                                    'medical_issue' => ['nullable', 'numeric'],
+                                    'is_employeed' => ['nullable', 'numeric'],
+                                    'place_photo_on_website' => ['nullable', 'numeric'],
+                                    'identity_type' => ['nullable', 'string', 'max:100'],
+                                    'identity_number' => ['nullable', 'string', 'digits_between:2,100'],
                                     'gender' => ['required', 'alpha', 'max:100'],
                                     'remark' => ['nullable', 'regex:/^[\w\s\,\-]+$/', 'max:255'],
                                     'dob' => ['nullable', 'regex:/^\d{4}\-\d{2}\-\d{2}$/'],
@@ -85,6 +99,15 @@ class CustomerController extends Controller
     	$result = $customerManager->store($data);
     	if($result == 1){
             Session::flash('msg', '<b>Success!</b> The member data has been saved.');
+            $mail = new MailManager();
+            $mail->sendRegistrationMail(
+                                        ProfileInformation::getUser()->userGym->gym_name, 
+                                        ProfileInformation::getUser()->userGym->gym_email, 
+                                        ProfileInformation::getUser()->userGym->gym_phone, 
+                                        $data['phone'], 
+                                        $data['email'], 
+                                        $data['password']
+                                    );
         }
         else{
             Session::flash('msg', '<b>Failed!</b> The member data has not been saved.');
@@ -94,7 +117,7 @@ class CustomerController extends Controller
     }
 
     private function checkInGymPhoneValidation($phone){
-        $inGym = Customer::where(['phone' => $phone, 'gym_id' => auth()->user()->id, 'is_deleted' => 1])->first();
+        $inGym = Customer::where(['phone' => $phone, 'gym_id' => ProfileInformation::getUser()->id, 'is_deleted' => 1])->first();
         if(isset($inGym)){
             return 1;
         }

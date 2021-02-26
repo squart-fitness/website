@@ -100,9 +100,9 @@
             </p> -->
           </div>
 
-          <div class="row content">
+          <div class="row content align-items-center">
             <div class="col-md-5">
-              <img src="assets/img/features-1.png" class="img-fluid" alt="" />
+              <img src="assets/img/feature-new-1.png" class="img-fluid" alt="" />
             </div>
             <div
               class="col-md-7 pt-4"
@@ -115,9 +115,9 @@
             </div>
           </div>
 
-          <div class="row content">
+          <div class="row content align-items-center">
             <div class="col-md-5 order-1 order-md-2">
-              <img src="assets/img/features-2.png" class="img-fluid" alt="" />
+              <img src="assets/img/feature-new-2.png" class="img-fluid" alt="" />
             </div>
             <div class="col-md-7 pt-5 order-2 order-md-1">
               <h3>SMS & Email Notifications</h3>
@@ -127,9 +127,9 @@
             </div>
           </div>
 
-          <div class="row content">
+          <div class="row content align-items-center">
             <div class="col-md-5">
-              <img src="assets/img/features-3.png" class="img-fluid" alt="" />
+              <img src="assets/img/feature-new-3.png" class="img-fluid" alt="" />
             </div>
             <div class="col-md-7 pt-5">
               <h3>Biometric and Scanner Integration</h3>
@@ -140,9 +140,9 @@
             </div>
           </div>
 
-          <div class="row content">
+          <div class="row content align-items-center">
             <div class="col-md-5 order-1 order-md-2">
-              <img src="assets/img/features-4.png" class="img-fluid" alt="" />
+              <img src="assets/img/feature-new-4.png" class="img-fluid" alt="" />
             </div>
             <div class="col-md-7 pt-5 order-2 order-md-1">
               <h3>An ultimate solution for your Business Growth</h3>
@@ -388,29 +388,7 @@
 
           <div class="row">
             <div class="col-lg-6">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="info-box">
-                    <i class="bx bx-map"></i>
-                    <h3>Our Address</h3>
-                    <p>Digha, Patna, Bihar, IN</p>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="info-box mt-4">
-                    <i class="bx bx-envelope"></i>
-                    <h3>Email Us</h3>
-                    <p>contact@squart.in</p>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="info-box mt-4">
-                    <i class="bx bx-phone-call"></i>
-                    <h3>Call Us</h3>
-                    <p>+91 821 014 3861<br />+91 821 076 0137<br />+91 985 263 8787</p>
-                  </div>
-                </div>
-              </div>
+              <img src="assets/img/contact.png" class="img-fluid" alt="">
             </div>
 
             <div class="col-lg-6 mt-4 mt-md-0">
@@ -479,7 +457,7 @@
                   </div> --}}
                 </div>
                 <div class="text-center">
-                  <button type="submit" class="btn btn-primary">Send Message</button>
+                  <button type="submit" class="btn btn-send-message">Send Message</button>
                 </div>
               </form>
             </div>

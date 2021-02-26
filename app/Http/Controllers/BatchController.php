@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Batch;
 use Session;
 use App\Http\Controllers\CommonClasses\HelperManager;
-
+use App\Http\Controllers\ProfileInformation;
 
 class BatchController extends Controller
 {
@@ -31,7 +31,7 @@ class BatchController extends Controller
     							]);
 
     	$bat = new Batch;
-    	$bat->gym_id = auth()->user()->id;
+    	$bat->gym_id = ProfileInformation::getUser()->id;
     	$bat->batch_name = $data['batch_name'];
     	$bat->start_time = $data['start_time'];
     	$bat->end_time   = $data['end_time'];
@@ -51,7 +51,7 @@ class BatchController extends Controller
     //get batches record of a gym
     public function batchRecord(){
     	$bat = new Batch;
-    	$res = $bat->where(['gym_id' => auth()->user()->id, 'is_deleted' => 1])->get();
+    	$res = $bat->where(['gym_id' => ProfileInformation::getUser()->id, 'is_deleted' => 1])->get();
     	return $res;
     }
 

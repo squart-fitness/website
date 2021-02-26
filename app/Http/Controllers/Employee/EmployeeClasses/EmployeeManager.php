@@ -83,7 +83,7 @@ class EmployeeManager{
     //give all active employees in a gym
     public function getActiveEmployees(){
     	$employee = new Employee;
-    	$employeeCollection = $employee->select('username', 'employee_name as name', 'employee_phone as phone', 'designation')
+    	$employeeCollection = $employee->select('id', 'username', 'employee_name as name', 'employee_phone as phone', 'employee_email as email', 'designation')
     								   ->where(['gym_id' => auth()->user()->id, 'is_deleted' => 1, 'status' => 1])
     								   ->get();
     	return $employeeCollection;

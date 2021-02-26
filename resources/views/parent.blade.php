@@ -114,7 +114,7 @@
             border-radius: 0 !important;
         }
 
-        .form-control:focus{
+        .form-control:focus, .custom-select:focus, .custom-switch:focus{
             border-color: #4f86e3;
             box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 2px rgba(255, 0, 0, 0.6);
         }
@@ -155,6 +155,12 @@
             font-size: 26px;
             font-weight: 600;
             color: #313a3d;
+        }
+
+        #menus_list{
+            padding: 15px 15px 0 15px;
+            width: 300px;
+            background: #e3e3e3;
         }
 
         .input_group_text_modified{

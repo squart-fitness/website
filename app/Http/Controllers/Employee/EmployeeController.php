@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Employee\EmployeeClasses\EmployeeManager;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\ProfileInformation;
+use App\Http\Controllers\EmployeePermissionManager;
 use Session;
 
 class EmployeeController extends Controller
 {
+    private $user;
 
     public function __construct(){
         $this->middleware(['auth', 'gymstatus'])->except('showLoginEmployee', 'loginEmployee');
@@ -57,8 +59,14 @@ class EmployeeController extends Controller
 
     //show login employee form
     public function showLoginEmployee(){
-        // auth('employee')->logout();
+        auth('employee')->logout();
+        echo "admin: ";
+        var_dump(auth('web')->check());
+        // var_dump("employee: ".auth('employee')->user());
+
+        echo"<br>employee: ";
         var_dump(auth('employee')->check());
+        print(ProfileInformation::getUser());
         return view('employee.employee_login');
     }
 
@@ -72,7 +80,9 @@ class EmployeeController extends Controller
         if (Auth::guard('employee')->attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('dashoard');
+            ProfileInformation::setUser(auth('employee')->user()->getAdmin);
+            EmployeePermissionManager::initializeFeatures();
+            return redirect()->intended('/dashboard');
         }
 
         return back()->withErrors([

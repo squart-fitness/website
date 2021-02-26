@@ -6,14 +6,23 @@ use App\Models\Attendance;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\CustomerClasses\CustomerManager;
-
+use App\Http\Controllers\ProfileInformation;
 
 class AttendanceManager{
+	private $GYM_ID;
+
+	public function __construct(){
+		$temp = ProfileInformation::getUser();
+		if(isset($temp)){
+			$this->GYM_ID = ProfileInformation::getUser()->id;			
+		}
+	}
+
 	//store attendance report
 	public function storeAttendance(string $phone, $attendance_date){
 		$cust = new Customer;
 		$custCollection = $cust->select('id')
-							   ->where(['gym_id' => auth()->user()->id, 'status' => 1, 'is_deleted' => 1, 'phone' => $phone])
+							   ->where(['gym_id' => $this->GYM_ID, 'status' => 1, 'is_deleted' => 1, 'phone' => $phone])
 							   ->first();
 
 		if(!isset($custCollection)){
@@ -21,7 +30,7 @@ class AttendanceManager{
 		}
 		$attendance = new Attendance;
 
-		$attenCheck = $attendance->where(['gym_id' => auth()->user()->id, 'status' => 1, 'is_deleted' => 1, 'attendance_date' => $attendance_date, 'customer_id' => $custCollection->id])->first();
+		$attenCheck = $attendance->where(['gym_id' => $this->GYM_ID, 'status' => 1, 'is_deleted' => 1, 'attendance_date' => $attendance_date, 'customer_id' => $custCollection->id])->first();
 
 		$temp = (array)$attenCheck;
 		if(isset($temp) && !empty($temp)){
@@ -31,7 +40,7 @@ class AttendanceManager{
 		$attendance->present = 'yes';
 		$attendance->attendance_date = $attendance_date;
 		$attendance->customer_id = $custCollection->id;
-		$attendance->gym_id = auth()->user()->id;
+		$attendance->gym_id = $this->GYM_ID;
 
 		return $attendance->save();
 	}
@@ -43,12 +52,12 @@ class AttendanceManager{
         $timestamp = strtotime($day);
         $currentMonth = date('n', $timestamp);
 
-        $cust_id = Customer::select('id')->where(['gym_id' => auth()->user()->id, 'status' => 1, 'is_deleted' => 1])->first();
+        $cust_id = Customer::select('id')->where(['gym_id' => $this->GYM_ID, 'status' => 1, 'is_deleted' => 1])->first();
 
 		// $attendanceCollection = DB::table('customers')
 		// 							->join('attendance', 'customers.id', '=', 'attendance.customer_id')
 		// 							->select('customers.name', 'customers.phone', 'attendance.present', 'attendance.attendance_date')
-		// 							->where(['customers.gym_id' => auth()->user()->id, 'customers.status' => 1, 'customers.is_deleted' => 1])
+		// 							->where(['customers.gym_id' => $this->GYM_ID, 'customers.status' => 1, 'customers.is_deleted' => 1])
 		//  							// ->whereRaw('MONTH(attendance.attendance_date) = ?', [$currentMonth])
 		//  							->whereIn('customer_id', $ids)
 		//  							// ->distinct()
@@ -84,7 +93,7 @@ class AttendanceManager{
         }
 
 		$cus = new Customer;
-		$atten = $cus->where(['id' => $id, 'gym_id' => auth()->user()->id])
+		$atten = $cus->where(['id' => $id, 'gym_id' => $this->GYM_ID])
 		    		 ->first()
 					 ->attendance()
 					 ->whereRaw('MONTH(attendance.attendance_date) = ?', [$currentMonth])
@@ -120,14 +129,14 @@ class AttendanceManager{
  	//give today's attendance report
  	public function getTodayAttendanceReport(){
  		// $cus = new Customer;
- 		// $res = $cus->where(['customers.status' => 1, 'customers.is_deleted' => 1, 'customers.gym_id' => auth()->user()->id])
+ 		// $res = $cus->where(['customers.status' => 1, 'customers.is_deleted' => 1, 'customers.gym_id' => $this->GYM_ID])
  		// 			  ->whereRaw('attendance_date = CURRENT_DATE()')
  		// 			  ->get();
 
  		$result =DB::table('attendance') 
  							->join('customers', 'attendance.customer_id', '=', 'customers.id')
 							->select('attendance.attendance_date', 'customers.name', 'customers.phone', 'customers.username')
-							->where(['customers.gym_id' => auth()->user()->id, 'customers.status' => 1, 'customers.is_deleted' => 1])
+							->where(['customers.gym_id' => $this->GYM_ID, 'customers.status' => 1, 'customers.is_deleted' => 1])
 	 					    ->whereRaw('attendance.attendance_date = CURRENT_DATE()')
 							->orderBy('attendance.attendance_date')
  							->get();
@@ -145,7 +154,7 @@ class AttendanceManager{
  		$result =DB::table('attendance') 
  							->join('customers', 'attendance.customer_id', '=', 'customers.id')
 							->select('attendance.attendance_date', 'customers.name', 'customers.phone', 'customers.username')
-							->where(['customers.gym_id' => auth()->user()->id, 'customers.status' => 1, 'customers.is_deleted' => 1])
+							->where(['customers.gym_id' => $this->GYM_ID, 'customers.status' => 1, 'customers.is_deleted' => 1])
 	 					    ->whereRaw('attendance.attendance_date = ?', [$d_formatted])
 							->orderBy('attendance.attendance_date')
  							->get();

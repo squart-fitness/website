@@ -27,18 +27,30 @@ class Expiry
         $currentDate = date('Y-m-d H:s:i', $timestamp);
 
 
-    	DB::table('customer_payment')->where('period_end', '<=', $newDate)
-                                            ->where('period_end', '>=', $currentDate)
-                                            ->where('status', 1)
-                                            ->where('payment_expiry', 0)
-                                            ->update(['payment_expiry' => 1]);
+    	// DB::table('customer_payment')->where('period_end', '<=', $newDate)
+     //                                        ->where('period_end', '>=', $currentDate)
+     //                                        ->where('status', 1)
+     //                                        ->where('payment_expiry', 0)
+     //                                        ->update(['payment_expiry' => 1]);
 
         
-        DB::table('customer_payment')->where('period_end', '>=', $backDate)
-                                            ->where('period_end', '<', $currentDate)
-                                            ->where('status', 1)
-                                            ->where('payment_expiry', 0)
-                                            ->update(['payment_expiry' => 2]);
+     //    DB::table('customer_payment')->where('period_end', '>=', $backDate)
+     //                                        ->where('period_end', '<', $currentDate)
+     //                                        ->where('status', 1)
+     //                                        ->where('payment_expiry', 0)
+     //                                        ->update(['payment_expiry' => 2]);
+
+        DB::statement("
+                        UPDATE customers 
+                        SET payment_expiry = 
+                        CASE 
+                        WHEN package_end_date <= ? AND package_end_date >= ? THEN 1
+                        WHEN package_end_date < ? THEN 2
+                        WHEN package_end_date > ? THEN 3
+                        ELSE 10
+                        END
+                        WHERE is_deleted = 1
+                        ", [$newDate, $currentDate, $backDate, $currentDate, $currentDate]);
 
 	}
 

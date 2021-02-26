@@ -3,19 +3,30 @@ namespace App\Http\Controllers\EnquiryClasses;
 
 use App\Http\Controllers\CommonClasses\HelperManager;
 use App\Models\Enquiry;
+use App\Http\Controllers\ProfileInformation;
 
 class EnquiryManager{
 
 	use HelperManager;
+
+	private $GYM_ID;
+
+    public function __construct(){
+        $temp = ProfileInformation::getUser();
+        if(isset($temp)){
+            $this->GYM_ID = ProfileInformation::getUser()->id;
+        }
+    }
 
 	// private const SINGLE_TYPE = 'singlegym';
 	// private const GLOBAL_TYPE = 'globalgym';
 	//store enquiry data to database
 	public function storeSingleEnquiry($data){
 		$enquiry = new Enquiry;
-		$enquiry->gym_id = auth()->user()->id;
+		$enquiry->gym_id = $this->GYM_ID;
 		$enquiry->customer_name = $data['fullname'];
 		$enquiry->customer_phone = $data['phone'];
+		$enquiry->customer_email = $data['email'];
 		$enquiry->customer_address = $data['address'];
 		$enquiry->goal = $data['goal'];
 		$enquiry->gender = $data['gender'];
@@ -50,7 +61,7 @@ class EnquiryManager{
 
 	//update enquiry
 	public function updateEnq($data){
-		$enquiry = Enquiry::where(['id' => $data['d'], 'gym_id' => auth()->user()->id, 'is_deleted' => 1])->first();
+		$enquiry = Enquiry::where(['id' => $data['d'], 'gym_id' => $this->GYM_ID, 'is_deleted' => 1])->first();
 		$enquiry->customer_name = $data['fullname'];
 		$enquiry->customer_phone = $data['phone'];
 		$enquiry->customer_address = $data['address'];
@@ -90,20 +101,20 @@ class EnquiryManager{
 
 	//get enquiry by enquiry_id 
 	public function getEnquiryByUniqueId($enquiry_id){
-		$enquiry = Enquiry::where(['enquiry_id' => $enquiry_id, 'gym_id' => auth()->user()->id, 'is_deleted' => 1])->first();
+		$enquiry = Enquiry::where(['enquiry_id' => $enquiry_id, 'gym_id' => $this->GYM_ID, 'is_deleted' => 1])->first();
 		return $enquiry;
 	}
 
 	//get single enquiry detials
 	public function getSingleEnquiry($id){
-		$enquiry = Enquiry::where(['id' => $id, 'gym_id' => auth()->user()->id, 'is_deleted' => 1])->first();
+		$enquiry = Enquiry::where(['id' => $id, 'gym_id' => $this->GYM_ID, 'is_deleted' => 1])->first();
 		return $enquiry;
 	}
 
 	//give all enquiries of a single gym
 	public function getEnquiry(){
 		$enquiry = new Enquiry;
-		$enquiryList = $enquiry->where(['gym_id' => auth()->user()->id, 'is_deleted' => 1])
+		$enquiryList = $enquiry->where(['gym_id' => $this->GYM_ID, 'is_deleted' => 1])
 							   ->latest()
 							   ->paginate(20);
 
@@ -112,14 +123,14 @@ class EnquiryManager{
 
 	//give single enquiry data
 	public function getEnquiryProfile($eid){
-		$enquiry = Enquiry::where(['enquiry_id' => $eid, 'gym_id' => auth()->user()->id, 'is_deleted' => 1])->first();
+		$enquiry = Enquiry::where(['enquiry_id' => $eid, 'gym_id' => $this->GYM_ID, 'is_deleted' => 1])->first();
 		return $enquiry;
 	}
 
 	//give enquiries according to month
 	public function getEnquiryDetailByMonth($startDate, $endDate){
  		$enquiry = new Enquiry;
- 		$enquiryCollection = $enquiry->where(['gym_id' => auth()->user()->id, 'is_deleted' => 1, 'status' => 1])
+ 		$enquiryCollection = $enquiry->where(['gym_id' => $this->GYM_ID, 'is_deleted' => 1, 'status' => 1])
  									 ->where('created_at', '>=', $startDate)
  									 ->where('created_at', '<=', $endDate)
 									 ->orderByDesc('created_at')
@@ -192,13 +203,13 @@ class EnquiryManager{
 
  	//get all enquiries count
  	public function getEnquiryCount(){
- 		$enquiry = Enquiry::where(['is_deleted' => 1, 'status' => 1, 'gym_id' => auth()->user()->id])->count();
+ 		$enquiry = Enquiry::where(['is_deleted' => 1, 'status' => 1, 'gym_id' => $this->GYM_ID])->count();
  		return $enquiry;
  	}
 
  	//get all enquiry convergence report
  	public function getEnquiryConvergence(){
- 		$enquiry = Enquiry::where(['gym_id' => auth()->user()->id, 'status' => 1, 'is_deleted' => 1, 'convergence' => 1])->latest()->get();
+ 		$enquiry = Enquiry::where(['gym_id' => $this->GYM_ID, 'status' => 1, 'is_deleted' => 1, 'convergence' => 1])->latest()->get();
  		return $enquiry;
  	}
 }

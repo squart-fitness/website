@@ -3,7 +3,14 @@
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active">
-                        <a href="{{ route('dashboard') }}"><i class="menu-icon fa fa-laptop"></i>Dashboard </a>
+                        {{-- checking employee auth and permission for routes --}}
+                        @if (auth('employee')->check())
+                            @if (Session::has('app_features') && in_array('dashboard', Session::get('app_features')))
+                                <a href="{{ route('dashboard') }}"><i class="menu-icon fa fa-laptop"></i>Dashboard </a> 
+                            @endif
+                        @else
+                            <a href="{{ route('dashboard') }}"><i class="menu-icon fa fa-laptop"></i>Dashboard </a>
+                        @endif
                     </li>
 
                     {{-- <li><a href="{{ route('add_gym') }}"><i class="menu-icon fa fa-table"></i>My GYM</a></li> --}}

@@ -1,18 +1,28 @@
 <?php 
 namespace App\Http\Controllers\GymClasses;
+
 use App\Models\UserGym;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Image;
 use App\Models\Feedback;
-
+use App\Http\Controllers\ProfileInformation;
 
 class GymManager{
+
+	private $GYM_ID;
+
+    public function __construct(){
+        $temp = ProfileInformation::getUser();
+        if(isset($temp)){
+            $this->GYM_ID = ProfileInformation::getUser()->id;
+        }
+    }
 
 	//store gym data to database
 	public function store($data){
 		$gym = new UserGym;
-		$gym->gym_id = auth()->user()->id;
+		$gym->gym_id = $this->GYM_ID;
 		$gym->gym_name = $data['gymname'];
 		$gym->gym_phone = $data['gymphone'];
 		$gym->gym_email = $data['gymemail'];
@@ -68,7 +78,7 @@ class GymManager{
  	//store gym data to database
 	public function update($data){
 		$gym = new UserGym;
-		$result = $gym->where(['gym_id' => auth()->user()->id, 'status' => 1, 'is_deleted' => 1])->first();
+		$result = $gym->where(['gym_id' => $this->GYM_ID, 'status' => 1, 'is_deleted' => 1])->first();
 
 		$result->gym_name = $data['gymname'];
 		$result->gym_phone = $data['gymphone'];
@@ -87,7 +97,7 @@ class GymManager{
  	//update user information
  	public function updateUserProfile($data){
  		$user = new User;
- 		$result = $user->where(['id' => auth()->user()->id, 'status' => 1, 'is_deleted' => 1])->first();
+ 		$result = $user->where(['id' => $this->GYM_ID, 'status' => 1, 'is_deleted' => 1])->first();
 
  		$result->name = $data['name'];
  		$result->phone = $data['phone'];
@@ -105,7 +115,7 @@ class GymManager{
  	public function updateUserProfilePassword($data){
  		if(Hash::check($data['old_password'], auth()->user()->password)){
  			$user = new User;
- 			$result = $user->where(['id' => auth()->user()->id, 'status' => 1, 'is_deleted' => 1])
+ 			$result = $user->where(['id' => $this->GYM_ID, 'status' => 1, 'is_deleted' => 1])
  						   ->update(['password' => Hash::make($data['new_password'])]);
 
  			return $result;
@@ -128,7 +138,7 @@ class GymManager{
  	//get personal gym data
  	public function getMyGym(){
  		$gym = new UserGym;
- 		$gymData = $gym->where(['gym_id' => auth()->user()->id, 'is_deleted' => 1, 'status' => 1])->first();
+ 		$gymData = $gym->where(['gym_id' => $this->GYM_ID, 'is_deleted' => 1, 'status' => 1])->first();
  		return $gymData; 
  	}
 

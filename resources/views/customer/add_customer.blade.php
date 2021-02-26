@@ -95,6 +95,19 @@
 							</div>
 							<div class="col-12 col-md-6">
 								<div class="form-group mb-3">
+									<label for="father_name">Father's Name: <span class="text-danger text_size"></span></label>
+
+									@error('father_name') 
+									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
+									@enderror
+									<input type="text" name="father_name" id="father_name" class="form-control @error('father_name') is-invalid @enderror" placeholder="Enter father's name" value="{{ old('father_name') }}">
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12 col-md-6">
+								<div class="form-group mb-3">
 									<label for="phone">Phone: <span class="text-danger text_size"><sup>*</sup></span></label>
 
 									@error('phone') 
@@ -103,7 +116,18 @@
 									<input type="text" name="phone" id="phone" class="form-control @error('phone') is-invalid @enderror" placeholder="Enter mobile number" value="{{ old('phone') }}">
 								</div>
 							</div>
+							<div class="col-12 col-md-6">
+								<div class="form-group mb-3">
+									<label for="another_phone">Another Phone: <span class="text-danger text_size"></span></label>
+
+									@error('another_phone') 
+									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
+									@enderror
+									<input type="text" name="another_phone" id="another_phone" class="form-control @error('another_phone') is-invalid @enderror" placeholder="Enter another mobile number" value="{{ old('another_phone') }}">
+								</div>
+							</div>
 						</div>
+
 						<div class="row">
 							<div class="col-12 col-md-6">
 								<div class="form-group mb-3">
@@ -148,6 +172,92 @@
 								</div>
 							</div>
 						</div>
+
+						<div class="row">
+							<div class="col-12 col-md-6">
+								<div class="form-group mb-3">
+									<label for="marital_status">Marital status</label>
+
+									@error('marital_status') 
+									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
+									@enderror
+									<select name="marital_status" class="form-control @error('marital_status') is-invalid @enderror" id="marital_status">
+										<option selected disabled>Select Marital Status</option>
+										<option value="0">Single</option>
+										<option value="1">Married</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-12 col-md-6">
+								<div class="form-group mb-3">
+									<label for="medical_issue">Any Medical Issue: <span class="text-danger text_size"><sup>*</sup></span></label>
+
+									@error('medical_issue') 
+									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
+									@enderror
+									<select name="medical_issue" class="form-control @error('medical_issue') is-invalid @enderror" id="medical_issue">
+										<option selected disabled>Select Medical Issue</option>
+										<option value="0">Don't have medical issue</option>
+										<option value="1">Have medical issue</option>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12 col-md-6">
+								<div class="form-group mb-3">
+									<label for="is_employeed">Is Employeed</label>
+
+									@error('is_employeed') 
+									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
+									@enderror
+									<select name="is_employeed" class="form-control @error('is_employeed') is-invalid @enderror" id="is_employeed">
+										<option selected disabled>Select employeed </option>
+										<option value="0">Not employeed</option>
+										<option value="1">Employeed</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-12 col-md-6">
+								<div class="form-group mb-3">
+									<label for="place_photo_on_website">Place photo on website: <span class="text-danger text_size"><sup>*</sup></span></label>
+
+									@error('place_photo_on_website') 
+									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
+									@enderror
+									<select name="place_photo_on_website" class="form-control @error('place_photo_on_website') is-invalid @enderror" id="place_photo_on_website">
+										<option selected disabled>Select Yes or NO</option>
+										<option value="0">Yes</option>
+										<option value="1">No</option>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12 col-md-6">
+								<div class="form-group mb-3">
+									<label for="identity_type">Identity type:</label>
+
+									@error('identity_type') 
+									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
+									@enderror
+									<input type="text" name="identity_type" id="identity_type" class="form-control @error('identity_type') is-invalid @enderror" placeholder="Enter identity type" value="{{ old('identity_type') }}">
+								</div>
+							</div>
+							<div class="col-12 col-md-6">
+								<div class="form-group mb-3">
+									<label for="identity_number">Identity Number: <span class="text-danger text_size"></span></label>
+
+									@error('identity_number') 
+									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
+									@enderror
+									<input type="text" name="identity_number" id="identity_number" class="form-control @error('identity_number') is-invalid @enderror" placeholder="Enter identity number " value="{{ old('identity_number') }}">
+								</div>
+							</div>
+						</div>
+
 						<div class="row">
 							<div class="col-12 col-md-6">
 								<div class="form-group mb-3">
@@ -254,6 +364,41 @@
 								</div>
 							</div>
 						</div>
+
+						<div class="row">
+							<div class="col-12 col-md-4">
+								<div class="form-group mb-3">
+									<label for="state">State: </label>
+
+									@error('state') 
+									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
+									@enderror
+									<input type="text" name="state" id="state" class="form-control @error('state') is-invalid @enderror" value="{{ old('state') }}">
+								</div>
+							</div>
+							<div class="col-12 col-md-4">
+								<div class="form-group mb-3">
+									<label for="city">City: </label>
+
+									@error('city') 
+									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
+									@enderror
+									<input type="text" name="city" id="city" class="form-control @error('city') is-invalid @enderror" value="{{ old('city') }}">
+								</div>
+							</div>
+							<div class="col-12 col-md-4">
+								<div class="form-group mb-3">
+									<label for="pincode">Pincode: </label>
+
+									@error('pincode') 
+									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
+									@enderror
+									<input type="text" name="pincode" id="pincode" class="form-control @error('pincode') is-invalid @enderror" value="{{ old('pincode') }}">
+								</div>
+							</div>
+
+						</div>
+
 
 						<div class="form-group mb-2">
 							<label for="address">Address: <span class="text-danger text_size"><sup>*</sup></span></label>

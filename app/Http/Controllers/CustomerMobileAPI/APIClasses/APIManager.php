@@ -6,6 +6,7 @@ use App\Http\Controllers\AttendanceClasses\AttendanceManager;
 use App\Http\Controllers\PaymentClasses\PaymentManager;
 use App\Http\Controllers\CustomerClasses\CustomerManager;
 use App\Http\Controllers\DietPlanClasses\DietPlanManager;
+use App\Http\Controllers\WorkoutPlanClasses\WorkoutPlanManager;
 use App\Models\Customer;
 
 class APIManager{
@@ -97,6 +98,13 @@ class APIManager{
 		return $result;
 	}
 
+	//give wokrout of a customer
+	public function customerWorkout($gym_id, $customer_id){
+		$wpm = new WorkoutPlanManager;
+		$result = $wpm->memberAllWorkout($gym_id, $customer_id);
+		return $result;
+	}
+
 	//save social to database
 	public function saveSocial($data, $gym_id, $customer_id){
 		$cm = new CustomerManager;
@@ -109,6 +117,20 @@ class APIManager{
 		$cm = new CustomerManager;
 		$result = $cm->updateCustomerImage($data, $gym_id, $customer_id);
 		return $result;
+	}
+
+	//change password 
+	public function changePassword($data, $gym_id, $customer_id){
+		$member = Customer::where(['id' => $customer_id, 'password' => base64_encode($data['old_password']), 'status' => 1, 'is_deleted' => 1])->first();
+
+		if(isset($member)){
+			$member->password = base64_encode($data['new_password']);
+			$res = $member->update();
+			return $res;
+		}
+		else{
+			return 0;
+		}
 	}
 }
 

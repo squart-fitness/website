@@ -13,14 +13,16 @@ use App\Http\Controllers\AttendanceClasses\AttendanceManager;
 use App\Http\Controllers\Employee\EmployeeClasses\EmployeeManager;
 use View;
 
+use App\Http\Controllers\ProfileInformation;
+
 class DashBoardController extends Controller
 {	
     public function __construct(){
-        $this->middleware(['gymstatus', 'auth']);
+        $this->middleware(['gymstatus', 'auth:web,employee']);
     }
-
     
     public function index(){
+        
         $cust = new CustomerManager();
         $emp = new EmployeeManager();
         $enq = new EnquiryManager();
@@ -66,7 +68,7 @@ class DashBoardController extends Controller
 
 
 
-    public function research(){
+    public function research(){        
 
         // $date = date_create(NULL, timezone_open('Asia/Kolkata'));
         // $day = date_format($date, 'Y-m-d H:i:s');
@@ -94,15 +96,17 @@ class DashBoardController extends Controller
 
         // print_r($currentDate);
 
-        $pay = new Payment;
-        $payments = $pay->select('gym_id', 'customer_id')->where('payment_expiry', 1)->get();
-        foreach ($payments as $singlePay) {
-            print($singlePay->customer);
-            print($singlePay->gym->notify(new PaymentReminder($singlePay->customer)));
-            echo "<br><br><br>";
-        }
+        //latest commented
+
+        // $pay = new Payment;
+        // $payments = $pay->select('gym_id', 'customer_id')->where('payment_expiry', 1)->get();
+        // foreach ($payments as $singlePay) {
+        //     print($singlePay->customer);
+        //     print($singlePay->gym->notify(new PaymentReminder($singlePay->customer)));
+        //     echo "<br><br><br>";
+        // }
 
 
-        return;
+        // return;
     }
 }

@@ -54,6 +54,11 @@ Route::prefix('mobile')->group(function(){
 			->where(['gym_id' => '[0-9]+', 'customer_id' => '[0-9]+'])
 			->name('show_member_diet');
 
+	// workout plan 
+	Route::get('/member/show/workout/{gym_id}/{customer_id}', 'CustomerMobileAPI\APIController@showCustomerWorkout')
+			->where(['gym_id' => '[0-9]+', 'customer_id' => '[0-9]+'])
+			->name('show_member_workout');
+
 	Route::post('/member/social/link/{gym_id}/{customer_id}', 'CustomerMobileAPI\APIController@saveSocialLink')
 			->where(['gym_id' => '[0-9]+', 'customer_id' => '[0-9]+'])
 			->name('save_social_link');
@@ -62,6 +67,11 @@ Route::prefix('mobile')->group(function(){
 	Route::post('/member/update/image/{gym_id}/{customer_id}', 'CustomerMobileAPI\APIController@customerImageUpdate')
 			->where(['gym_id' => '[0-9]+', 'customer_id' => '[0-9]+'])
 			->name('update_customer_image');
+
+	// change password 
+	Route::post('/member/update/password/{gym_id}/{customer_id}', 'CustomerMobileAPI\APIController@changeCustomerPassword')
+			->where(['gym_id' => '[0-9]+', 'customer_id' => '[0-9]+'])
+			->name('change_customer_password');
 
 });
 

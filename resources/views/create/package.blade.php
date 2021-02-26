@@ -121,7 +121,16 @@
 									@error('price')
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<input name="price" id="price" class="form-control" placeholder="Set price" value="{{ old('price') }}">
+									<input type="text" name="price" id="price" class="form-control" placeholder="Set price" value="{{ old('price') }}">
+								</div>
+
+								<div class="form-group">
+									<label for="no_of_days">Number of Days: <span class="text-danger text_size"><sup>*</sup></span></label>
+
+									@error('no_of_days')
+									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
+									@enderror
+									<input type="text" name="no_of_days" id="no_of_days" class="form-control" placeholder="Set Number of Days" value="{{ old('no_of_days') }}">
 								</div>
 
 
@@ -151,7 +160,6 @@
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
 									<textarea name="description" rows="3" class="form-control">{{ old('description') }}</textarea>
-									{{-- <input type="text" name="description" id="description" class="form-control" placeholder="Add package category" value="{{ old('description') }}"> --}}
 								</div>
 
 								<div class="form-group">
@@ -175,6 +183,7 @@
 								<th class="fit">Package name</th>
 								<th class="fit">Price</th>
 								<th class="fit">Pattern</th>
+								<th class="fit">No of Days</th>
 								<th class="fit">Description</th>
 								<th class="fit">Created date</th>
 								<th class="fit"></th>
@@ -191,6 +200,7 @@
 									<td class="fit">{{ $element->package_name }}</td>
 									<td class="fit">{{ $element->fee }}</td>
 									<td class="fit">{{ $element->pattern }}</td>
+									<td class="fit">{{ $element->no_of_days }}</td>
 									<td class="fit">{{ $element->description }}</td>
 									<td class="fit">{{ $element->created_at }}</td>
 									<td class="fit">

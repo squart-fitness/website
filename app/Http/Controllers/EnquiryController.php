@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\EnquiryClasses\EnquiryManager;
 use App\Http\Controllers\PackageClasses\PackageManager;
+use App\Http\Controllers\MailHandlerClasses\MailManager;
 use App\Models\Batch;
 use App\Models\Customer;
 use App\Models\Enquiry;
+use App\Http\Controllers\ProfileInformation;
 
 use Illuminate\Http\Request;
 use Session;
@@ -16,7 +18,7 @@ class EnquiryController extends Controller
 {
     public function __construct(){
         $this->middleware('gymstatus');
-        $this->middleware('auth');
+        $this->middleware('auth:web,employee');
     }
 
 	//show enquriy form
@@ -31,6 +33,7 @@ class EnquiryController extends Controller
     	$data = $request->validate([
     								'fullname' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
     								'phone' => ['required', 'numeric', 'digits:10'],
+                                    'email' => ['nullable', 'email', 'string', 'max:150'],
                                     'address' => ['nullable', 'regex:/^$|^[\w\s\,\-\.\:\/]+$/'],
                                     'goal' => ['required', 'regex:/^[\w\s]+$/'],
                                     'plan_interested' => ['nullable', 'regex:/^$|^[\w\s\,\-\.\:\/]+$/'],
@@ -46,9 +49,9 @@ class EnquiryController extends Controller
     							]);
 
         // checking for phone number duplicacy in single gym
-        $ph_check = $this->checkInGymPhoneValidation($data['phone']);
+        $ph_check = $this->checkInGymPhoneValidation($data['phone'], $data['email']);
         if($ph_check == 1){
-            Session::flash('is_save', '<b>Exist!</b> The phone number already exist.');
+            Session::flash('is_save', '<b>Exist!</b> The person already exist.');
             return redirect()->back();
         }
 
@@ -57,6 +60,16 @@ class EnquiryController extends Controller
     	$result = $enquiry->storeSingleEnquiry($data);
     	if($result == 1){
     		Session::flash('is_save', '<b>Success!</b> The enquiry has been saved.');
+
+            // sending mail to the customer who made enquiry starts
+            $mail = new MailManager();
+            $mail->sendEnquiryMail(
+                                        ProfileInformation::getUser()->userGym->gym_name, 
+                                        ProfileInformation::getUser()->userGym->gym_email, 
+                                        ProfileInformation::getUser()->userGym->gym_phone, 
+                                        $data['email'], 
+                                    );
+            // sending mail ends
     	}
     	else{
     		Session::flash('is_save', '<b>Failed!</b> The enquiry has not been saved.');
@@ -65,8 +78,8 @@ class EnquiryController extends Controller
     	return redirect()->back();
     }
 
-    private function checkInGymPhoneValidation($phone){
-        $inGym = Enquiry::where(['customer_phone' => $phone, 'gym_id' => auth()->user()->id, 'is_deleted' => 1])->first();
+    private function checkInGymPhoneValidation($phone, $email){
+        $inGym = Enquiry::where(['customer_phone' => $phone, 'customer_email' => $email, 'gym_id' => ProfileInformation::getUser()->id, 'is_deleted' => 1])->first();
         if(isset($inGym)){
             return 1;
         }
@@ -178,7 +191,7 @@ class EnquiryController extends Controller
             return redirect()->route('showall_enquiry');
         }
 
-        $cust = Customer::select('id')->where(['gym_id' => auth()->user()->id, 'phone' => $result->customer_phone])->first();
+        $cust = Customer::select('id')->where(['gym_id' => ProfileInformation::getUser()->id, 'phone' => $result->customer_phone])->first();
         if(!empty($cust->id)){
             Session::flash('msg', '<b>Failed!</b> The member is already exist or repeated phone number.');
             return redirect()->back();
@@ -187,7 +200,7 @@ class EnquiryController extends Controller
         $packageManager = new PackageManager();
         $packageNames = $packageManager->getAllPackageNames();
 
-        $bat = Batch::select('batch_name as name')->where(['gym_id' => auth()->user()->id, 'status' => 1, 'is_deleted' => 1])->get();
+        $bat = Batch::select('batch_name as name')->where(['gym_id' => ProfileInformation::getUser()->id, 'status' => 1, 'is_deleted' => 1])->get();
 
         return view('customer.add_customer')->with(['packageNames' => $packageNames, 'batches' => $bat, 'profile' => $result]);
     }

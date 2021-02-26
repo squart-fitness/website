@@ -96,7 +96,7 @@
 			border: 1px solid #d4d4d4;
 		}
 
-		.diet_title{
+		.workout_title{
 			background-color: #d1d1d1;
 			font-size: 18px;
 			font-family: sans-serif;
@@ -204,11 +204,11 @@
 									@csrf
 
 									<input type="hidden" id="member_id" name="member_id">
-									<h4 class="diet_title">Diet plan list</h4>
+									<h4 class="workout_title">Workout plan list</h4>
 									<div class="list-group">
 										@foreach ($titles as $element)
 											<div class="list-group-item">
-												<input type="checkbox" name="diet[]" value="{{ $element->id }}">
+												<input type="checkbox" name="workout[]" value="{{ $element->id }}">
 												<label for="">{{ $element->title }}</label>
 											</div>
 										@endforeach

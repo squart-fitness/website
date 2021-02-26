@@ -5,9 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AssignedWorkout extends Model
+class GymStaffPermission extends Model
 {
     use HasFactory;
-
-    protected $table = 'assigned_workouts';
 }

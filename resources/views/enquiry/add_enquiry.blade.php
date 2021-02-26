@@ -68,6 +68,17 @@
 						</div>
 
 						<div class="row">
+							<div class="col-12">
+								<label for="email">Email: <span class="text-danger text_size"><sup>*</sup></span></label>
+
+									@error('email') 
+									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
+									@enderror
+									<input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" placeholder="Enter email id" value="{{ old('email') }}">
+							</div>
+						</div>
+
+						<div class="row">
 							<div class="col-12 col-md-6">
 								<div class="form-group mb-2">
 									<label for="gender">Gender: <span class="text-danger text_size"><sup>*</sup></span></label>

@@ -8,18 +8,27 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CommonClasses\HelperManager;
 use Illuminate\Support\Facades\Cache;
 use Image;
-
+use App\Http\Controllers\ProfileInformation;
 
 class CustomerManager{
 
     use HelperManager;
 
+    private $GYM_ID;
+
+    public function __construct(){
+        $temp = ProfileInformation::getUser();
+        if(isset($temp)){
+            $this->GYM_ID = ProfileInformation::getUser()->id;
+        }
+    }
+
 	//store customer data in database
 	public function store($data){
-        $pack = Package::select('package_name')->where(['id' => $data['package']])->first();
+        $pack = Package::select('package_name', 'no_of_days')->where(['id' => $data['package']])->first();
         
 		$cust = new Customer();
-    	$cust->gym_id = auth()->user()->id;
+    	$cust->gym_id = $this->GYM_ID;
     	$cust->username = $this->getRandomUsername();
     	$cust->password = base64_encode($data['password']);
     	$cust->name = $data['fullname'];
@@ -27,8 +36,12 @@ class CustomerManager{
     	$cust->email = $data['email'];
     	$cust->goal = $data['goal'];
     	$cust->package = $pack->package_name;
+        $cust->package_days = $pack->no_of_days;
     	$cust->fee = $data['fee'];
     	$cust->address = $data['address'];
+        $cust->state = $data['state'];
+        $cust->city = $data['city'];
+        $cust->pincode = $data['pincode'];
         $cust->dob = $data['dob'];
         $cust->gender = $data['gender'];
         $cust->remark = $data['remark'];
@@ -36,11 +49,35 @@ class CustomerManager{
         $cust->height = $data['height'];
         $cust->weight = $data['weight'];
 
-        if(!empty($data['customer_image']))
+        if(isset($data['father_name']))
+            $cust->father_name = $data['father_name'];
+
+        if(isset($data['another_phone']))
+            $cust->phone_second = $data['another_phone'];
+
+        if(isset($data['marital_status']))
+            $cust->marital_status = $data['marital_status'];
+
+        if(isset($data['medical_issue']))
+            $cust->medical_issue = $data['medical_issue'];
+
+        if(isset($data['is_employeed']))
+            $cust->is_employeed = $data['is_employeed'];
+
+        if(isset($data['place_photo_on_website']))
+            $cust->place_photo_on_website = $data['place_photo_on_website'];
+
+        if(isset($data['identity_type']))
+            $cust->identity_type = $data['identity_type'];
+
+        if(isset($data['identity_number']))
+            $cust->identity_number = $data['identity_number'];
+
+        if(isset($data['customer_image']))
             $cust->customer_image = $this->imageModification($data['customer_image']); 
 
-        if(!empty($data['eid'])){
-            Enquiry::where(['enquiry_id' => $data['eid'], 'gym_id' => auth()->user()->id])->update(['convergence' => 1]);
+        if(isset($data['eid'])){
+            Enquiry::where(['enquiry_id' => $data['eid'], 'gym_id' => $this->GYM_ID])->update(['convergence' => 1]);
         }
     	return $cust->save();
 	}
@@ -86,7 +123,7 @@ class CustomerManager{
     public function getAllCustomerList(){
         $cust = new Customer();
         $eloquentObj = $cust->select('*')
-                            ->where(['is_deleted' => 1, 'gym_id' => auth()->user()->id])
+                            ->where(['is_deleted' => 1, 'gym_id' => $this->GYM_ID])
                             ->orderByDesc('created_at')
                             ->get();
         return $eloquentObj;
@@ -96,7 +133,7 @@ class CustomerManager{
     public function getCustomerNamePhone(){
         $cust = new Customer();
         $eloquentObj = $cust->select('id', 'name', 'phone')
-                            ->where(['is_deleted' => 1, 'gym_id' => auth()->user()->id, 'status' => 1])
+                            ->where(['is_deleted' => 1, 'gym_id' => $this->GYM_ID, 'status' => 1])
                             ->orderByDesc('created_at')
                             ->get();
         return $eloquentObj;
@@ -106,7 +143,7 @@ class CustomerManager{
     public function getAllCustomerData(string $columnName){
         $cust = new Customer;
         $eloquentObj = $cust->select($columnName, 'name')
-                            ->where(['gym_id' => auth()->user()->id, 'status' => 1, 'is_deleted' => 1])
+                            ->where(['gym_id' => $this->GYM_ID, 'status' => 1, 'is_deleted' => 1])
                             ->get();
 
         return $eloquentObj;
@@ -115,14 +152,14 @@ class CustomerManager{
     // //get all customer count of a gym
     // public function getTotalCustomerCount(){
     //     $cust = new Customer();
-    //     $count = $cust->where(['is_deleted' => 1, 'gym_id' => auth()->user()->id])->count();
+    //     $count = $cust->where(['is_deleted' => 1, 'gym_id' => $this->GYM_ID])->count();
     //     return $count;
     // }
 
     //get active customer count of a gym
     public function getActiveCustomerCount(){
         $cust = new Customer();
-        $count = $cust->where(['is_deleted' => 1, 'status' => 1, 'gym_id' => auth()->user()->id])->count();
+        $count = $cust->where(['is_deleted' => 1, 'status' => 1, 'gym_id' => $this->GYM_ID])->count();
         return $count;
     }
 
@@ -132,7 +169,7 @@ class CustomerManager{
         $itemAdded = false;
         // if(!Cache::has('CUSOTMER_LIST')){
         //     $cust = new Customer;
-        //     $custList = $cust->select('name', 'phone')->where(['gym_id' => auth()->user()->id, 'is_deleted' => 1, 'status' => 1])->get();
+        //     $custList = $cust->select('name', 'phone')->where(['gym_id' => $this->GYM_ID, 'is_deleted' => 1, 'status' => 1])->get();
 
         //     $itemAdded = Cache::add('CUSOTMER_LIST', $custList, now()->addMinutes(1));
         //     if($itemAdded === true){
@@ -146,7 +183,7 @@ class CustomerManager{
         $custCollection = Cache::get('CUSOTMER_LIST', function(){
 
                             $cust = new Customer;
-                            $custList = $cust->select('name', 'phone')->where(['gym_id' => auth()->user()->id, 'is_deleted' => 1, 'status' => 1])->get();
+                            $custList = $cust->select('name', 'phone')->where(['gym_id' => $this->GYM_ID, 'is_deleted' => 1, 'status' => 1])->get();
 
                             $itemAdded = Cache::add('CUSOTMER_LIST', $custList, now()->addMinutes(10));
                             if($itemAdded === true){
@@ -180,7 +217,7 @@ class CustomerManager{
 
         $custCollection = Cache::get('CUSTOMER_USERNAMES', function(){
                             $cust = new Customer;
-                            $custList = $cust->select('username')->where(['gym_id' => auth()->user()->id, 'is_deleted' => 1])->get();
+                            $custList = $cust->select('username')->where(['gym_id' => $this->GYM_ID, 'is_deleted' => 1])->get();
                             
                             $itemAdded = Cache::add('CUSTOMER_USERNAMES', $custList, now()->addMinutes(10));
                             if($itemAdded === true){
@@ -226,13 +263,13 @@ class CustomerManager{
 
     //get customer profile data
     public function getCustomer($id){
-        $cust = Customer::where(['id' => $id, 'gym_id' => auth()->user()->id, 'is_deleted' => 1])->first();
+        $cust = Customer::where(['id' => $id, 'gym_id' => $this->GYM_ID, 'is_deleted' => 1])->first();
         return $cust;
     }
 
     //update customer profile data
     public function update($data){
-        $cust = Customer::where(['id' => $data['d'], 'gym_id' => auth()->user()->id, 'is_deleted' => 1])->first();
+        $cust = Customer::where(['id' => $data['d'], 'gym_id' => $this->GYM_ID, 'is_deleted' => 1])->first();
         $cust->name = $data['fullname'];
         $cust->phone = $data['phone'];
         $cust->email = $data['email'];
