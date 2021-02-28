@@ -169,8 +169,9 @@
 
 			<div class="d-flex justify-content-between font_modify">
 				<div class="float_item align-self-center attach_to_body">
-					<span>MEMBER LIST</span>
-					{{-- <a href="{{ route('add_customer') }}" class="btn btn-secondary btn-sm ml-3">Add Customer</a>	 --}}
+					<h1 class="h1">Member List</h1>
+					<p class="lead">List of all members of your gym.</p>
+					
 				</div>
 				<div class="float_item">
 					<nav aria-label="breadcrumb">						
@@ -184,16 +185,6 @@
 			</div>
 
 			<div class="card">
-				{{-- <div class="card-header">
-					<div class="d-flex justify-content-start">
-						<div class="float_item align-self-center mr-4">
-							<span>CUSTOMER LIST</span>
-						</div>
-						<div class="float_item">
-							<a href="{{route('add_customer')}}"><button class="btn btn-secondary btn-sm">Add Customer</button></a>
-						</div>
-					</div>
-				</div> --}}
 				<div class="card-body">	
 					<div class="table-responsive">
 						<div class="resize_tab_width">

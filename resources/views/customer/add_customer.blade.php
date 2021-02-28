@@ -63,8 +63,8 @@
 
 			<div class="d-flex justify-content-between font_modify">
 				<div class="float_item align-self-center attach_to_body">
-					<span>ADD MEMBER</span>
-					<a href="{{ route('customer_list') }}" class="btn btn-secondary btn-sm ml-3">Member list</a>	
+					<h1 class="h1">Add new member</h1>
+					<p class="lead">Add new addmission detail.</p>
 				</div>
 				<div class="float_item">
 					<nav aria-label="breadcrumb">						
@@ -90,7 +90,11 @@
 									@error('fullname') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<input type="text" name="fullname" id="fullname" class="form-control @error('fullname') is-invalid @enderror" placeholder="Enter full name" value="{{ old('fullname') }}">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-user"></i></span>
+										<input type="text" name="fullname" id="fullname" class="form-control @error('fullname') is-invalid @enderror" placeholder="Enter full name" value="{{ old('fullname') }}">
+								
+									</div>
 								</div>
 							</div>
 							<div class="col-12 col-md-6">
@@ -100,7 +104,11 @@
 									@error('father_name') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<input type="text" name="father_name" id="father_name" class="form-control @error('father_name') is-invalid @enderror" placeholder="Enter father's name" value="{{ old('father_name') }}">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-user-friends"></i></span>
+										<input type="text" name="father_name" id="father_name" class="form-control @error('father_name') is-invalid @enderror" placeholder="Enter father's name" value="{{ old('father_name') }}">
+								
+									</div>
 								</div>
 							</div>
 						</div>
@@ -113,7 +121,11 @@
 									@error('phone') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<input type="text" name="phone" id="phone" class="form-control @error('phone') is-invalid @enderror" placeholder="Enter mobile number" value="{{ old('phone') }}">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-phone"></i></span>
+										<input type="text" name="phone" id="phone" class="form-control @error('phone') is-invalid @enderror" placeholder="Enter mobile number" value="{{ old('phone') }}">
+								
+									</div>
 								</div>
 							</div>
 							<div class="col-12 col-md-6">
@@ -123,7 +135,11 @@
 									@error('another_phone') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<input type="text" name="another_phone" id="another_phone" class="form-control @error('another_phone') is-invalid @enderror" placeholder="Enter another mobile number" value="{{ old('another_phone') }}">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-phone"></i></span>
+										<input type="text" name="another_phone" id="another_phone" class="form-control @error('another_phone') is-invalid @enderror" placeholder="Enter another mobile number" value="{{ old('another_phone') }}">
+								
+									</div>
 								</div>
 							</div>
 						</div>
@@ -136,7 +152,11 @@
 									@error('email') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror" placeholder="Enter email id" value="{{ old('email') }}">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-envelope-open"></i></span>
+										<input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror" placeholder="Enter email id" value="{{ old('email') }}">
+								
+									</div>
 								</div>
 							</div>
 							<div class="col-12 col-md-6">
@@ -146,7 +166,11 @@
 									@error('goal') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<input type="text" name="goal" id="goal" class="form-control @error('goal') is-invalid @enderror" placeholder="Enter goal of joining" value="{{ old('goal') }}">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-bullseye"></i></span>
+										<input type="text" name="goal" id="goal" class="form-control @error('goal') is-invalid @enderror" placeholder="Enter goal of joining" value="{{ old('goal') }}">
+								
+									</div>
 								</div>
 							</div>
 						</div>
@@ -168,7 +192,11 @@
 									@error('password') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<input type="text" name="password" id="password" class="form-control @error('password') is-invalid @enderror" placeholder="Enter password" value="{{ old('password') }}">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-lock"></i></span>
+										<input type="text" name="password" id="password" class="form-control @error('password') is-invalid @enderror" placeholder="Enter password" value="{{ old('password') }}">
+								
+									</div>
 								</div>
 							</div>
 						</div>
@@ -181,11 +209,15 @@
 									@error('marital_status') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<select name="marital_status" class="form-control @error('marital_status') is-invalid @enderror" id="marital_status">
-										<option selected disabled>Select Marital Status</option>
-										<option value="0">Single</option>
-										<option value="1">Married</option>
-									</select>
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-users-cog"></i></span>
+										<select name="marital_status" class="form-control @error('marital_status') is-invalid @enderror" id="marital_status">
+											<option selected disabled>Select Marital Status</option>
+											<option value="0">Single</option>
+											<option value="1">Married</option>
+										</select>								
+									</div>
+									
 								</div>
 							</div>
 							<div class="col-12 col-md-6">
@@ -195,11 +227,15 @@
 									@error('medical_issue') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<select name="medical_issue" class="form-control @error('medical_issue') is-invalid @enderror" id="medical_issue">
-										<option selected disabled>Select Medical Issue</option>
-										<option value="0">Don't have medical issue</option>
-										<option value="1">Have medical issue</option>
-									</select>
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-briefcase-medical"></i></span>
+										<select name="medical_issue" class="form-control @error('medical_issue') is-invalid @enderror" id="medical_issue">
+											<option selected disabled>Select Medical Issue</option>
+											<option value="0">Don't have medical issue</option>
+											<option value="1">Have medical issue</option>
+										</select>
+									</div>
+									
 								</div>
 							</div>
 						</div>
@@ -212,11 +248,15 @@
 									@error('is_employeed') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<select name="is_employeed" class="form-control @error('is_employeed') is-invalid @enderror" id="is_employeed">
-										<option selected disabled>Select employeed </option>
-										<option value="0">Not employeed</option>
-										<option value="1">Employeed</option>
-									</select>
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-briefcase"></i></span>
+										<select name="is_employeed" class="form-control @error('is_employeed') is-invalid @enderror" id="is_employeed">
+											<option selected disabled>Select employeed </option>
+											<option value="0">Not employeed</option>
+											<option value="1">Employeed</option>
+										</select>
+									</div>
+									
 								</div>
 							</div>
 							<div class="col-12 col-md-6">
@@ -226,11 +266,15 @@
 									@error('place_photo_on_website') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<select name="place_photo_on_website" class="form-control @error('place_photo_on_website') is-invalid @enderror" id="place_photo_on_website">
-										<option selected disabled>Select Yes or NO</option>
-										<option value="0">Yes</option>
-										<option value="1">No</option>
-									</select>
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-image"></i></span>
+										<select name="place_photo_on_website" class="form-control @error('place_photo_on_website') is-invalid @enderror" id="place_photo_on_website">
+											<option selected disabled>Select Yes or NO</option>
+											<option value="0">Yes</option>
+											<option value="1">No</option>
+										</select>
+									</div>
+									
 								</div>
 							</div>
 						</div>
@@ -243,7 +287,11 @@
 									@error('identity_type') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<input type="text" name="identity_type" id="identity_type" class="form-control @error('identity_type') is-invalid @enderror" placeholder="Enter identity type" value="{{ old('identity_type') }}">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-portrait"></i></span>
+										<input type="text" name="identity_type" id="identity_type" class="form-control @error('identity_type') is-invalid @enderror" placeholder="Enter identity type" value="{{ old('identity_type') }}">
+										
+									</div>
 								</div>
 							</div>
 							<div class="col-12 col-md-6">
@@ -253,7 +301,10 @@
 									@error('identity_number') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<input type="text" name="identity_number" id="identity_number" class="form-control @error('identity_number') is-invalid @enderror" placeholder="Enter identity number " value="{{ old('identity_number') }}">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-id-card-alt"></i></span>
+										<input type="text" name="identity_number" id="identity_number" class="form-control @error('identity_number') is-invalid @enderror" placeholder="Enter identity number " value="{{ old('identity_number') }}">
+									</div>
 								</div>
 							</div>
 						</div>
@@ -266,12 +317,16 @@
 									@error('package') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<select name="package" class="form-control @error('package') is-invalid @enderror" id="package">
-										<option selected disabled>Select package</option>
-										@foreach ($packageNames as $element)
-											<option value="{{ $element->id }}">{{ ucfirst($element->package_name) }}</option>
-										@endforeach
-									</select>
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-box"></i></span>
+										<select name="package" class="form-control @error('package') is-invalid @enderror" id="package">
+											<option selected disabled>Select package</option>
+											@foreach ($packageNames as $element)
+												<option value="{{ $element->id }}">{{ ucfirst($element->package_name) }}</option>
+											@endforeach
+										</select>
+									</div>
+									
 								</div>
 							</div>
 							<div class="col-12 col-md-6">
@@ -281,7 +336,10 @@
 									@error('fee') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<input type="text" name="fee" id="fee" class="form-control @error('fee') is-invalid @enderror" placeholder="Enter Fee" value="{{ old('fee') }}">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-money-bill-wave"></i></span>
+										<input type="text" name="fee" id="fee" class="form-control @error('fee') is-invalid @enderror" placeholder="Enter Fee" value="{{ old('fee') }}">
+									</div>
 								</div>
 							</div>
 						</div>
@@ -294,12 +352,16 @@
 									@error('gender') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<select name="gender" id="gender" class="form-control @error('email') is-invalid @enderror">
-										<option selected disabled>Select Gender</option>
-										<option value="male">Male</option>
-										<option value="female">Female</option>
-										<option value="transgender">Transgender</option>
-									</select>
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-venus-double"></i></span>
+										<select name="gender" id="gender" class="form-control @error('email') is-invalid @enderror">
+											<option selected disabled>Select Gender</option>
+											<option value="male">Male</option>
+											<option value="female">Female</option>
+											<option value="transgender">Transgender</option>
+										</select>
+									</div>
+									
 								</div>
 							</div>
 							<div class="col-12 col-md-6">
@@ -309,7 +371,12 @@
 									@error('remark') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<input type="text" name="remark" id="remark" class="form-control @error('remark') is-invalid @enderror" placeholder="Enter remark" value="{{ old('remark') }}">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-bookmark"></i></span>
+										<input type="text" name="remark" id="remark" class="form-control @error('remark') is-invalid @enderror" placeholder="Enter remark" value="{{ old('remark') }}">
+								
+								
+									</div>
 								</div>
 							</div>
 						</div>
@@ -322,7 +389,10 @@
 									@error('height') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<input type="text" name="height" id="height" class="form-control @error('height') is-invalid @enderror" placeholder="Enter Height" value="{{ old('height') }}">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-ruler-vertical"></i></span>
+										<input type="text" name="height" id="height" class="form-control @error('height') is-invalid @enderror" placeholder="Enter Height" value="{{ old('height') }}">
+									</div>
 								</div>
 							</div>
 							<div class="col-12 col-md-6">
@@ -332,7 +402,10 @@
 									@error('weight') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<input type="text" name="weight" id="weight" class="form-control @error('weight') is-invalid @enderror" placeholder="Enter Weight" value="{{ old('weight') }}">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-weight"></i></span>
+										<input type="text" name="weight" id="weight" class="form-control @error('weight') is-invalid @enderror" placeholder="Enter Weight" value="{{ old('weight') }}">
+									</div>
 								</div>
 							</div>
 						</div>
@@ -345,12 +418,16 @@
 									@error('batch') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<select name="batch" class="form-control @error('batch') is-invalid @enderror" id="batch">
-										<option selected value="">Select batch</option>
-										@foreach ($batches as $element)
-											<option value="{{ $element->name }}">{{ ucfirst($element->name) }}</option>
-										@endforeach
-									</select>
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-object-ungroup"></i></span>
+										<select name="batch" class="form-control @error('batch') is-invalid @enderror" id="batch">
+											<option selected value="">Select batch</option>
+											@foreach ($batches as $element)
+												<option value="{{ $element->name }}">{{ ucfirst($element->name) }}</option>
+											@endforeach
+										</select>
+									</div>
+									
 								</div>
 							</div>
 							<div class="col-12 col-md-6">
@@ -360,7 +437,11 @@
 									@error('customer_image') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<input type="file" name="customer_image" id="customer_image" class="form-control @error('customer_image') is-invalid @enderror">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-image"></i></span>
+										<input type="file" name="customer_image" id="customer_image" class="form-control @error('customer_image') is-invalid @enderror">
+
+									</div>
 								</div>
 							</div>
 						</div>
@@ -373,7 +454,11 @@
 									@error('state') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<input type="text" name="state" id="state" class="form-control @error('state') is-invalid @enderror" value="{{ old('state') }}">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-map-marked-alt"></i></span>
+										<input type="text" name="state" id="state" placeholder="Enter State" class="form-control @error('state') is-invalid @enderror" value="{{ old('state') }}">
+
+									</div>
 								</div>
 							</div>
 							<div class="col-12 col-md-4">
@@ -383,7 +468,11 @@
 									@error('city') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<input type="text" name="city" id="city" class="form-control @error('city') is-invalid @enderror" value="{{ old('city') }}">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-city"></i></span>
+										<input type="text" name="city" id="city" placeholder="Enter City" class="form-control @error('city') is-invalid @enderror" value="{{ old('city') }}">
+
+									</div>
 								</div>
 							</div>
 							<div class="col-12 col-md-4">
@@ -393,7 +482,11 @@
 									@error('pincode') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<input type="text" name="pincode" id="pincode" class="form-control @error('pincode') is-invalid @enderror" value="{{ old('pincode') }}">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-map-marker-alt"></i></span>
+										<input type="text" name="pincode" placeholder="Enter Pincode" id="pincode" class="form-control @error('pincode') is-invalid @enderror" value="{{ old('pincode') }}">
+
+									</div>
 								</div>
 							</div>
 
