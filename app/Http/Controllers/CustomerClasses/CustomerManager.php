@@ -328,10 +328,15 @@ class CustomerManager{
 
     //update customer image from mobile app
     public function updateCustomerImage($data, $gym_id, $customer_id){
+        $imageName = $this->imageModification($data['customer_image']);
     	$cust = Customer::where(['id' => $customer_id, 'gym_id' => $gym_id, 'status' => 1, 'is_deleted' => 1])->first();
-    	$cust->customer_image = $this->imageModification($data['customer_image']); 
+    	$cust->customer_image = $imageName; 
     	$res = $cust->update();
 
+        if($res == 1){
+            return $imageName;
+        }
+        
     	return $res;
     }
     /*

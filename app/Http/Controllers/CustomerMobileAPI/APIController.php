@@ -394,7 +394,7 @@ class APIController extends Controller{
 		$res = $apiMan->imageUpdate($data, $gymID, $customerID);
 		
 		if($res !== 0){
-			$msg = array('title' => 'Success', 'message' => 'Your image has been saved', 'response_code' => 200);
+			$msg = array('title' => 'Success', 'message' => 'Your image has been saved', 'image_name' => $res, 'response_code' => 200);
 			return json_encode($msg, 200);
 		}
 		else{
