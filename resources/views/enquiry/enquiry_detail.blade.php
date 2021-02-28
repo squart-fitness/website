@@ -262,7 +262,8 @@
 
 			<div class="d-flex justify-content-between">
 				<div class="float_item align-self-center">
-					<span>ENQUIRY LIST</span>
+					<h1 class="h1">Enquiries List</h1>
+					<p class="lead">Get all new cutomer enquiry list.</p>
 				</div>
 				<div class="float_item">
 					<nav aria-label="breadcrumb">
@@ -276,16 +277,7 @@
 			</div>
 
 			<div class="card">
-				{{-- <div class="card-header">
-					<div class="d-flex justify-content-between">
-						<div class="float_item align-self-center">
-							<span>ENQUIRY LIST</span>
-						</div>
-						<div class="float_item">
-							<a href="{{route('add_enquiry')}}"><button class="btn btn-secondary btn-sm">Add Enquiry</button></a>
-						</div>
-					</div>
-				</div> --}}
+				
 				<div class="card-body">	
 					<div class="row">
 						<div class="col-12 col-md-6">

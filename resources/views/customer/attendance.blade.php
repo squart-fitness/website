@@ -221,7 +221,11 @@
 							<div class="col-12 col-md-6">
 								<div class="form-group mb-3" style="position: relative;">
 									<label for="fullname">Name: <span class="text-danger text_size"><sup>*</sup></span></label>
-									<input type="text" name="fullname" id="fullname" class="form-control" placeholder="Enter full name" autocomplete="off">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-user"></i></span>
+										<input type="text" name="fullname" id="fullname" class="form-control" placeholder="Enter full name" autocomplete="off">
+								
+									</div>
 									<ul class="dropdown_menu" id="dropdownMe"></ul>
 								</div>
 							</div>
@@ -231,7 +235,11 @@
 									@error('phone') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 									@enderror
-									<input type="number" name="phone" id="phone" class="form-control @error('phone') is-invalid @enderror " readonly>
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1"><i class="fas fa-phone"></i></span>
+										<input type="number" name="phone" id="phone" class="form-control @error('phone') is-invalid @enderror " readonly>
+								
+									</div>
 								</div>
 							</div>
 							<div class="col-12 col-md-6">
