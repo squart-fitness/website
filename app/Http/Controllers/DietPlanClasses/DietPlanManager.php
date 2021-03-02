@@ -95,21 +95,21 @@ class DietPlanManager{
     */
 
     //get member diet plan
-    public function memberAllDiet($gym_id, $id){
-        $diets_id = AssignedDiet::select('dietplan_id')
-                                ->where(['gym_id' => $gym_id, 'customer_id' => $id, 'is_deleted' => 1])
-                                ->get();
+    // public function memberAllDiet($gym_id, $id){
+    //     $diets_id = AssignedDiet::select('dietplan_id')
+    //                             ->where(['gym_id' => $gym_id, 'customer_id' => $id, 'is_deleted' => 1])
+    //                             ->get();
 
-        $id = array();
-        foreach($diets_id as $value){
-            array_push($id, $value->dietplan_id);
-        }
+    //     $id = array();
+    //     foreach($diets_id as $value){
+    //         array_push($id, $value->dietplan_id);
+    //     }
 
-        $diet_list = DietPlan::where(['gym_id' => $gym_id, 'is_deleted' => 1])
-                               ->whereIn('id', $id)
-                               ->get();
-        return $diet_list;
-    }
+    //     $diet_list = DietPlan::where(['gym_id' => $gym_id, 'is_deleted' => 1])
+    //                            ->whereIn('id', $id)
+    //                            ->get();
+    //     return $diet_list;
+    // }
 
 }
 

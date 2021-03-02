@@ -11,7 +11,7 @@ class PaymentReminder extends Notification
 {
     use Queueable;
 
-    private $customer_name, $customer_username, $customer_phone, $exp;
+    private $customer_name, $package_end_date, $customer_phone, $exp;
 
     /**
      * Create a new notification instance.
@@ -21,7 +21,7 @@ class PaymentReminder extends Notification
     public function __construct($customer, $exp)
     {
         $this->customer_name = $customer->name;
-        $this->customer_username = $customer->username;
+        $this->package_end_date = $customer->package_end_date;
         $this->customer_phone = $customer->phone;  
         $this->exp = $exp; 
     }
@@ -63,7 +63,7 @@ class PaymentReminder extends Notification
             'exp' => $this->exp,
             'name' => $this->customer_name,
             'phone' => $this->customer_phone,
-            'username' => $this->customer_username,
+            'package_end_date' => $this->package_end_date,
         ];
     }
 }

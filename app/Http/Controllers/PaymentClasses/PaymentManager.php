@@ -153,10 +153,10 @@ class PaymentManager{
  	}
 
  	//get single member payment detail
- 	public function getSingleCustomerPayment($id){
- 		$pay = Payment::where('customer_id', $id)->latest()->get();
-		return $pay;
- 	}
+ 	// public function getSingleCustomerPayment($id){
+ 	// 	$pay = Payment::where('customer_id', $id)->latest()->get();
+		// return $pay;
+ 	// }
 }
 
 ?>

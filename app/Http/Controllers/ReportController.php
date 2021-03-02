@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class ReportController extends Controller
 {
     public function __construct(){
-    	$this->middleware(['auth', 'gymstatus']);
+    	$this->middleware(['gymstatus', 'auth:web,employee']);
     }
 
     //show enquiry convergence report to user
