@@ -15,7 +15,7 @@ class EmployeeController extends Controller
     private $user;
 
     public function __construct(){
-        $this->middleware(['auth', 'gymstatus'])->except('showLoginEmployee', 'loginEmployee');
+        $this->middleware(['auth:web,employee', 'gymstatus'])->except('showLoginEmployee', 'loginEmployee');
     }
 
 

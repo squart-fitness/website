@@ -26,14 +26,13 @@ class GymManager{
 		$gym->gym_name = $data['gymname'];
 		$gym->gym_phone = $data['gymphone'];
 		$gym->gym_email = $data['gymemail'];
-		// $gym->personal_adhaar = $data['adhaar'];
 		$gym->gym_address = $data['address'];
+		$gym->state = $data['state'];
+		$gym->city = $data['city'];
+		$gym->pincode = $data['pincode'];
 
-		// $frontName = $this->imageModification($data['adhaar_front']);
-		// $gym->adhaar_front = $frontName;
-
-		// $backName = $this->imageModification($data['adhaar_back']);
-		// $gym->adhaar_back = $backName;
+		if(isset($data['gym_another_phone']))
+			$gym->gym_phone_second = $data['gym_another_phone'];
 
 		return $gym->save();
 
@@ -157,13 +156,13 @@ class GymManager{
  	}
 
  	//get gym information by gym owner or user id
- 	public function getGym($id){
- 		$user = User::find($id);
- 		$gym = $user->userGym;
- 		$gym->username = $user->username;
+ 	// public function getGym($id){
+ 	// 	$user = User::find($id);
+ 	// 	$gym = $user->userGym;
+ 	// 	$gym->username = $user->username;
 
- 		return $gym;
- 	}
+ 	// 	return $gym;
+ 	// }
 
 }
 ?>

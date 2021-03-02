@@ -88,21 +88,21 @@ class WorkoutPlanManager{
     }
 
     //get member workout plan
-    public function memberAllWorkout($gym_id, $id){
-        $workout_planID = AssignedWorkout::select('workout_plan_id')
-                                ->where(['gym_id' => $gym_id, 'customer_id' => $id, 'is_deleted' => 1])
-                                ->get();
+    // public function memberAllWorkout($gym_id, $id){
+    //     $workout_planID = AssignedWorkout::select('workout_plan_id')
+    //                             ->where(['gym_id' => $gym_id, 'customer_id' => $id, 'is_deleted' => 1])
+    //                             ->get();
 
-        $id = array();
-        foreach($workout_planID as $value){
-            array_push($id, $value->workout_plan_id);
-        }
+    //     $id = array();
+    //     foreach($workout_planID as $value){
+    //         array_push($id, $value->workout_plan_id);
+    //     }
 
-        $workout_list = Workout::where(['gym_id' => $gym_id, 'is_deleted' => 1])
-                                ->whereIn('id', $id)
-                                ->get();
-        return $workout_list;
-    }
+    //     $workout_list = Workout::where(['gym_id' => $gym_id, 'is_deleted' => 1])
+    //                             ->whereIn('id', $id)
+    //                             ->get();
+    //     return $workout_list;
+    // }
 }
 
 

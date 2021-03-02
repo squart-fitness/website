@@ -10,8 +10,7 @@ use App\Http\Controllers\SettingClasses\SettingManager;
 class SettingController extends Controller
 {
 	public function __construct(){
-        $this->middleware('gymstatus');
-        $this->middleware('auth');
+        $this->middleware(['gymstatus', 'auth:web,employee']);
     }
 
     //show setting page

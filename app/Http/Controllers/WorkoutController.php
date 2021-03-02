@@ -10,6 +10,10 @@ use  App\Http\Controllers\WorkoutPlanClasses\WorkoutPlanManager;
 
 class WorkoutController extends Controller
 {
+    public function __construct(){
+        $this->middleware(['gymstatus', 'auth:web,employee']);
+    }
+
     //show create workout form
     public function showWorkoutForm(){
     	$wpm = new WorkoutPlanManager;

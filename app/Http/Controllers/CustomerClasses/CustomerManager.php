@@ -9,6 +9,7 @@ use App\Http\Controllers\CommonClasses\HelperManager;
 use Illuminate\Support\Facades\Cache;
 use Image;
 use App\Http\Controllers\ProfileInformation;
+use Illuminate\Support\Facades\DB;
 
 class CustomerManager{
 
@@ -250,6 +251,10 @@ class CustomerManager{
     public function changeCustomerStatus(int $status, $id){
         $cust = new Customer;
         $currentStatus = $this->changeCurrentStatus($cust, $status, $id);
+        if($currentStatus == 0){
+            Customer::where(['id' => $id])->update(['freezing_history' => DB::raw('freezing_history + 1')]);
+        }
+
         return $currentStatus;
     }
 
@@ -298,42 +303,42 @@ class CustomerManager{
     */
 
     //update customer information from api or mobile application
-    public function apiUpdateCustomerInfo($data){
-        $cust = Customer::where(['id' => $data['customer_id'], 'gym_id' => $data['gym_id'], 'is_deleted' => 1])->first();
-        $cust->phone = $data['phone'];
-        $cust->email = $data['email'];
-        $cust->goal = $data['goal'];
-        $cust->address = $data['address'];
-        $cust->dob = $data['dob'];
-        $cust->gender = $data['gender'];
-        $cust->height = $data['height'];
-        $cust->weight = $data['weight'];
+    // public function apiUpdateCustomerInfo($data){
+    //     $cust = Customer::where(['id' => $data['customer_id'], 'gym_id' => $data['gym_id'], 'is_deleted' => 1])->first();
+    //     $cust->phone = $data['phone'];
+    //     $cust->email = $data['email'];
+    //     $cust->goal = $data['goal'];
+    //     $cust->address = $data['address'];
+    //     $cust->dob = $data['dob'];
+    //     $cust->gender = $data['gender'];
+    //     $cust->height = $data['height'];
+    //     $cust->weight = $data['weight'];
 
-        $res = $cust->save();
+    //     $res = $cust->save();
 
-        return $res;
-    }
+    //     return $res;
+    // }
 
 
     //save social links to database
-    public function saveSocialLinks($data, $gym_id, $customer_id){
-        $cust = Customer::where(['id' => $customer_id, 'gym_id' => $gym_id, 'status' => 1, 'is_deleted' => 1])->first();
-        $cust->facebook = $data['facebook'];
-        $cust->instagram = $data['instagram'];
-        $cust->twitter = $data['twitter'];
+    // public function saveSocialLinks($data, $gym_id, $customer_id){
+    //     $cust = Customer::where(['id' => $customer_id, 'gym_id' => $gym_id, 'status' => 1, 'is_deleted' => 1])->first();
+    //     $cust->facebook = $data['facebook'];
+    //     $cust->instagram = $data['instagram'];
+    //     $cust->twitter = $data['twitter'];
 
-        $res = $cust->update();
-        return $res;
-    }
+    //     $res = $cust->update();
+    //     return $res;
+    // }
 
     //update customer image from mobile app
-    public function updateCustomerImage($data, $gym_id, $customer_id){
-    	$cust = Customer::where(['id' => $customer_id, 'gym_id' => $gym_id, 'status' => 1, 'is_deleted' => 1])->first();
-    	$cust->customer_image = $this->imageModification($data['customer_image']); 
-    	$res = $cust->update();
+    // public function updateCustomerImage($data, $gym_id, $customer_id){
+    // 	$cust = Customer::where(['id' => $customer_id, 'gym_id' => $gym_id, 'status' => 1, 'is_deleted' => 1])->first();
+    	// $cust->customer_image = $this->imageModification($data['customer_image']); 
+    // 	$res = $cust->update();
 
-    	return $res;
-    }
+    // 	return $res;
+    // }
     /*
 
     ===============================

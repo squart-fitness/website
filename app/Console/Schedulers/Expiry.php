@@ -5,6 +5,7 @@ namespace App\Console\Schedulers;
 use Illuminate\Support\Facades\DB;
 use App\Notifications\PaymentReminder;
 use App\Models\Payment;
+use App\Models\Customer;
 
 /**
  * The expiring class will mark expiring to the customer payment database 
@@ -12,7 +13,8 @@ use App\Models\Payment;
  */
 class Expiry
 {
-	
+	private $paymentExpiring = 1;
+    private $paymentExpired = 2;
 	function __construct()
 	{
 		$date = date_create(NULL, timezone_open('Asia/Kolkata'));
@@ -25,20 +27,6 @@ class Expiry
         $backDate = date('Y-m-d H:s:i', $decrementDays);
         
         $currentDate = date('Y-m-d H:s:i', $timestamp);
-
-
-    	// DB::table('customer_payment')->where('period_end', '<=', $newDate)
-     //                                        ->where('period_end', '>=', $currentDate)
-     //                                        ->where('status', 1)
-     //                                        ->where('payment_expiry', 0)
-     //                                        ->update(['payment_expiry' => 1]);
-
-        
-     //    DB::table('customer_payment')->where('period_end', '>=', $backDate)
-     //                                        ->where('period_end', '<', $currentDate)
-     //                                        ->where('status', 1)
-     //                                        ->where('payment_expiry', 0)
-     //                                        ->update(['payment_expiry' => 2]);
 
         DB::statement("
                         UPDATE customers 
@@ -57,22 +45,20 @@ class Expiry
 
     //send notification to expiring payment in near days
     public static function paymentExpiring(){
-        $pay = new Payment;
-        $payments = $pay->select('gym_id', 'customer_id')->where('payment_expiry', 1)->get();
-        foreach ($payments as $singlePay) {
-            $singlePay->gym->notify(new PaymentReminder($singlePay->customer, 'expiring'));
-        }
-        
+        $cust = new Customer();
+        $customerPaymentExpiryList = $cust->select('gym_id', 'name', 'phone', 'package_end_date')->where('payment_expiry', $this->paymentExpiring)->get();
+        foreach ($customerPaymentExpiryList as $element) {
+            $element->gym->notify(new PaymentReminder($element, 'expiring'));
+        }   
     }
 
     //send notification to expiring payment in near days
     public static function paymentExpired(){
-        $pay = new Payment;
-        $payments = $pay->select('gym_id', 'customer_id')->where('payment_expiry', 2)->get();
-        foreach ($payments as $singlePay) {
-            $singlePay->gym->notify(new PaymentReminder($singlePay->customer, 'expired'));
-        }
-        
+        $cust = new Customer();
+        $customerPaymentExpiryList = $cust->select('gym_id', 'name', 'phone', 'package_end_date')->where('payment_expiry', $this->paymentExpired)->get();
+        foreach ($customerPaymentExpiryList as $element) {
+            $element->gym->notify(new PaymentReminder($element, 'expired'));
+        }   
     }
 
 

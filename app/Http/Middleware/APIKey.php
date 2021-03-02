@@ -17,7 +17,7 @@ class APIKey
      */
     public function handle(Request $request, Closure $next)
     {
-        $keyCheck = Setting::apiCheck($request->header('api_token'), $request->header('device'));
+        $keyCheck = Setting::apiCheck($request->header('api-token'), $request->header('device'));
         if($keyCheck == 0){
             $error = array('title' => 'Invalid', 'message' => 'The API key provided is invalid or device is invalid.');
             return response()->json($error, 401);

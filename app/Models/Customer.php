@@ -31,4 +31,10 @@ class Customer extends Model
         $user = Customer::select('status', 'is_deleted')->where(['gym_id' => $gym_id, 'id' => $customer_id])->first();
         return $user;
     }
+
+    //access associated gym
+    public function gym(){
+        return $this->belongsTo('App\Models\User', 'gym_id', 'id');
+    }
+
 }

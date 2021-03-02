@@ -172,33 +172,33 @@ class AttendanceManager{
  	*/
 
  	//API get full attendance report of a single member 
- 	public function getFullAttedanceReportById($id){
- 		$atten = new Attendance;
- 		$report = $atten->where('customer_id', $id)->get();
- 		return $report;
- 	}
+ 	// public function getFullAttedanceReportById($id){
+ 	// 	$atten = new Attendance;
+ 	// 	$report = $atten->where('customer_id', $id)->get();
+ 	// 	return $report;
+ 	// }
 
 
  	// API set attendance of a member
- 	public function setAttendanceFromAPI($date, $gymUsername, $customerID){
- 		$gym = User::select('id')->where('username', $gymUsername)->first();
+ 	// public function setAttendanceFromAPI($date, $gymUsername, $customerID){
+ 	// 	$gym = User::select('id')->where('username', $gymUsername)->first();
 
- 		$atten = new Attendance;
- 		$attenCheck = $atten->where(['gym_id' => $gym->id, 'status' => 1, 'is_deleted' => 1, 'attendance_date' => $date, 'customer_id' => $customerID])->first();
+ 	// 	$atten = new Attendance;
+ 	// 	$attenCheck = $atten->where(['gym_id' => $gym->id, 'status' => 1, 'is_deleted' => 1, 'attendance_date' => $date, 'customer_id' => $customerID])->first();
 
-		$temp = (array)$attenCheck;
-		if(isset($temp) && !empty($temp)){
-			return -1;
-		}
+		// $temp = (array)$attenCheck;
+		// if(isset($temp) && !empty($temp)){
+		// 	return -1;
+		// }
 
 
- 		$atten->present = 'yes';
-		$atten->attendance_date = $date;
-		$atten->customer_id = $customerID;
-		$atten->gym_id = $gym->id;
+ 	// 	$atten->present = 'yes';
+		// $atten->attendance_date = $date;
+		// $atten->customer_id = $customerID;
+		// $atten->gym_id = $gym->id;
 
-		return $atten->save();
- 	}
+		// return $atten->save();
+ 	// }
 
  	/*
 	=================================================

@@ -446,6 +446,217 @@ class APIController extends Controller{
 			return json_encode($error, 401);
 		}	
 	}
+
+	//get customer notifications of payment reminder
+	public function showPaymentReminderNotification(Request $request){
+		$gym_id = $request->route('gym_id');
+		$customer_id = $request->route('customer_id');
+
+		$validator = Validator::make(
+										[
+											'gym_id' => $gym_id,
+											'id' => $customer_id,
+										],
+
+										[
+											'gym_id' => ['required', 'numeric'],
+											'id' => ['required', 'numeric'],
+										]
+									);
+
+		if($validator->fails()){
+			$error = array('title' => 'Invalid input', 'message' => 'Data is not valid', 'response_code' => 422);
+			return json_encode($error, 422);
+		}
+
+		$apiMan = new APIManager;
+		$res = $apiMan->showNotification($gym_id, $customer_id);
+		
+		if(count($res) > 0){
+			return json_encode($res, 200);
+		}
+		else{
+			$error = array('title' => 'Not found', 'message' => 'Right now there is no notification', 'response_code' => 401);
+			return json_encode($error, 401);
+		}
+	}
+
+
+	//get all batches in a gym
+	public function batches(Request $request){
+		$gymID = $request->route('gym_id');
+		$validator = Validator::make(
+										[
+											'gym_id' => $gymID,
+										],
+
+										[
+											'gym_id' => ['required', 'numeric'],
+										]
+									);
+
+		if($validator->fails()){
+			$error = array('title' => 'Invalid input', 'message' => 'Data is not valid', 'response_code' => 422);
+			return json_encode($error, 422);
+		}
+
+		$apiMan = new APIManager;
+		$res = $apiMan->showBatches($gymID);
+		
+		if(count($res) > 0){
+			return json_encode($res, 200);
+		}
+		else{
+			$error = array('title' => 'Not found', 'message' => 'Right now there is no batch available in the gym', 'response_code' => 401);
+			return json_encode($error, 401);
+		}
+	}
+
+
+	//get all packages in a gym
+	public function packages(Request $request){
+		$gymID = $request->route('gym_id');
+		$validator = Validator::make(
+										[
+											'gym_id' => $gymID,
+										],
+
+										[
+											'gym_id' => ['required', 'numeric'],
+										]
+									);
+
+		if($validator->fails()){
+			$error = array('title' => 'Invalid input', 'message' => 'Data is not valid', 'response_code' => 422);
+			return json_encode($error, 422);
+		}
+
+		$apiMan = new APIManager;
+		$res = $apiMan->showPackages($gymID);
+		
+		if(count($res) > 0){
+			return json_encode($res, 200);
+		}
+		else{
+			$error = array('title' => 'Not found', 'message' => 'Right now there is no package available in the gym', 'response_code' => 401);
+			return json_encode($error, 401);
+		}
+	}
+
+	//rating of customers
+	public function customerRating(Request $request){
+		$gymID = $request->route('gym_id');
+		$customerID = $request->route('customer_id');
+		$validator = Validator::make(
+										[
+											'gym_id' => $gymID,
+											'customer_id' => $customerID,
+										],
+
+										[
+											'gym_id' => ['required', 'numeric'],
+											'customer_id' => ['required', 'numeric'],
+										]
+									);
+
+		if($validator->fails()){
+			$error = array('title' => 'Invalid input', 'message' => 'Data is not valid', 'response_code' => 422);
+			return json_encode($error, 422);
+		}
+
+		$apiMan = new APIManager;
+		$res = $apiMan->showRating($gymID, $customerID);
+		
+		if(isset($res)){
+			return json_encode($res, 200);
+		}
+		else{
+			$error = array('title' => 'Not found', 'message' => 'No rating have been provided', 'response_code' => 401);
+			return json_encode($error, 401);
+		}
+	}
+
+
+	//rating to gyms 
+	public function gymRating(Request $request){
+		$gymID = $request->route('gym_id');
+		$customerID = $request->route('customer_id');
+
+		$validator = Validator::make(
+										[
+											'gym_id' => $gymID,
+											'id' => $customerID,
+											'rating' => $request->rating,
+											'feedback' => $request->feedback,
+										],
+
+										[
+											'gym_id' => ['required', 'numeric'],
+											'id' => ['required', 'numeric'],
+											'rating' =>  ['nullable', 'numeric', 'max:5', 'min:1'],
+											'feedback' => ['nullable', 'string', 'max:200'],
+										]
+									);
+
+		if($validator->fails()){
+			$error = array('title' => 'Invalid input', 'message' => 'Data is not valid', 'response_code' => 422);
+			return json_encode($error, 422);
+		}
+
+		$data = array(
+						'rating' => $request->rating,
+						'feedback' => $request->feedback,
+					);
+
+		$apiMan = new APIManager;
+		$res = $apiMan->ratingToGym($data, $gymID, $customerID);
+		
+		if($res !== 0){
+			$msg = array('title' => 'Success', 'message' => 'Gym feedback given', 'response_code' => 200);
+			return json_encode($msg, 200);
+		}
+		else{
+			$error = array('title' => 'Failed', 'message' => 'Something went wrong! Feedback not provided', 'response_code' => 401);
+			return json_encode($error, 401);
+		}	
+	}
+
+	//freezing history of customer
+	//rating to gyms 
+	public function freezingHistory(Request $request){
+		$gymID = $request->route('gym_id');
+		$customerID = $request->route('customer_id');
+
+		$validator = Validator::make(
+										[
+											'gym_id' => $gymID,
+											'id' => $customerID,
+										],
+
+										[
+											'gym_id' => ['required', 'numeric'],
+											'id' => ['required', 'numeric'],
+										]
+									);
+
+		if($validator->fails()){
+			$error = array('title' => 'Invalid input', 'message' => 'Data is not valid', 'response_code' => 422);
+			return json_encode($error, 422);
+		}
+
+		$apiMan = new APIManager;
+		$res = $apiMan->customerFreezingHistory($gymID, $customerID);
+		
+		if(isset($res)){
+			$msg = array('title' => 'Success', 'message' => 'Freezing history of cusotmer', 'fh' => $res, 'response_code' => 200);
+			return json_encode($msg, 200);
+		}
+		else{
+			$error = array('title' => 'Failed', 'message' => 'Something went wrong! Freezing history not found', 'response_code' => 401);
+			return json_encode($error, 401);
+		}	
+	}
+
 }
 
 

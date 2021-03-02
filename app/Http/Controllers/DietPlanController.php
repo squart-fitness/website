@@ -9,6 +9,11 @@ use App\Http\Controllers\DietPlanClasses\DietPlanManager;
 
 class DietPlanController extends Controller
 {
+    public function __construct(){
+        $this->middleware(['gymstatus', 'auth:web,employee']);
+    }
+
+
     //show diet plan form
     public function showDietForm(){
     	$dpm = new DietPlanManager;

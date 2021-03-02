@@ -13,7 +13,7 @@ class BatchController extends Controller
     use HelperManager;
 
     public function __construct(){
-    	$this->middleware(['gymstatus', 'auth']);
+    	$this->middleware(['gymstatus', 'auth:web,employee']);
     }
 
     public function index(){
