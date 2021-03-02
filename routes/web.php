@@ -19,7 +19,7 @@ Route::post('/contact', 'HomeController@contactStore')->name('save_contact');
 
 Route::get('/research', 'DashBoardController@research');
 
-Route::prefix('dashboard')->middleware(['staffpermission:dashboard'])->group(function(){
+Route::prefix('dashboard')->middleware(['can:emp-permission,"dashboard"'])->group(function(){
 	Route::get('/', 'DashBoardController@index')->name('dashboard');
 	Route::get('/attendance/report', 'DashBoardController@showTodayAttendanceReport')->name('today_attendance_report');
 	Route::get('/employee/report', 'DashBoardController@showActiveEmployees')->name('active_employee');
@@ -28,36 +28,36 @@ Route::prefix('dashboard')->middleware(['staffpermission:dashboard'])->group(fun
 });
 
 Route::prefix('enquiry')->group(function(){
-	Route::middleware(['staffpermission:enquiry_add'])->group(function(){
+	Route::middleware(['can:emp-permission,"enquiry_add"'])->group(function(){
 		Route::get('/', 'EnquiryController@showEnquiryForm')->name('add_enquiry');
 		Route::post('/', 'EnquiryController@saveEnquiry');
 	});
 
-	Route::middleware(['staffpermission:enquiry_detail'])->group(function(){
+	Route::middleware(['can:emp-permission,"enquiry_detail"'])->group(function(){
 		Route::get('/detail', 'EnquiryController@showEnquiries')->name('showall_enquiry');
 		Route::get('/month/detail', 'EnquiryController@showEnquiryInMonth')->name('month_enquiry_details');
 		Route::get('/filter', 'EnquiryController@filterEnquiry')->name('filter_enquiry');
 	});
 	
 	Route::get('/change/status', 'EnquiryController@setStatus')
-			->middleware(['staffpermission:enquiry_status'])
+			->middleware(['can:emp-permission,"enquiry_status"'])
 			->name('change_enquiry_status');
 
 	Route::post('/delete', 'EnquiryController@delete')
-			->middleware(['staffpermission:enquiry_delete'])
+			->middleware(['can:emp-permission,"enquiry_delete"'])
 			->name('delete_enquiry');
 
-	Route::middleware(['staffpermission:enquiry_update'])->group(function(){
+	Route::middleware(['can:emp-permission,"enquiry_update"'])->group(function(){
 		Route::get('/update', 'EnquiryController@showUpdateForm')->name('update_enquiry');
 		Route::post('/update', 'EnquiryController@updateEnquiry');
 	});
 
 	Route::get('/move', 'EnquiryController@moveEnquiry')
-			->middleware(['staffpermission:enquiry_move'])
+			->middleware(['can:emp-permission,"enquiry_move"'])
 			->name('move_enquiry');
 
 	Route::get('/profile/{eid?}', 'EnquiryController@enquiryProfile')
-			->middleware(['staffpermission:enquiry_profile'])
+			->middleware(['can:emp-permission,"enquiry_profile"'])
 			->where('eid', '[\d\-]+')
 			->name('enquiry_profile');
 
@@ -80,31 +80,31 @@ Route::prefix('gym')->group(function(){
 });
 
 Route::prefix('customer')->group(function(){
-	Route::middleware(['staffpermission:member_add'])->group(function(){
+	Route::middleware(['can:emp-permission,"member_add"'])->group(function(){
 		Route::get('/add', 'CustomerController@showAddForm')->name('add_customer');
 		Route::post('/add', 'CustomerController@addCustomer');
 		Route::get('/package/fee', 'CustomerController@getPackageFee')->name('package_fee');
 	});
 
-	Route::middleware(['staffpermission:member_detail'])->group(function(){
+	Route::middleware(['can:emp-permission,"member_detail"'])->group(function(){
 		Route::get('/list', 'CustomerController@showCustomerList')->name('customer_list');
 	});
 
 	Route::get('/change/status', 'CustomerController@setStatus')
-		->middleware(['staffpermission:member_status'])
+		->middleware(['can:emp-permission,"member_status"'])
 		->name('change_customer_status');
 	
 	Route::post('/delete', 'CustomerController@delete')
-		->middleware(['staffpermission:member_delete'])
+		->middleware(['member_delete'])
 		->name('delete_customer');
 	
-	Route::middleware(['staffpermission:member_update'])->group(function(){
+	Route::middleware(['can:emp-permission,"member_update"'])->group(function(){
 		Route::get('/update', 'CustomerController@showUpdateForm')->name('update_customer');
 		Route::post('/update', 'CustomerController@updateCustomer');
 	});
 
 
-	Route::middleware(['staffpermission:member_attendance_add'])->group(function(){
+	Route::middleware(['can:emp-permission,"member_attendance_add"'])->group(function(){
 		Route::get('/attendance', 'AttendanceController@showAttendanceForm')->name('customer_attendance');
 		Route::post('/attendance', 'AttendanceController@setAttendance');
 		Route::get('/attendance/names', 'AttendanceController@showNames')->name('list_names');
@@ -113,17 +113,17 @@ Route::prefix('customer')->group(function(){
 	// Route::get('/attendance/month', 'AttendanceController@showCustomerAttendanceInMonth')->name('month_attendance_details');
 	// Route::get('/attendance/id', 'AttendanceController@showSingleCustomerAttendance')->name('one_customer_attendance');
 	Route::get('/attendance/date', 'AttendanceController@showAttendanceByDate')
-		->middleware(['staffpermission:member_attendance_view'])
+		->middleware(['member_attendance_view'])
 		->name('attendance_data');
 
 	Route::get('/profile/{d}/{username}/', 'CustomerProfileController@showProfile')
-		->middleware(['staffpermission:member_profile'])
+		->middleware(['can:emp-permission,"member_profile"'])
 		->name('customer_profile')
 		->where(['d' => '[0-9]+', 'username' => '[a-zA-Z0-9]+']);
 
 
 	Route::prefix('payment')->group(function(){
-		Route::middleware(['staffpermission:member_payment_add'])->group(function(){
+		Route::middleware(['can:emp-permission,"member_payment_add"'])->group(function(){
 			Route::get('/', 'PaymentController@showCustomerPaymentForm')->name('customer_payment');
 			Route::post('/', 'PaymentController@savePayment');
 
@@ -131,7 +131,7 @@ Route::prefix('customer')->group(function(){
 			Route::get('/username-list', 'PaymentController@showUsernames')->name('list_username');
 		});
 
-		Route::middleware(['staffpermission:member_payment_detail'])->group(function(){
+		Route::middleware(['can:emp-permission,"member_attendance_view"'])->group(function(){
 			Route::get('/payment-details', 'PaymentController@showCustomerPaymentDetail')->name('customer_payment_details');
 			Route::get('/payment-month', 'PaymentController@showCustomerPaymentInMonth')->name('month_payment_details');
 			Route::get('/payment/filter/date', 'PaymentController@showPaymentByDate')->name('filter_payment_by_date');
@@ -146,37 +146,37 @@ Route::prefix('customer')->group(function(){
 
 Route::prefix('employee')->group(function(){
 
-	Route::middleware(['staffpermission:staff_add'])->group(function(){	
+	Route::middleware(['can:emp-permission,"staff_add"'])->group(function(){	
 		Route::get('/add', 'Employee\EmployeeController@showAddingForm')->name('add_employee');
 		Route::post('/add', 'Employee\EmployeeController@saveEmployee');
 	});
 
-	Route::middleware(['staffpermission:staff_detail'])->group(function(){	
+	Route::middleware(['can:emp-permission,"staff_detail"'])->group(function(){	
 		Route::get('/list', 'Employee\EmployeeController@showEmployeeList')->name('employee_list');
 	});
 
 	Route::get('/change/status', 'Employee\EmployeeController@setStatus')
-		->middleware(['staffpermission:staff_status'])
+		->middleware(['can:emp-permission,"staff_status"'])
 		->name('change_employee_status');
 
 	Route::post('/delete', 'Employee\EmployeeController@delete')
-		->middleware(['staffpermission:staff_delete'])
+		->middleware([])
 		->name('delete_employee');
 
-	Route::middleware(['staffpermission:staff_update'])->group(function(){	
+	Route::middleware(['can:emp-permission,"staff_update"'])->group(function(){	
 		Route::get('/update', 'Employee\EmployeeController@showUpdateForm')->name('update_employee');
 		Route::post('/update', 'Employee\EmployeeController@updateEmployee');
 	});
 
 
-	Route::middleware(['staffpermission:staff_salary_add'])->group(function(){	
+	Route::middleware(['can:emp-permission,"staff_salary_add"'])->group(function(){	
 		Route::get('/salary', 'Employee\EmployeeController@showSalaryForm')->name('employee_salary');
 		Route::post('/salary', 'Employee\EmployeeController@saveSalary');
 		Route::get('/data', 'Employee\EmployeeController@showEmployeeNameAndNumber')->name('employee_data');
 		Route::get('/username/list', 'Employee\EmployeeController@showUsernames')->name('list_employee_username');
 	});
 
-	Route::middleware(['staffpermission:staff_salary_detail'])->group(function(){	
+	Route::middleware(['can:emp-permission,"staff_salary_detail"'])->group(function(){	
 		Route::get('/salary/details', 'Employee\EmployeeController@showSalaryDetail')->name('employee_salary_details');
 		Route::get('/salary/details/month', 'Employee\EmployeeController@showEmployeeSalaryInMonth')->name('employee_salary_monthly');
 		Route::get('/salary/filter/date', 'Employee\EmployeeController@showEmployeeByDate')->name('filter_salary_by_date');
@@ -184,21 +184,21 @@ Route::prefix('employee')->group(function(){
 });
 
 Route::prefix('create')->group(function(){
-	Route::middleware(['staffpermission:dietplan_formatting'])->group(function(){	
+	Route::middleware(['can:emp-permission,"dietplan_formatting"'])->group(function(){	
 		Route::get('/diet-plan', 'DietPlanController@showDietForm')->name('create_diet_plan');
 		Route::post('/diet-plan', 'DietPlanController@saveDiet');
 		Route::post('/diet/delete', 'DietPlanController@delete')->name('delete_diet');
 	});
 
 	//workout plan creation routes
-	Route::middleware(['staffpermission:workoutplan_formatting'])->group(function(){	
+	Route::middleware(['can:emp-permission,"workoutplan_formatting"'])->group(function(){	
 		Route::get('/workout-plan', 'WorkoutController@showWorkoutForm')->name('create_workout_plan');
 		Route::post('/workout-plan', 'WorkoutController@saveWorkout');
 		Route::post('/workout/delete', 'WorkoutController@delete')->name('delete_workout');
 	});
 
 	//package creation routes
-	Route::middleware(['staffpermission:package_formatting'])->group(function(){	
+	Route::middleware(['can:emp-permission,"package_formatting"'])->group(function(){	
 		Route::get('/package', 'PackageController@showPackageAddingForm')->name('create_package');
 		Route::post('/package', 'PackageController@addPackage');
 		Route::get('/package/change/status', 'PackageController@setStatus')->name('change_package_status');
@@ -206,7 +206,7 @@ Route::prefix('create')->group(function(){
 	});
 
 	//batch creation routes
-	Route::middleware(['staffpermission:batch_formatting'])->group(function(){	
+	Route::middleware(['can:emp-permission,"batch_formatting"'])->group(function(){	
 		Route::get('/batch', 'BatchController@index')->name('batch');
 		Route::post('/batch', 'BatchController@save');
 		Route::get('/batch/change/status', 'BatchController@setStatus')->name('change_batch_status');
@@ -216,25 +216,25 @@ Route::prefix('create')->group(function(){
 
 Route::prefix('assign')->group(function(){
 	//diet plan assignment show form and post 
-	Route::middleware(['staffpermission:dietplan_assignment'])->group(function(){	
+	Route::middleware(['can:emp-permission,"dietplan_assignment"'])->group(function(){	
 		Route::get('/diet', 'DietPlanController@showAssignDietForm')->name('assign_diet');
 		Route::post('/diet', 'DietPlanController@assignDiet');
 	});
 
 	//diet plan show assigned routes 
-	Route::middleware(['staffpermission:dietplan_assigned'])->group(function(){	
+	Route::middleware(['can:emp-permission,"dietplan_assigned"'])->group(function(){	
 		Route::get('/diet/show', 'DietPlanController@showAssignedDiet')->name('show_assigned_diet');
 		Route::get('/diet/member', 'DietPlanController@getMemberDiet')->name('get_member_diet');
 	});
 
 	//workout plan assignment show form and routes
-	Route::middleware(['staffpermission:workoutplan_assignment'])->group(function(){	
+	Route::middleware(['can:emp-permission,"workoutplan_assignment"'])->group(function(){	
 		Route::get('/workout', 'WorkoutController@showAssignWorkoutForm')->name("assign_workout");
 		Route::post('/workout', 'WorkoutController@assignWorkout');
 	});
 
 	//workout plan show assigned routes
-	Route::middleware(['staffpermission:workoutplan_assigned'])->group(function(){	
+	Route::middleware(['can:emp-permission,"workoutplan_assigned"'])->group(function(){	
 		Route::get('/workout/show', 'WorkoutController@showAssignedWorkout')->name('show_assigned_workout');
 		Route::get('/workout/member', 'WorkoutController@getMemberWorkout')->name('get_member_workout');
 	});
@@ -287,7 +287,8 @@ Route::prefix('auth/super/admin')->group(function(){
 
 
 Route::get('/home', function(){
-	return view('home');
+	return 'success';
+
 });
 
 Route::get('error/deactivated', 'ErrorController@gymDeactivated')->name('deactivated')->middleware('auth');

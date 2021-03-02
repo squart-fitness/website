@@ -10,7 +10,7 @@ use Session;
 class GymController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth');
+        $this->middleware('auth:web');
         $this->middleware('gymstatus')->except('showAddingForm', 'saveGym');
     }
 
@@ -48,11 +48,12 @@ class GymController extends Controller
     	$data = $request->validate([
     								'gymname' => ['required', 'regex:/^[\w\s]+$/', 'max:255'],
     								'gymphone' => ['required', 'numeric', 'digits:10'],
+                                    'gym_another_phone' => ['nullable', 'numeric', 'digits:10'],
     								'gymemail' => ['required', 'email', 'string', 'max:255'],
-    								// 'adhaar' => ['required', 'numeric'],
     								'address' => ['required', 'regex:/^[\w\s\,\-\.\:\/\'\"]+$/', 'max:255'],
-                                    // 'adhaar_front' => ['required', 'image', 'max:1024'],
-                                    // 'adhaar_back' => ['required', 'image', 'max:1024'],
+                                    'state' => ['required', 'alpha', 'min:3', 'max:100'],
+                                    'city' => ['required', 'alpha', 'min:3', 'max:100'],
+                                    'pincode' => ['required', 'numeric', 'digits:6'],
 						    	]);  	
 
         $gymManager = new GymManager;

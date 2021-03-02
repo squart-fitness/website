@@ -15,8 +15,7 @@ class CustomerController extends Controller
 {
 
 	public function __construct(){
-		$this->middleware('auth');
-        $this->middleware('gymstatus');
+        $this->middleware(['gymstatus', 'auth:web,employee']);
 	}
 
 

@@ -14,7 +14,7 @@ class PaymentController extends Controller
 {
 
     public function __construct(){
-        $this->middleware(['gymstatus', 'auth']);
+        $this->middleware(['gymstatus', 'auth:web,employee']);
     }
 
     

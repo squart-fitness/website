@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Console\Schedulers\Expiry;
 use App\Models\Payment;
+use App\Models\Customer;
 use App\Notifications\PaymentReminder;
 use App\Http\Controllers\CustomerClasses\CustomerManager;
 use App\Http\Controllers\EnquiryClasses\EnquiryManager;
@@ -69,44 +70,10 @@ class DashBoardController extends Controller
 
 
     public function research(){        
-
-        // $date = date_create(NULL, timezone_open('Asia/Kolkata'));
-        // $day = date_format($date, 'Y-m-d H:i:s');
-        // $timestamp = strtotime($day);
-        // $incrementDays = strtotime("+5 days", $timestamp);
-        // $currentDate = date('Y-m-d H:s:i', $timestamp);
-     //    $newDate = date('Y-m-d H:s:i', $incrementDays);
-
-    	// $result = DB::table('customer_payment')->where('period_end', '<=', $newDate)
-     //                                        ->where('period_end', '>', $currentDate)
-     //                                        ->where('status', 1)
-     //                                        ->update(['payment_expiry' => 1]);
-
-     //    foreach ($result as $value) {
-     //        print_r($value);
-     //    }
-
-
-        // $pay = new Payment;
-
-        // $date = date_create(NULL, timezone_open('Asia/Kolkata'));
-        // $day = date_format($date, 'Y-m-d H:i:s');
-        // $timestamp = strtotime($day);
-        // $currentDate = date('Y-m-d', $timestamp);
-
-        // print_r($currentDate);
-
-        //latest commented
-
-        // $pay = new Payment;
-        // $payments = $pay->select('gym_id', 'customer_id')->where('payment_expiry', 1)->get();
-        // foreach ($payments as $singlePay) {
-        //     print($singlePay->customer);
-        //     print($singlePay->gym->notify(new PaymentReminder($singlePay->customer)));
-        //     echo "<br><br><br>";
-        // }
-
-
-        // return;
+        $cust = new Customer();
+        $customerPaymentExpiryList = $cust->select('gym_id', 'name', 'phone', 'package_end_date')->where('payment_expiry', 1)->get();
+        foreach ($customerPaymentExpiryList as $element) {
+            $element->gym->notify(new PaymentReminder($element, 'expiring'));
+        } 
     }
 }

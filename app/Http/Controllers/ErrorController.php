@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 class ErrorController extends Controller
 {
+	public function __construct(){
+    	$this->middleware(['auth:web,employee']);
+	}
+
     //account deactivated error function
     public function accountDeactivated(){
     	$errorName = "Gym Deactivated";

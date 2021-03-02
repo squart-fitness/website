@@ -16,9 +16,7 @@ class PackageController extends Controller
 
 	protected $packageManager;
 	public function __construct(){
-
-		$this->middleware('auth');
-        $this->middleware('gymstatus');
+        $this->middleware(['gymstatus', 'auth:web,employee']);
 	}
 
 

@@ -46,10 +46,12 @@ Route::prefix('mobile')->group(function(){
 			->where(['gym_id' => '[0-9]+', 'customer_id' => '[0-9]+'])
 			->name('member_status');
 
+	//customer update profile
 	Route::post('/member/update/{gym_id}/{customer_id}', 'CustomerMobileAPI\APIController@updateInformation')
 			->where(['gym_id' => '[0-9]+', 'customer_id' => '[0-9]+'])
 			->name('member_update');
 
+	//get customer diet
 	Route::get('/member/show/diet/{gym_id}/{customer_id}', 'CustomerMobileAPI\APIController@showCustomerDiet')
 			->where(['gym_id' => '[0-9]+', 'customer_id' => '[0-9]+'])
 			->name('show_member_diet');
@@ -73,8 +75,38 @@ Route::prefix('mobile')->group(function(){
 			->where(['gym_id' => '[0-9]+', 'customer_id' => '[0-9]+'])
 			->name('change_customer_password');
 
+
+	// notification for payment reminder 
+	Route::get('/member/show/notification/{gym_id}/{customer_id}', 'CustomerMobileAPI\APIController@showPaymentReminderNotification')
+			->where(['gym_id' => '[0-9]+', 'customer_id' => '[0-9]+'])
+			->name('show_member_notification');
+
+	// batches list in gym
+	Route::get('/member/show/batch/{gym_id}/{customer_id}', 'CustomerMobileAPI\APIController@batches')
+			->where(['gym_id' => '[0-9]+', 'customer_id' => '[0-9]+'])
+			->name('show_batches');
+
+	// packages list in gym
+	Route::get('/member/show/package/{gym_id}/{customer_id}', 'CustomerMobileAPI\APIController@packages')
+			->where(['gym_id' => '[0-9]+', 'customer_id' => '[0-9]+'])
+			->name('show_packages');
+
+	// rating of customers
+	Route::get('/member/show/rating/{gym_id}/{customer_id}', 'CustomerMobileAPI\APIController@customerRating')
+			->where(['gym_id' => '[0-9]+', 'customer_id' => '[0-9]+'])
+			->name('show_rating');
+
+	// give rating to gym
+	Route::post('/member/gym/rating/{gym_id}/{customer_id}', 'CustomerMobileAPI\APIController@gymRating')
+			->where(['gym_id' => '[0-9]+', 'customer_id' => '[0-9]+'])
+			->name('gym_rating');
+
+	//  get customer freezing history
+	Route::get('/member/freezing/history/{gym_id}/{customer_id}', 'CustomerMobileAPI\APIController@freezingHistory')
+			->where(['gym_id' => '[0-9]+', 'customer_id' => '[0-9]+'])
+			->name('customer_freezing_history');
 });
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });

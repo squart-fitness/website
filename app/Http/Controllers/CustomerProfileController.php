@@ -8,7 +8,7 @@ use App\Http\Controllers\CustomerProfileClasses\CustomerProfileManager;
 class CustomerProfileController extends Controller
 {
     public function __construct(){
-    	$this->middleware(['gymstatus', 'auth']);
+        $this->middleware(['gymstatus', 'auth:web,employee']);
     }
 
     //show customer profile page
