@@ -279,18 +279,44 @@ class CustomerManager{
         $cust->phone = $data['phone'];
         $cust->email = $data['email'];
         $cust->goal = $data['goal'];
-        $cust->package = $data['package'];
-        $cust->fee = $data['fee'];
         $cust->address = $data['address'];
+        $cust->state = $data['state'];
+        $cust->city = $data['city'];
+        $cust->pincode = $data['pincode'];
         $cust->dob = $data['dob'];
-        $cust->remark = $data['remark'];
         $cust->gender = $data['gender'];
+        $cust->remark = $data['remark'];
+        $cust->height = $data['height'];
+        $cust->weight = $data['weight'];
 
-        if(!empty($data['customer_image']))
-            $cust->customer_image = $this->imageModification($data['customer_image']); 
+        if(isset($data['father_name']))
+            $cust->father_name = $data['father_name'];
+
+        if(isset($data['another_phone']))
+            $cust->phone_second = $data['another_phone'];
+
+        if(isset($data['marital_status']))
+            $cust->marital_status = $data['marital_status'];
+
+        if(isset($data['medical_issue']))
+            $cust->medical_issue = $data['medical_issue'];
+
+        if(isset($data['is_employeed']))
+            $cust->is_employeed = $data['is_employeed'];
+
+        if(isset($data['place_photo_on_website']))
+            $cust->place_photo_on_website = $data['place_photo_on_website'];
+
+        if(isset($data['identity_type']))
+            $cust->identity_type = $data['identity_type'];
+
+        if(isset($data['identity_number']))
+            $cust->identity_number = $data['identity_number'];
+
+        if(isset($data['customer_image']))
+            $cust->customer_image = $this->imageModification($data['customer_image']);
 
         $res = $cust->save();
-
         return $res;
     }
 

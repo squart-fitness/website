@@ -38,6 +38,21 @@ class WorkoutPlanManager{
 		return $wp;
 	}
 
+    //get single workout plan
+    public function getWorkout($id){
+        $wp = Workout::where(['gym_id' => $this->GYM_ID, 'is_deleted' => 1, 'id' => $id])->first();
+        return $wp;
+    }
+
+    //update workout plan 
+    public function update($data){
+        $wp = Workout::where(['gym_id' => $this->GYM_ID, 'is_deleted' => 1, 'id' => $data['d']])->first();
+        $wp->title = $data['title'];
+        $wp->workout_description = $data['workout_plan'];
+        $res = $wp->save();
+        return $res;
+    }
+
 	//delete record of  workout
     public function deleteWorkout($id, $password){
         $dp = new Workout;
@@ -69,6 +84,13 @@ class WorkoutPlanManager{
         return $result;
     }
 
+    //delete assigned workout of a customer
+    public function deleteAssignedWorkout($data){
+        $wp = AssignedWorkout::where(['gym_id' => $this->GYM_ID, 'workout_plan_id' => $data['d'], 'customer_id' => $data['memberid'],])->first();
+        $res = $wp->delete();
+        return $res;
+    }
+
      //get member workout plan
     public function memberWorkout($id){
         $workout_planID = AssignedWorkout::select('workout_plan_id')
@@ -80,7 +102,7 @@ class WorkoutPlanManager{
             array_push($id, $value->workout_plan_id);
         }
 
-        $workout_list = Workout::select('title')
+        $workout_list = Workout::select('title', 'id')
                                 ->where(['gym_id' => $this->GYM_ID, 'is_deleted' => 1])
                                 ->whereIn('id', $id)
                                 ->get();

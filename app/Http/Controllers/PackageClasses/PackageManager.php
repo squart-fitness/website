@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\PackageClasses;
 use App\Models\Package;
+use App\Models\Customer;
 use App\Http\Controllers\ProfileInformation;
+use App\Http\Controllers\CustomerClasses\CustomerManager;
 
 class PackageManager{
 	
@@ -35,6 +37,28 @@ class PackageManager{
 		$eloquentObj = $pack->select('fee')->where(['gym_id' => $this->GYM_ID, 'id' => $pid])->first();
 		return $eloquentObj;
 	}
+
+
+	//get all customer name and phone from customer manager
+    public function getNamePhone(){
+    	$cm = new CustomerManager;
+    	$result = $cm->getCustomerNamePhone();
+    	return $result;
+    }
+
+    //get package of a customer
+    public function getPackage($data){
+    	$cust = Customer::select('package')->where(['gym_id' => $this->GYM_ID, 'id' => $data['id'], 'is_deleted' => 1])->first();
+    	return $cust;
+    }
+
+    //update package of customer
+    public function updatePackage($data){
+    	$cust = Customer::where(['gym_id' => $this->GYM_ID, 'id' => $data['member_id'], 'is_deleted' => 1])->first();
+    	$cust->package = $data['package'];
+    	$res = $cust->save();
+    	return $res;
+    }
 
 }
 

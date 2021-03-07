@@ -146,65 +146,73 @@
 										<input type="text" name="gymname" id="gymname" class="form-control @error('gymname') is-invalid @enderror" placeholder="Enter GYM name" value="{{ old('gymname') }}">
 									</div>
 								</div>
-								<div class="col-12 col-md-6">
-									<div class="form-group mb-3">
-										<label for="gymphone">GYM Phone:</label>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="gymemail">GYM Email:</label>
 
-										@error('gymphone') 
-										    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
-										@enderror
-										<input type="number" name="gymphone" id="gymphone" class="form-control @error('gymphone') is-invalid @enderror" placeholder="Enter GYM mobile number" value="{{ old('gymphone') }}">
-									</div>
-								</div>
+                                        @error('gymemail') 
+                                            <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
+                                        @enderror
+                                        <input type="email" name="gymemail" id="gymemail" class="form-control @error('gymemail') is-invalid @enderror" placeholder="Enter GYM email id" value="{{ old('gymemail') }}">
+                                    </div>
+                                </div>
 							</div>
 							<div class="row">
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="gymphone">GYM Phone:</label>
+
+                                        @error('gymphone') 
+                                            <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
+                                        @enderror
+                                        <input type="number" name="gymphone" id="gymphone" class="form-control @error('gymphone') is-invalid @enderror" placeholder="Enter GYM mobile number" value="{{ old('gymphone') }}">
+                                    </div>
+                                </div>
 								<div class="col-12 col-md-6">
-									<div class="form-group mb-3">
-										<label for="gymemail">GYM Email:</label>
+                                    <div class="form-group mb-3">
+                                        <label for="gym_another_phone">Another Phone:</label>
 
-										@error('gymemail') 
-										    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
-										@enderror
-										<input type="email" name="gymemail" id="gymemail" class="form-control @error('gymemail') is-invalid @enderror" placeholder="Enter GYM email id" value="{{ old('gymemail') }}">
-									</div>
-								</div>
-
-								{{-- <div class="col-12 col-md-6">
-									<div class="form-group mb-3">
-										<label for="adhaar">Personal Adhaar Number:</label>
-
-										@error('adhaar') 
-										    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
-										@enderror
-										<input type="text" name="adhaar" id="adhaar" class="form-control @error('adhaar') is-invalid @enderror" placeholder="Enter personal adhaar number" value="{{ old('adhaar') }}">
-									</div>
-								</div> --}}
-                                
+                                        @error('gym_another_phone') 
+                                            <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
+                                        @enderror
+                                        <input type="number" name="gym_another_phone" id="gym_another_phone" class="form-control @error('gym_another_phone') is-invalid @enderror" placeholder="Enter another mobile number" value="{{ old('gym_another_phone') }}">
+                                    </div>
+                                </div>
 							</div>
 							<hr>
 
-							{{-- <div class="row">
-								<div class="col-12 col-md-6">
+							<div class="row">
+								<div class="col-12 col-md-4">
 									<div class="form-group mb-3">
-										<label for="adhaar_front">Adhaar Front Picture:</label>
+										<label for="state">State:</label>
 
-										@error('adhaar_front') 
+										@error('state') 
 										    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 										@enderror
-										<input type="file" name="adhaar_front" id="adhaar_front" class="form-control @error('adhaar_front') is-invalid @enderror">
+                                        <input type="text" name="state" id="state" class="form-control @error('state') is-invalid @enderror" placeholder="Enter state" value="{{ old('state') }}">
 									</div>
 								</div>
-								<div class="col-12 col-md-6">
+								<div class="col-12 col-md-4">
 									<div class="form-group mb-3">
-										<label for="adhaar_back">Adhaar Back Picture:</label>
+										<label for="city">City:</label>
 
-										@error('adhaar_back') 
+										@error('city') 
 										    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
 										@enderror
-										<input type="file" name="adhaar_back" id="adhaar_back" class="form-control @error('adhaar_back') is-invalid @enderror">
+                                        <input type="text" name="city" id="city" class="form-control @error('city') is-invalid @enderror" placeholder="Enter city" value="{{ old('city') }}">
 									</div>
 								</div>
-							</div> --}}
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group mb-3">
+                                        <label for="pincode">Pincode:</label>
+
+                                        @error('pincode') 
+                                            <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
+                                        @enderror
+                                        <input type="text" name="pincode" id="pincode" class="form-control @error('pincode') is-invalid @enderror" placeholder="Enter pincode" value="{{ old('pincode') }}">
+                                    </div>
+                                </div>
+							</div>
 
 							<div class="form-group mb-2">
 								<label for="address">Address:</label>

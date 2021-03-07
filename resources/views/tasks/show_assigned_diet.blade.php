@@ -109,12 +109,12 @@
 			padding: 5px 15px;
 			font-size: 14px;
 			font-family: sans-serif;
+			text-decoration: none;
 		}
 
 		.list-group-item label{
 			margin-bottom: 0;
 		}
-
 		/* list view ends */
 
 	</style>
@@ -129,15 +129,10 @@
 		$(document).ready(function(){
 			 $('.selectpicker').selectpicker();
 
-			 // $('.select_item').click(function(){
-			 // 	$('#member_view').text($(this).text());
-			 // 	$('#member_id').val($(this).attr('data'));
-			 // });
 		});
 
 		$('.select_item').on('click', function(){
-			$('#member_view').text($(this).text());
-		 	$('#member_id').val($(this).attr('data'));
+			$('#myInput').val($(this).text());
 		 	var d = $(this).attr('data');
 		 	$.ajax({
             		method: 'GET',
@@ -146,12 +141,28 @@
             		success:function(data){
             			var l = '';
             			for(x of data){
-	            			l += '<div class="list-group-item"><span>'+ x.title +'</span></div>';
+	            			l += '<div class="list-group-item item_view" data-did='+x.id+' data-mid='+d+'><span>'+ x.title +'</span><i class="remove_view float-right text-danger align-middle fas fa-times"></i></div>';
             			}
 
             			$('#list_grp').html(l);
             		}
             	});
+		});
+
+		$(document).on('click', '.remove_view', function(){
+			var item = $(this).parent();
+			var did = item.attr('data-did');
+			var mid = item.attr('data-mid');
+			$.ajax({
+					method: 'GET',
+					data: {d: did, memberid: mid},
+					url: '{{route('remove_diet')}}',
+					success: function($data){
+						if($data == 1){
+							item.remove();
+						}
+					}
+			});
 		});
 
 		function myFunction() {
@@ -211,15 +222,13 @@
 							    <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
 							  	<div id="myDropdown" class="dropdown-content">
 								    @foreach ($customers as $element)
-								    	<a class="select_item" data="{{ $element->id }}">{{ ucfirst($element->name) }}&nbsp;&nbsp;&nbsp;&nbsp;<small>{{ $element->phone }}</small></a>
+								    	<a class="select_item" data="{{ $element->id }}">{{ ucfirst($element->name) }}&nbsp;&nbsp;&nbsp;&nbsp;<small class="float-right">{{ $element->phone }}</small></a>
 								    @endforeach
 							  	</div>
 							</div>
 						</div>
 						<div class="col-6">
 							<div class="container-fluid">
-								<div id="member_view"></div>
-								<input type="hidden" id="member_id" name="member_id">
 								<h4 class="diet_title">Diet plan list</h4>
 								<div class="list-group" id="list_grp">
 									

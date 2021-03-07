@@ -20,6 +20,11 @@
 			color: #FD5959;
 		}
 
+		.edit{
+			font-size: 18px;
+			cursor: pointer;
+		}
+
 	</style>
 @endsection
 
@@ -109,7 +114,9 @@
 									<div class="float_item">
 										<a data-s="{{ $element->status }}" data-d="{{ $element->id }}" class="status">{!! $element->status == 1 ? '<i class="fa fa-check-circle" aria-hidden="true"></i>' : '<i class="fa fa-times-circle" aria-hidden="true"></i>' !!}</a>
 
-										<a data-target="#deleteModal" data-toggle="modal" data-link="{{ route('delete_diet', ['d' => $element->id]) }}" class="delete ml-4"><i class="fa fa-trash" aria-hidden="true"></i></a>
+										<a href="{{ route('update_diet', ['d' => $element->id]) }}" class="edit ml-3"><i class="fa fa-edit"></i></a>
+
+										<a data-target="#deleteModal" data-toggle="modal" data-link="{{ route('delete_diet', ['d' => $element->id]) }}" class="delete ml-3"><i class="fa fa-trash" aria-hidden="true"></i></a>
 									</div>
 								</div>
 							</div>

@@ -7,6 +7,7 @@ use App\Models\Batch;
 use Session;
 use App\Http\Controllers\CommonClasses\HelperManager;
 use App\Http\Controllers\ProfileInformation;
+use App\Http\Controllers\BatchClasses\BatchManager;
 
 class BatchController extends Controller
 {
@@ -50,9 +51,61 @@ class BatchController extends Controller
 
     //get batches record of a gym
     public function batchRecord(){
-    	$bat = new Batch;
-    	$res = $bat->where(['gym_id' => ProfileInformation::getUser()->id, 'is_deleted' => 1])->get();
-    	return $res;
+        $bm = new BatchManager();
+        $batches = $bm->getAllBatches();
+        if(isset($batches)){
+            return $batches;
+        }
+        else{
+            return null;
+        }
+    }
+
+    //show batch assign form
+    public function showAssignBatchForm(){
+        $bm = new BatchManager();
+        $customers = $bm->getNamePhone();
+        $batches = $bm->getAllBatches();
+        return view('tasks.batch_change')->with(['customers' => $customers, 'batches' => $batches]);
+    }
+
+    //get customer batch
+    public function getCustomerBatch(Request $request){
+        if(!$request->ajax()){
+            return "Something went wrong";
+        }
+
+        $data = $request->validate([
+                                    'id' => ['required', 'numeric'],
+                                ]);
+
+        $bm = new BatchManager();
+        $currentBatch = $bm->getCurrentBatch($data);
+        if(isset($currentBatch)){
+            return $currentBatch;
+        }
+        else{
+            return null;
+        }
+    }
+
+    //change batch of customer
+    public function changeBatch(Request $request){
+        $data = $request->validate([
+                                    'member_id' => ['required', 'numeric'],
+                                    'batch' => ['required', 'string', 'max:200'],
+                                ]);
+
+        $bm = new BatchManager();
+        $result = $bm->updateBatch($data);
+        if($result == 1){
+            Session::flash('msg', '<b>Success!</b> The batch has been updated.');
+        }
+        else{
+            Session::flash('msg', '<b>Failed!</b> The batch has not been updated.');
+        }
+
+        return redirect()->back();
     }
 
 

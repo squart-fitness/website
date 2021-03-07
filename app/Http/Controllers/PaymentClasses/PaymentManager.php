@@ -153,10 +153,23 @@ class PaymentManager{
  	}
 
  	//get single member payment detail
- 	// public function getSingleCustomerPayment($id){
- 	// 	$pay = Payment::where('customer_id', $id)->latest()->get();
-		// return $pay;
- 	// }
+ 	public function getSingleCustomerPayment($id){
+ 		$pay = Payment::where('customer_id', $id)->latest()->get();
+		return $pay;
+ 	}
+
+ 	//method to collect data for generating invoice for customers
+ 	public function getInvoiceInfo(int $id){
+ 		$pay = Payment::find($id);
+ 		if(!isset($pay)){
+ 			return null;
+ 		}
+ 		$gymDetails = $pay->gym->userGym->select('gym_email')->first();
+ 		$customerDetails = $pay->customer;
+
+ 		$details = array('pays' => $pay);
+ 		return $details;
+ 	}
 }
 
 ?>

@@ -53,7 +53,7 @@ class CustomerController extends Controller
     public function addCustomer(Request $request){
     	$data = $request->validate([
     								'fullname' => ['required', 'regex:/^[\w\s]+$/', 'max:255'],
-                                    'father_name' => ['nullable', 'regex:/^[\w\s]+$/', 'max:255'],
+                                    'father_name' => ['required', 'regex:/^[\w\s]+$/', 'max:255'],
     								'phone' => ['required', 'numeric', 'digits:10'],
                                     'another_phone' => ['nullable', 'numeric', 'digits:10'],
     								'email' => ['nullable', 'email', 'string', 'max:150'],
@@ -199,26 +199,37 @@ class CustomerController extends Controller
         $data = $request->validate([
                                     'd' => ['required', 'numeric'],
                                     'fullname' => ['required', 'regex:/^[\w\s]+$/', 'max:255'],
+                                    'father_name' => ['required', 'regex:/^[\w\s]+$/', 'max:255'],
                                     'phone' => ['required', 'numeric', 'digits:10'],
-                                    'email' => ['nullable', 'email', 'string', 'max:255'],
+                                    'another_phone' => ['nullable', 'numeric', 'digits:10'],
+                                    'email' => ['nullable', 'email', 'string', 'max:150'],
                                     'goal' => ['required', 'string', 'regex:/^[a-zA-Z0-9\s]+$/', 'max:255'],
-                                    'package' => ['required', 'string', 'max:255', 'regex:/^[\w\s\-\.\,]+$/'],
-                                    'fee' => ['required', 'numeric'],
                                     'address' => ['required', 'regex:/^[\w\s\,\-\.\:\/]+$/', 'max:255'],
+                                    'state' => ['required', 'alpha', 'min:3', 'max:100'],
+                                    'city' => ['required', 'alpha', 'min:3', 'max:100'],
+                                    'pincode' => ['required', 'numeric', 'digits:6'],
+                                    'marital_status' => ['nullable', 'numeric'],
+                                    'medical_issue' => ['nullable', 'numeric'],
+                                    'is_employeed' => ['nullable', 'numeric'],
+                                    'place_photo_on_website' => ['nullable', 'numeric'],
+                                    'identity_type' => ['nullable', 'string', 'max:100'],
+                                    'identity_number' => ['nullable', 'string', 'digits_between:2,100'],
                                     'gender' => ['required', 'alpha', 'max:100'],
                                     'remark' => ['nullable', 'regex:/^[\w\s\,\-]+$/', 'max:255'],
                                     'dob' => ['nullable', 'regex:/^\d{4}\-\d{2}\-\d{2}$/'],
-                                    'customer_image' => ['nullable', 'file', 'max:2048', 'image'],
+                                    'height' => ['nullable', 'regex:/^[\w\s\.]+$/'],
+                                    'weight' => ['nullable', 'regex:/^[\w\s\.]+$/'],
+                                    'customer_image' => ['nullable', 'file', 'max:1024', 'image'],
                                 ]);
 
 
         $customer = new CustomerManager;
         $res = $customer->update($data);
         if($res == 1){
-            Session::flash('msg', '<b>Success!</b> The member has been <i>updated</i>.');
+            Session::flash('msg', '<b>Success!</b> The member has been updated.');
         }
         else{
-            Session::flash('msg', '<b>Failed!</b> The member has not been <i>updated</i>.');
+            Session::flash('msg', '<b>Failed!</b> The member has not been updated.');
         }
         
         return redirect()->back();

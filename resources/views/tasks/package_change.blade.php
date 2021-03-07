@@ -22,6 +22,10 @@
 			color: #FD5959;
 		}
 
+		.view_card{
+			height: 400px;
+		}
+
 		/* search dropdown styles starts */
 
 
@@ -86,19 +90,10 @@
 
 		/* list view  */
 
-		#member_view{
-			width: 100%;
-			height: 44px;
-			margin-bottom: 20px;
-			padding: 10px;
-			font-size: 16px;
-			background-color: #efefef;
-			border: 1px solid #d4d4d4;
-		}
 
-		.diet_title{
-			background-color: #d1d1d1;
-			font-size: 18px;
+		.view_title{
+			background-color: #d1d1d140;
+			font-size: 16px;
 			font-family: sans-serif;
 			padding: 10px;
 			border-top-left-radius: 3px;
@@ -128,43 +123,22 @@
 		
 		$(document).ready(function(){
 			 $('.selectpicker').selectpicker();
+
+			 $('.select_item').on('click',function(){
+			 	$('#myInput').val($(this).text());
+			 	var d = $(this).attr('data');
+			 	$('#member_id').val(d);
+			 	$.ajax({
+			 		method: 'GET',
+			 		url: '{{route('get_customer_package')}}',
+			 		data: {id: d},
+			 		success:function(result){
+			 			if(result !== null)
+				 			$('#view_text').text(result.package.charAt(0).toUpperCase() + result.package.slice(1));
+			 		}
+			 	});
+			 })
 		});
-
-		$('.select_item').on('click', function(){
-			$('#myInput').val($(this).text());
-		 	var d = $(this).attr('data');
-		 	$.ajax({
-            		method: 'GET',
-            		url: '{{ route('get_member_workout') }}',
-            		data: {id: d},
-            		success:function(data){
-            			var l = '';
-            			for(x of data){
-	            			l += '<div class="list-group-item item_view" data-wid='+x.id+' data-mid='+d+'><span>'+ x.title +'</span><i class="remove_view float-right text-danger align-middle fas fa-times"></i></div>';
-            			}
-
-            			$('#list_grp').html(l);
-            		}
-            	});
-		});
-
-		$(document).on('click', '.remove_view', function(){
-			var item = $(this).parent();
-			var wid = item.attr('data-wid');
-			var mid = item.attr('data-mid');
-			$.ajax({
-					method: 'GET',
-					data: {d: wid, memberid: mid},
-					url: '{{route('remove_workout')}}',
-					success: function($data){
-						console.log($data);
-						if($data == 1){
-							item.remove();
-						}
-					}
-			});
-		});
-
 
 		function myFunction() {
 		  document.getElementById("myDropdown").classList.toggle("show");
@@ -202,38 +176,55 @@
 
 			<div class="d-flex justify-content-between font_modify">
 				<div class="float_item align-self-center attach_to_body">
-					<span>SHOW ASSIGNED WORKOUT</span>
+					<span>Change Package</span>
 				</div>
 				<div class="float_item">
 					<nav aria-label="breadcrumb">						
 		  				<ol class="breadcrumb">		  					
 		    				<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-		    				<li class="breadcrumb-item active" aria-current="page">Show assign diet</li>
+		    				<li class="breadcrumb-item"><a href="{{ route('create_package') }}">Package</a></li>
+		    				<li class="breadcrumb-item active" aria-current="page">Change package</li>
 		  				</ol>
 					</nav>
 				</div>
 			</div>
 
-			<div class="card">
-				<div class="card-body" style="min-height: 400px;">
+			<div class="card view_card">
+				<div class="card-body">
 					<div class="row">
 						<div class="col-6">
 							<div class="dropdown">
-							  	{{-- <button onclick="myFunction()" class="dropbtn">Select Member</button> --}}
 							    <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
 							  	<div id="myDropdown" class="dropdown-content">
 								    @foreach ($customers as $element)
-								    	<a class="select_item" data="{{ $element->id }}">{{ ucfirst($element->name) }}&nbsp;&nbsp;&nbsp;&nbsp;<small>{{ $element->phone }}</small></a>
+								    	<a class="select_item" data="{{ $element->id }}">{{ ucfirst($element->name) }}&nbsp;&nbsp;&nbsp;&nbsp;<small class="float-right">{{ $element->phone }}</small></a>
 								    @endforeach
 							  	</div>
 							</div>
 						</div>
 						<div class="col-6">
 							<div class="container-fluid">
-								<h4 class="diet_title">Workout plan list</h4>
-								<div class="list-group" id="list_grp">
-									
-								</div>
+								<form action="{{ route('assign_package') }}" method="post" accept-charset="utf-8">
+									@csrf
+
+									<input type="hidden" id="member_id" name="member_id">
+									@error('member_id') 
+										<div class="alert alert-danger mb-0 p-0">{{ $message }}</div>
+									@enderror
+									<h5 class="view_title">Current package: <span id="view_text"></span></h5>
+									<div class="list-group">
+										@error('package') 
+											<div class="alert alert-danger mb-0 p-0">{{ $message }}</div>
+										@enderror
+										<select name="package" class="custom-select @error('package') is-invalid @enderror">
+											<option selected disabled>Select package</option>
+                                            @foreach ($packages as $element)
+                                            	<option value="{{$element->package_name}}">{{ ucfirst($element->package_name) }}</option>
+                                            @endforeach
+										</select>
+									</div>
+									<button type="submit" class="btn btn-primary btn-block mt-4">Submit</button>
+								</form>
 							</div>
 						</div>
 					</div>

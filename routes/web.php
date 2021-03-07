@@ -113,7 +113,7 @@ Route::prefix('customer')->group(function(){
 	// Route::get('/attendance/month', 'AttendanceController@showCustomerAttendanceInMonth')->name('month_attendance_details');
 	// Route::get('/attendance/id', 'AttendanceController@showSingleCustomerAttendance')->name('one_customer_attendance');
 	Route::get('/attendance/date', 'AttendanceController@showAttendanceByDate')
-		->middleware(['member_attendance_view'])
+		->middleware(['can:emp-permission,"member_attendance_view"'])
 		->name('attendance_data');
 
 	Route::get('/profile/{d}/{username}/', 'CustomerProfileController@showProfile')
@@ -131,14 +131,13 @@ Route::prefix('customer')->group(function(){
 			Route::get('/username-list', 'PaymentController@showUsernames')->name('list_username');
 		});
 
-		Route::middleware(['can:emp-permission,"member_attendance_view"'])->group(function(){
+		Route::middleware(['can:emp-permission,"member_payment_detail"'])->group(function(){
 			Route::get('/payment-details', 'PaymentController@showCustomerPaymentDetail')->name('customer_payment_details');
 			Route::get('/payment-month', 'PaymentController@showCustomerPaymentInMonth')->name('month_payment_details');
 			Route::get('/payment/filter/date', 'PaymentController@showPaymentByDate')->name('filter_payment_by_date');
 			Route::get('/payment/filter/expiring', 'PaymentController@showPaymentByExpiringDays')->name('filter_payment_by_expiring_days');
+			Route::get('/generate/invoice', 'PaymentController@generateInvoice')->name('generate_invoice');
 		});
-
-		Route::get('/research', 'PaymentController@research');
 
 	});
 });
@@ -188,6 +187,8 @@ Route::prefix('create')->group(function(){
 		Route::get('/diet-plan', 'DietPlanController@showDietForm')->name('create_diet_plan');
 		Route::post('/diet-plan', 'DietPlanController@saveDiet');
 		Route::post('/diet/delete', 'DietPlanController@delete')->name('delete_diet');
+		Route::get('/diet/update', 'DietPlanController@showDietUpdateFrom')->name('update_diet');
+		Route::post('/diet/update', 'DietPlanController@updateDietPlan');
 	});
 
 	//workout plan creation routes
@@ -195,6 +196,8 @@ Route::prefix('create')->group(function(){
 		Route::get('/workout-plan', 'WorkoutController@showWorkoutForm')->name('create_workout_plan');
 		Route::post('/workout-plan', 'WorkoutController@saveWorkout');
 		Route::post('/workout/delete', 'WorkoutController@delete')->name('delete_workout');
+		Route::get('/workout/update', 'WorkoutController@showWorkoutUpdateForm')->name('update_workout');
+		Route::post('/workout/update', 'WorkoutController@updateWorkoutPlan');
 	});
 
 	//package creation routes
@@ -225,6 +228,7 @@ Route::prefix('assign')->group(function(){
 	Route::middleware(['can:emp-permission,"dietplan_assigned"'])->group(function(){	
 		Route::get('/diet/show', 'DietPlanController@showAssignedDiet')->name('show_assigned_diet');
 		Route::get('/diet/member', 'DietPlanController@getMemberDiet')->name('get_member_diet');
+		Route::get('/diet/remove', 'DietPlanController@removeDiet')->name('remove_diet');
 	});
 
 	//workout plan assignment show form and routes
@@ -237,6 +241,22 @@ Route::prefix('assign')->group(function(){
 	Route::middleware(['can:emp-permission,"workoutplan_assigned"'])->group(function(){	
 		Route::get('/workout/show', 'WorkoutController@showAssignedWorkout')->name('show_assigned_workout');
 		Route::get('/workout/member', 'WorkoutController@getMemberWorkout')->name('get_member_workout');
+		Route::get('/workout/remove', 'WorkoutController@removeWorkout')->name('remove_workout');
+	});
+
+
+	//batch change routes
+	Route::middleware(['can:emp-permission,"batch_assignment'])->group(function(){
+		Route::get('/batch/show', 'BatchController@showAssignBatchForm')->name('assign_batch');
+		Route::post('/batch/show', 'BatchController@changeBatch');
+		Route::get('/batch/customer', 'BatchController@getCustomerBatch')->name('get_customer_batch');
+	});
+
+	//packages change routes
+	Route::middleware(['can:emp-permission,"package_assignment'])->group(function(){
+		Route::get('/package/show', 'PackageController@showAssignPackageForm')->name('assign_package');
+		Route::post('/package/show', 'PackageController@changePackage');
+		Route::get('/package/customer', 'PackageController@getCustomerPackage')->name('get_customer_package');
 	});
 });
 
@@ -287,8 +307,7 @@ Route::prefix('auth/super/admin')->group(function(){
 
 
 Route::get('/home', function(){
-	return 'success';
-
+	var_dump(public_path());
 });
 
 Route::get('error/deactivated', 'ErrorController@gymDeactivated')->name('deactivated')->middleware('auth');
