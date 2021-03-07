@@ -40,6 +40,61 @@ class WorkoutController extends Controller
     	return redirect()->back();
     }
 
+    //show update workout form
+    public function showWorkoutUpdateForm(Request $request){
+        $data = $request->validate([
+                                    'd' => ['required', 'numeric'],
+                                ]);
+
+        $dpm = new WorkoutPlanManager();
+        $result = $dpm->getWorkout((int)$data['d']);
+        if(!isset($result)){
+            return redirect()->route('create_workout_plan');
+        }
+
+        return view('create.workout_update')->with(['workout' => $result]);
+    }
+
+    //update workout 
+    public function updateWorkoutPlan(Request $request){
+        $data = $request->validate([
+                                    'd' => ['required', 'numeric'],
+                                    'title' => ['required', 'regex:/^[\w\s]+$/'],
+                                    'workout_plan' => ['required', 'string'],
+                                ]);
+
+        $wpm = new WorkoutPlanManager();
+        $result = $wpm->update($data);
+        if($result == 1){
+            Session::flash('msg', '<b>Success!</b> The workout plan has been updated.');
+        }
+        else{
+            Session::flash('msg', '<b>Failed!</b> The workout plan has not been updated.');
+        }
+
+        return redirect()->back();
+    }
+
+    //remove assigned workout of customer
+    public function removeWorkout(Request $request){
+        if(!$request->ajax()){
+            return "Something went wrong";
+        }
+
+        $data = $request->validate([
+                                    'd' => ['required', 'numeric'],
+                                    'memberid' => ['required', 'numeric'],
+                                ]);
+
+        $wpm = new WorkoutPlanManager();
+        $result = $wpm->deleteAssignedWorkout($data);
+        if($result == 1){
+            return 1;
+        }
+    
+        return 0;
+    }
+
 
     //delete diet of a gym
     public function delete(Request $request){

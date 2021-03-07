@@ -122,7 +122,7 @@
 
                             <li class="dropdown notification-list">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-bell"></i>
+                                    <i class="fa fa-bell"></i>
                                     <span class="count bg-danger">@if(Auth::check()) {{Auth::user()->notifications->count()}} @endif</span>
                                 </button>
                                 @php
@@ -131,22 +131,14 @@
                                     $timestamp = strtotime($day);
                                     $currentDate = date('Y-m-d', $timestamp);
                                 @endphp
-    
+
                                 @if (Auth::user()->notifications->count() > 0)
                                     <div class="dropdown-menu" aria-labelledby="notification">
                                         @foreach (Auth::user()->notifications as $element)
                                              <a class="dropdown-item media" href="#">
-                                                @if ($element->data['exp'] == 'expiring')
-    
-                                                    <i class="fa fa-check"></i>
-                                                    <p>{!! ucfirst($element->data['name'])."'s Membership is expiring in 5 days. <br>Username: ".$element->data['username']." and Phone no: ".$element->data['phone'] !!}</p>
-    
-                                                @elseif($element->data['exp'] == 'expired')
-    
-                                                    <i class="fa fa-check"></i>
-                                                    <p>{!! ucfirst($element->data['name'])."'s Membership is expired. <br>Username: ".$element->data['username']." and Phone no: ".$element->data['phone'] !!}</p>
-    
-                                                @endif
+                                                <p>
+                                                    Due date of {{ucfirst($element->data['name'])}} is {{date("Y-m-d", strtotime($element->data['package_end_date']))}}. <br>Having phone {{$element->data['phone']}}
+                                                </p>
                                             </a>
                                         @endforeach
                                     </div>
@@ -155,36 +147,6 @@
     
                             </li>
                         </ul>
-
-
-
-
-
-                        {{-- <div class="dropdown">
-                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
-                                <i class="fas fa-th" aria-hidden="true"></i>
-                            </button>
-                            <div class="dropdown-menu" id="menus_list">
-                                <div class="d-flex justify-content-between bg-secondary mb-3">
-                                    <div class="p-2 bg-info">Flex</div>
-                                    <div class="p-2 bg-warning">Flex</div>
-                                    <div class="p-2 bg-primary">Flex</div>
-                                </div>
-                                <div class="d-flex justify-content-between bg-secondary mb-3">
-                                    <div class="p-2 bg-info">Flex</div>
-                                    <div class="p-2 bg-warning">Flex</div>
-                                    <div class="p-2 bg-primary">Flex</div>
-                                </div>
-                                <div class="d-flex justify-content-between bg-secondary mb-3">
-                                    <div class="p-2 bg-info">Flex</div>
-                                    <div class="p-2 bg-warning">Flex</div>
-                                    <div class="p-2 bg-primary">Flex</div>
-                                </div>
-                            </div>
-                        </div> --}}
-
-                        
-
                         
                     </div>
 
@@ -203,12 +165,6 @@
                         <div class="user-menu dropdown-menu">
                             <a class="nav-link" href="{{ route('add_gym') }}"><i class="fa fa- user"></i>My Profile</a>
                             <a class="nav-link" href="{{ route('setting_page') }}"><i class="fa fa- user"></i>Settings</a>
-
-                            {{-- <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">13</span></a> --}}
-
-                            {{-- <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a> --}}
-
-                            {{-- <a class="nav-link" href="{{ route('logout') }}"><i class="fa fa-power -off"></i>Logout</a> --}}
                             <a class="nav-link" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

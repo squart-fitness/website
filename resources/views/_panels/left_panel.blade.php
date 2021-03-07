@@ -83,15 +83,16 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-cubes"></i>Packages</a>
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="menu-icon fas fa-archive"></i><a href="{{ route('create_package') }}">Create Packages</a></li>
+                            <li><i class="menu-icon fas fa-user-plus"></i><a href="{{ route('assign_package') }}">Package Assign</a></li>
                         </ul>
                     </li>
 
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fas fa-object-ungroup"></i>Batches</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fas fa-plus-circle"></i><a href="{{ route('create_package') }}">Create Batch</a></li>
-                            <li><i class="menu-icon fas fa-user-plus"></i><a href="{{ route('batch') }}">Batch Assign</a></li>
-                            <li><i class="menu-icon fas fa-list-ul"></i><a href="{{ route('batch') }}">Batch List</a></li>
+                            <li><i class="menu-icon fas fa-plus-circle"></i><a href="{{ route('batch') }}">Create Batch</a></li>
+                            <li><i class="menu-icon fas fa-user-plus"></i><a href="{{ route('assign_batch') }}">Batch Assign</a></li>
+                            {{-- <li><i class="menu-icon fas fa-list-ul"></i><a href="{{ route('batch') }}">Batch List</a></li> --}}
                         </ul>
                     </li>
 

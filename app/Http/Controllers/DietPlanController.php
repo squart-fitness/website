@@ -69,6 +69,61 @@ class DietPlanController extends Controller
         return redirect()->back();
     }
 
+    //show diet update form
+    public function showDietUpdateFrom(Request $request){
+        $data = $request->validate([
+                                    'd' => ['required', 'numeric'],
+                                ]);
+
+        $dpm = new DietPlanManager();
+        $result = $dpm->getDiet((int)$data['d']);
+        if(!isset($result)){
+            return redirect()->route('create_diet_plan');
+        }
+
+        return view('create.diet_update')->with(['diet' => $result]);
+    }
+
+    //update diet plan information
+    public function updateDietPlan(Request $request){
+        $data = $request->validate([
+                                    'd' => ['required', 'numeric'],
+                                    'title' => ['required', 'regex:/^[\w\s]+$/'],
+                                    'plan' => ['required', 'string'],
+                                ]);
+
+        $dpm = new DietPlanManager();
+        $result = $dpm->update($data);
+        if($result == 1){
+            Session::flash('msg', '<b>Success!</b> The diet plan has been updated.');
+        }
+        else{
+            Session::flash('msg', '<b>Failed!</b> The diet plan has not been updated.');
+        }
+
+        return redirect()->back();
+    }
+
+    //remove assigned diet
+    public function removeDiet(Request $request){
+        if(!$request->ajax()){
+            return "Something went wrong";
+        }
+
+        $data = $request->validate([
+                                    'd' => ['required', 'numeric'],
+                                    'memberid' => ['required', 'numeric'],
+                                ]);
+
+        $dpm = new DietPlanManager();
+        $result = $dpm->deleteAssignedDiet($data);
+        if($result == 1){
+            return 1;
+        }
+    
+        return 0;
+    }
+
     //show assigned diet 
     public function showAssignedDiet(){
         $dpm = new DietPlanManager;

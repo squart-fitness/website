@@ -31,6 +31,16 @@ class DietPlanManager{
 		return $res;
 	}
 
+    // update diet
+    public function update($data){
+        $dp = DietPlan::where(['gym_id' => $this->GYM_ID, 'id' => $data['d'], 'is_deleted' => 1])->first();
+        $dp->title = $data['title'];
+        $dp->diet_description = $data['plan'];
+
+        $res = $dp->save();
+        return $res;
+    }
+
 
 	// get diets from database
 	public function getAllDiet(){
@@ -38,6 +48,18 @@ class DietPlanManager{
 		return $res;
 	}
 
+    //get sigle diet from db
+    public function getDiet($id){
+        $res = DietPlan::where(['gym_id' => $this->GYM_ID, 'id' => $id, 'is_deleted' => 1])->first();
+        return $res;
+    }
+
+    //deleted assigned diet
+    public function deleteAssignedDiet($data){
+        $asd = AssignedDiet::where(['gym_id' => $this->GYM_ID, 'dietplan_id' => $data['d'], 'customer_id' => $data['memberid']])->first();
+        $res = $asd->delete();
+        return $res;
+    }
 
 	//delete record of  diet
     public function deleteDiet($id, $password){
@@ -81,7 +103,7 @@ class DietPlanManager{
             array_push($id, $value->dietplan_id);
         }
 
-        $diet_list = DietPlan::select('title')
+        $diet_list = DietPlan::select('title', 'id')
                                 ->where(['gym_id' => $this->GYM_ID, 'is_deleted' => 1])
                                 ->whereIn('id', $id)
                                 ->get();

@@ -99,7 +99,7 @@
 							</div>
 							<div class="col-12 col-md-6">
 								<div class="form-group mb-3">
-									<label for="father_name">Father's Name: <span class="text-danger text_size"></span></label>
+									<label for="father_name">Father's Name: <span class="text-danger text_size"><sup>*</sup></span></label>
 
 									@error('father_name') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
@@ -147,7 +147,7 @@
 						<div class="row">
 							<div class="col-12 col-md-6">
 								<div class="form-group mb-3">
-									<label for="email">Email: (Optional)</label>
+									<label for="email">Email: </label>
 
 									@error('email') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
@@ -177,7 +177,7 @@
 						<div class="row">
 							<div class="col-12 col-md-6">
 								<div class="form-group mb-3">
-									<label for="dob">Date of birth: (Optional)</label>
+									<label for="dob">Date of birth: </label>
 
 									@error('dob') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
@@ -204,7 +204,7 @@
 						<div class="row">
 							<div class="col-12 col-md-6">
 								<div class="form-group mb-3">
-									<label for="marital_status">Marital status</label>
+									<label for="marital_status">Marital status: </label>
 
 									@error('marital_status') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
@@ -222,7 +222,7 @@
 							</div>
 							<div class="col-12 col-md-6">
 								<div class="form-group mb-3">
-									<label for="medical_issue">Any Medical Issue: <span class="text-danger text_size"><sup>*</sup></span></label>
+									<label for="medical_issue">Any Medical Issue: </label>
 
 									@error('medical_issue') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
@@ -243,7 +243,7 @@
 						<div class="row">
 							<div class="col-12 col-md-6">
 								<div class="form-group mb-3">
-									<label for="is_employeed">Is Employeed</label>
+									<label for="is_employeed">Is Employeed: </label>
 
 									@error('is_employeed') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
@@ -261,7 +261,7 @@
 							</div>
 							<div class="col-12 col-md-6">
 								<div class="form-group mb-3">
-									<label for="place_photo_on_website">Place photo on website: <span class="text-danger text_size"><sup>*</sup></span></label>
+									<label for="place_photo_on_website">Place photo on website: </label>
 
 									@error('place_photo_on_website') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
@@ -282,7 +282,7 @@
 						<div class="row">
 							<div class="col-12 col-md-6">
 								<div class="form-group mb-3">
-									<label for="identity_type">Identity type:</label>
+									<label for="identity_type">Identity type: </label>
 
 									@error('identity_type') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
@@ -296,7 +296,7 @@
 							</div>
 							<div class="col-12 col-md-6">
 								<div class="form-group mb-3">
-									<label for="identity_number">Identity Number: <span class="text-danger text_size"></span></label>
+									<label for="identity_number">Identity Number: </label>
 
 									@error('identity_number') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
@@ -366,7 +366,7 @@
 							</div>
 							<div class="col-12 col-md-6">
 								<div class="form-group mb-3">
-									<label for="remark">Remark: (Optional)</label>
+									<label for="remark">Remark: </label>
 
 									@error('remark') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
@@ -384,7 +384,7 @@
 						<div class="row">
 							<div class="col-12 col-md-6">
 								<div class="form-group mb-3">
-									<label for="height">Height: (Optional)</label>
+									<label for="height">Height: </label>
 
 									@error('height') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
@@ -397,7 +397,7 @@
 							</div>
 							<div class="col-12 col-md-6">
 								<div class="form-group mb-3">
-									<label for="weight">Weight: (Optional)</label>
+									<label for="weight">Weight: </label>
 
 									@error('weight') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
@@ -413,7 +413,7 @@
 						<div class="row">
 							<div class="col-12 col-md-6">
 								<div class="form-group mb-3">
-									<label for="batch">Batch: (Optional)</label>
+									<label for="batch">Batch: </label>
 
 									@error('batch') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
@@ -432,7 +432,7 @@
 							</div>
 							<div class="col-12 col-md-6">
 								<div class="form-group mb-3">
-									<label for="customer_image">Customer Image: (Optional)</label>
+									<label for="customer_image">Customer Image: </label>
 
 									@error('customer_image') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
@@ -449,7 +449,7 @@
 						<div class="row">
 							<div class="col-12 col-md-4">
 								<div class="form-group mb-3">
-									<label for="state">State: </label>
+									<label for="state">State: <span class="text-danger text_size"><sup>*</sup></span></label>
 
 									@error('state') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
@@ -463,7 +463,7 @@
 							</div>
 							<div class="col-12 col-md-4">
 								<div class="form-group mb-3">
-									<label for="city">City: </label>
+									<label for="city">City: <span class="text-danger text_size"><sup>*</sup></span></label>
 
 									@error('city') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>
@@ -477,7 +477,7 @@
 							</div>
 							<div class="col-12 col-md-4">
 								<div class="form-group mb-3">
-									<label for="pincode">Pincode: </label>
+									<label for="pincode">Pincode: <span class="text-danger text_size"><sup>*</sup></span></label>
 
 									@error('pincode') 
 									    <div class="alert alert-danger" style="padding: 0;">{{ $message }}</div>

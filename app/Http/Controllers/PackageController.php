@@ -60,6 +60,52 @@ class PackageController extends Controller
     	return redirect()->back()->with(['packages' => $packageList]);
     }
 
+    //show chagne package forms 
+    public function showAssignPackageForm(){
+        $pm = new PackageManager();
+        $customers = $pm->getNamePhone();
+        $packages = $pm->getAllPackageNames();
+        return view('tasks.package_change')->with(['customers' => $customers, 'packages' => $packages]);
+    }
+
+
+    //get customer package 
+    public function getCustomerPackage(Request $request){
+        if(!$request->ajax()){
+            return "Something went wrong";
+        }
+
+        $data = $request->validate([
+                                    'id' => ['required', 'numeric'],
+                                ]);
+
+        $pm = new PackageManager();
+        $package = $pm->getPackage($data);
+        if(isset($package)){
+            return $package;
+        }
+        return null;
+    }
+
+    //update customer package
+    public function changePackage(Request $request){
+        $data = $request->validate([
+                                    'member_id' => ['required', 'numeric'],
+                                    'package' => ['required', 'string', 'max:200'],
+                                ]);
+
+        $pm = new PackageManager();
+        $result = $pm->updatePackage($data);
+        if($result == 1){
+            Session::flash('msg', '<b>Success!</b> The package has been updated.');
+        }
+        else{
+            Session::flash('msg', '<b>Failed!</b> The package has not been updated.');
+        }
+
+        return redirect()->back();
+    }
+
     //get and set the status of package from package details to change it 
     public function setStatus(Request $request){
         $data = $request->validate([

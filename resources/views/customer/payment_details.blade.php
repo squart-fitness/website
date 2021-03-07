@@ -220,6 +220,7 @@
 										<th class="fit">Pay date</th>
 										<th class="fit">Period start</th>
 										<th class="fit">Period end</th>
+										<th class="fit">Invoice</th>
 									</tr>
 								</thead>
 								<tbody id="filterByMonth">
@@ -241,6 +242,7 @@
 											<td class="fit">{{ $element->created_at }}</td>
 											<td class="fit">{{ $element->period_start }}</td>
 											<td class="fit">{{ $element->period_end }}</td>
+											<td class="fit text-center"><a href="{{route('generate_invoice', ['d' => $element->id])}}" target="_blank" class="text-danger"><h5><i class="fas fa-file-pdf"></i></h5></a></td>
 										</tr>
 									@endforeach
 								</tbody>

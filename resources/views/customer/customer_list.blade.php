@@ -4,10 +4,17 @@
 	
 	{{-- <link rel="stylesheet" type="text/css" href="{{asset('assets/libraries/DataTables/DataTables-1.10.22/css/jquery.dataTables.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/libraries/DataTables/Buttons-1.6.5/css/buttons.dataTables.min.css')}}"/> --}}
+{{-- 
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.22/b-1.6.5/b-colvis-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/sc-2.0.3/datatables.min.css"/> --}}
 
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.22/b-1.6.5/b-colvis-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/sc-2.0.3/datatables.min.css"/>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.23/b-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/kt-2.6.1/r-2.2.7/sc-2.0.3/sb-1.0.1/datatables.min.css"/>
+
  
 	<style type="text/css">
+		.animated{
+			position: relative;
+		}
+
 		.table td.fit, 
 		.table th.fit {
 		    white-space: nowrap;
@@ -17,6 +24,17 @@
 		.tbody_edit{
 			font-size: 14px;
 		}
+
+		.resize_tab_width{
+			width: 100%;
+		    position: absolute;
+		    padding-bottom: 50px;
+		}
+
+		div.dataTables_wrapper {
+	        width: 100%;
+	        margin: 0 auto;
+	    }
 
 		.c_image_wrapper{
 			/*overflow: hidden;*/
@@ -46,10 +64,6 @@
 		    z-index: 1000;
 		}
 
-		.resize_tab_width{
-			width: 70vw;
-		}
-
 		.status{
 			padding: 0px 3px;
 			border-radius: 50%;
@@ -66,9 +80,25 @@
 			font-size: 18px;
 		}
 
-		#datatable_length{
-			margin-right: 20px;
+		.dataTables_length{
+			display: inline-block;
+			margin-left: 20px
 		}
+
+		.dataTables_info{
+			display: inline-block;
+		}
+
+		.dataTables_paginate{
+			display: inline-block;
+			float: right;
+		}
+
+		.dataTables_filter{
+			display: inline-block;
+			float: right;
+		}
+
 	</style>
 
 @endsection
@@ -83,13 +113,13 @@
 	{{-- <script src="{{asset('assets/libraries/DataTables/DataTables-1.10.22/js/jquery.dataTables.min.js')}}"></script> --}}
 
 
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-	<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.22/b-1.6.5/b-colvis-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/sc-2.0.3/datatables.min.js"></script>
+{{-- 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script> --}}
+	{{-- <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.22/b-1.6.5/b-colvis-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/sc-2.0.3/datatables.min.js"></script> --}}
+
+	<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.23/b-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/kt-2.6.1/r-2.2.7/sc-2.0.3/sb-1.0.1/datatables.min.js"></script>
 
 	{{-- <script src="{{ asset('assets/libraries/js/jquery.hoverImageEnlarge.js') }}"></script> --}}
-
-
 
 
 	<script>
@@ -99,10 +129,11 @@
 		    // $(".c_image_wrapper").hoverImageEnlarge();
 		    
 		    $('#datatable').DataTable({
-		    	dom: 'lBfrtip',
+		    	dom: 'Blfrtip',
 		        buttons: [
 		            'excel', 'print', 'copy'
-		        ]
+		        ],
+		        "scrollX": true,
 		    });
 
 		    $('.c_image_wrapper').on('click', function(event){
@@ -184,18 +215,21 @@
 				</div>
 			</div>
 
-			<div class="card">
+			<div class="resize_tab_width">
+				<div class="card">
 				<div class="card-body">	
 					<div class="table-responsive">
-						<div class="resize_tab_width">
-							<table class="display table table-striped table-hover table-bordered tbody_edit" id="datatable"> 
+						<div class="">
+							<table class="display table table-striped table-hover table-bordered tbody_edit nowrap" id="datatable"> 
 								<thead>
 									<tr>
 										<th>No</th>
 										<th class="fit"></th>
 										<th class="fit">Member ID</th>
 										<th class="fit">Name</th>
+										<th class="fit">Father's name</th>
 										<th class="fit">Phone</th>
+										<th class="fit">Another phone</th>
 										<th class="fit">Email</th>
 										<th class="fit">Gender</th>
 										<th class="fit">Height</th>
@@ -205,7 +239,15 @@
 										<th class="fit">Fee</th>
 										<th class="fit">Batch</th>
 										<th class="fit">Goal</th>
+										<th class="fit">Marital status</th>
+										<th class="fit">Medical issue</th>
+										<th class="fit">Employment</th>
+										<th class="fit">Identity type</th>
+										<th class="fit">Identity number</th>
 										<th class="fit">Joined at</th>
+										<th class="fit">State</th>
+										<th class="fit">City</th>
+										<th class="fit">Pincode</th>
 										<th class="fit">Address</th>
 										<th class="fit">Remark</th>
 										<th class="fit"></th>
@@ -233,7 +275,9 @@
 											</td>
 											<td class="fit"><a href="{{ route('customer_profile', ['username' =>$element->username, 'd' => $element->id]) }}">{{ $element->username }}</a></td>
 											<td class="fit">{{ ucfirst($element->name) }}</td>
+											<td class="fit">{{ ucfirst($element->father_name) }}</td>
 											<td class="fit">{{ $element->phone }}</td>
+											<td class="fit">{{ ucfirst($element->phone_second) }}</td>
 											<td class="fit">{{ $element->email }}</td>
 											<td class="fit">{{ ucfirst($element->gender) }}</td>
 											<td class="fit">{{ $element->height }}</td>
@@ -247,7 +291,39 @@
 											<td class="fit">{{ $element->fee }}</td>
 											<td class="fit">{{ ucfirst($element->batch) }}</td>
 											<td class="fit">{{ ucfirst($element->goal) }}</td>
+											<td class="fit">
+												@isset($element->marital_status)
+													@if ($element->marital_status == 0)
+														{{ "Single" }}
+													@else
+														{{ "Married" }}
+													@endif
+												@endisset
+											</td>
+											<td class="fit">
+												@isset($element->medical_issue)
+													@if ($element->medical_issue == 0)
+														{{ "No medical issue" }}
+													@else
+														{{ "Have medical issue" }}
+													@endif
+												@endisset
+											</td>
+											<td class="fit">
+												@isset($element->is_employeed)
+													@if ($element->is_employeed == 0)
+														{{ "Not employeed" }}
+													@else
+														{{ "Employeed" }}
+													@endif
+												@endisset
+											</td>
+											<td class="fit">{{ ucfirst($element->identity_type) }}</td>
+											<td class="fit">{{ ucfirst($element->identity_number) }}</td>
 											<td class="fit">{{ date("d-m-Y", strtotime($element->created_at)) }}</td>
+											<td class="fit">{{ ucfirst($element->state) }}</td>
+											<td class="fit">{{ ucfirst($element->city) }}</td>
+											<td class="fit">{{ ucfirst($element->pincode) }}</td>
 											<td class="fit">{{ ucfirst($element->address) }}</td>
 											<td class="fit">{{ ucfirst($element->remark) }}</td>
 											<td class="fit">
@@ -269,7 +345,7 @@
 					</div>
 				</div>
 			</div>
-
+			</div>
 			<!---  show full image of members on click in the division element -->
 			<div class="full_image">
 				<div class="d-flex justify-content-center">

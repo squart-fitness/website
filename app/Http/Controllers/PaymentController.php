@@ -8,7 +8,8 @@ use App\Models\Customer;
 use App\Models\Payment;
 use App\Models\User;
 use Session;
-
+use PDF;
+use Validator;
 
 class PaymentController extends Controller
 {
@@ -114,9 +115,29 @@ class PaymentController extends Controller
     	return redirect()->back();
     }
 
-    public function research(){
-    	$paymentManager = new PaymentManager();
-    	return $paymentManager->getPendingPaymentDetail();
+    //method to generate invoice for customers
+    public function generateInvoice(Request $request){
+        $validator = Validator::make(
+                                        ['id' => $request->d],
+                                        ['id' => ['required', 'numeric']],
+                                    );
+
+        if($validator->fails()){
+            return "Something went wrong";
+        }
+
+        $id = $request->d;
+        $pm = new PaymentManager();
+        $data = $pm->getInvoiceInfo((int)$id);
+
+        $pays = $data['pays'];
+        // $customer = $data['customer_details'];
+        // $gym = $data['gym_details'];
+          
+        // $pdf = PDF::loadView('customer.customer_payment_invoice', $data);
+    
+        // // return $pdf->download('invoice');
+        return view('customer.customer_payment_invoice')->with(['pays' => $pays]);
     }
 
 }
